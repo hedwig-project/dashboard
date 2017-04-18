@@ -1,27 +1,23 @@
 const path = require('path');
 const webpack = require('webpack');
 
-module.exports = {
+const config = {
   entry: [
+    'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-    './src/index.js'
+    path.resolve(__dirname, '../app/index.js')
   ],
   output: {
     filename: 'bundle.js',
-    path: path.resolve('dist'),
+    path: path.resolve(__dirname, '../build'),
     publicPath: '/'
   },
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.js$/,
-        loader: [ 'babel-loader', 'eslint-loader' ],
-        exclude: /node_modules/
-      },
-      {
-        test: /\.jsx$/,
-        loader: 'babel-loader',
+        test: /\.jsx?$/,
+        use: [ 'babel-loader' ],
         exclude: /node_modules/
       }
     ]
@@ -30,8 +26,17 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin()
   ],
+  resolve: {
+    extensions: [ '.js' ]
+  },
+  devtool: 'eval',
   devServer: {
+    historyApiFallback: true,
+    contentBase: path.resolve(__dirname, '../build'),
     hot: true,
-    contentBase: './build'
+    port: 8080,
+    publicPath: '/'
   }
 }
+
+module.exports = config;
