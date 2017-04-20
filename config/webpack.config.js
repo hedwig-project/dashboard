@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
   entry: [
@@ -10,7 +11,7 @@ const config = {
   ],
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, '../public'),
+    path: path.resolve(__dirname, '../build'),
     publicPath: '/'
   },
   module: {
@@ -28,7 +29,14 @@ const config = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.resolve(__dirname, '../app/index.html'),
+      inject: 'body',
+      hash: false,
+      minify: false
+    })
   ],
   resolve: {
     extensions: [ '.js' ]
@@ -36,7 +44,7 @@ const config = {
   devtool: 'eval',
   devServer: {
     historyApiFallback: true,
-    contentBase: path.resolve(__dirname, '../public'),
+    contentBase: path.resolve(__dirname, '../build'),
     hot: true,
     port: 8080,
     publicPath: '/'
