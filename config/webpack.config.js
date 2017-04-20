@@ -10,7 +10,7 @@ const config = {
   ],
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, '../build'),
+    path: path.resolve(__dirname, '../public'),
     publicPath: '/'
   },
   module: {
@@ -32,7 +32,7 @@ const config = {
   devtool: 'eval',
   devServer: {
     historyApiFallback: true,
-    contentBase: path.resolve(__dirname, '../build'),
+    contentBase: path.resolve(__dirname, '../public'),
     hot: true,
     port: 8080,
     publicPath: '/'
