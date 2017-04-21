@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
   entry: [
@@ -19,12 +20,23 @@ const config = {
         test: /\.jsx?$/,
         use: [ 'babel-loader' ],
         exclude: /node_modules/
+      },
+      {
+        test: /\.scss$/,
+        use: [ 'style-loader', 'css-loader', 'sass-loader' ]
       }
     ]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.resolve(__dirname, '../app/index.html'),
+      inject: 'body',
+      hash: false,
+      minify: false
+    })
   ],
   resolve: {
     extensions: [ '.js' ]
