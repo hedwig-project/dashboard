@@ -1,3 +1,4 @@
+$menuFont: 'Raleway', sans-serif;
 $textFont: 'HK Grotesk Regular', sans-serif;
 $headerFont: 'HK Grotesk Regular', sans-serif;
 
@@ -33,6 +34,7 @@ html {
   box-sizing: inherit;
 }
 body {
+  background: #FAFAFA;
 	line-height: 1;
 }
 ol, ul {
