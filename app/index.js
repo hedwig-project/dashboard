@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import App from './containers/App/App'
-import './main.scss'
+import '../assets/fonts/hk-grotesk/hk-grotesk.scss'
 
 const render = Component => {
   ReactDOM.render(

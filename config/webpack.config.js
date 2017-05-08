@@ -24,6 +24,10 @@ const config = {
       {
         test: /\.scss$/,
         use: [ 'style-loader', 'css-loader', 'sass-loader' ]
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'file-loader?name=[name].[ext]&outputPath=build/fonts/'
       }
     ]
   },
