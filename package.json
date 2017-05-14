@@ -16,11 +16,12 @@
   ],
   "main": "index.js",
   "scripts": {
-    "lint": "eslint app",
     "start": "webpack-dev-server --config config/webpack.config.js",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "build-storybook": "build-storybook",
-    "storybook": "start-storybook -p 6006",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "storybook": "start-storybook -p 6006"
   },
   "dependencies": {
     "material-ui": "^0.18.1",
@@ -36,6 +37,9 @@
     "babel-preset-react": "^6.24.1",
     "caniuse-api": "^2.0.0",
     "eslint": "^3.18.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
     "getstorybook": "^1.7.0",
     "react-hot-loader": "next",
