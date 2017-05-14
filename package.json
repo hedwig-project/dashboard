@@ -27,6 +27,7 @@
     "storybook": "start-storybook -p 6006"
   },
   "dependencies": {
+    "chart.js": "^2.5.0",
     "immutable": "^3.8.1",
     "joi-full": "^10.0.6-rel3",
     "lodash": "^4.17.4",
@@ -34,6 +35,7 @@
     "object-path": "^0.11.4",
     "react": "^15.5.4",
     "react-burger-menu": "^2.0.1",
+    "react-chartjs-2": "^2.1.0",
     "react-dom": "^15.5.4",
     "react-icons": "^2.2.5",
     "react-md-spinner": "^0.2.3",

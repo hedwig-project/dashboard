@@ -4,7 +4,7 @@ import './cardtext.scss'
 
 const CardText = (props) => {
   return (
-    <div className={`card-text ${ props.additionalStyles }`}>
+    <div className={`card-text${ props.additionalStyles ? ' ' + props.additionalStyles : '' }`}>
       {props.children}
     </div>
   );

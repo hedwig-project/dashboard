@@ -4,7 +4,7 @@ import './cardheader.scss'
 
 const CardHeader = (props) => {
   return (
-    <div className={`card-header ${ props.additionalStyles }`}>
+    <div className={`card-header${ props.additionalStyles ? ' ' + props.additionalStyles : '' }`}>
       {props.children}
     </div>
   );
