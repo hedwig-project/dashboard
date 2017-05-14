@@ -4,7 +4,7 @@
 ![MIT License][license-badge]
 <!-- End: Badges section -->
 
-Dashboard to showcase data about multiple smart houses
+Dashboard to showcase data about multiple smart houses.
 
 ## Requirements
   - [Node][node]
@@ -17,6 +17,8 @@ Dashboard to showcase data about multiple smart houses
   - [ESLint][eslint]
   - Hot reloading with [React Hot Loader 3][react-hot-loader]
 
+  Learn more about project structure [here](STRUCTURE.md).
+
 ## Setup
 
 Clone the repository and install the dependencies using `yarn install`.
@@ -24,6 +26,10 @@ Clone the repository and install the dependencies using `yarn install`.
 ## Run it
 
 Use `yarn start` to run the development server :tada:
+
+## AWS deploy
+
+Make sure you correctly set up your deployment configuration in the `.env` and `.s3-website.json` files. Then, run `yarn run deploy`.
 
 ## License
 
