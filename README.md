@@ -27,10 +27,6 @@ Clone the repository and install the dependencies using `yarn install`.
 
 Use `yarn start` to run the development server :tada:
 
-## AWS deploy
-
-Make sure you correctly set up your deployment configuration in the `.env` and `.s3-website.json` files. Then, run `yarn run deploy`.
-
 ## License
 
 MIT
