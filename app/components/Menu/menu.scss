@@ -1,0 +1,69 @@
+@import '../../main.scss';
+
+.menu-container {
+  font-family: $menuFont;
+}
+
+.menu-item {
+  color: #5BC3C4;
+  font-size: 1.25em;
+  padding: 0.75em 1.25em;
+  text-decoration: none;
+}
+
+.menu-item:hover {
+  background: #3A3A3A;
+  color: #FFFFFF;
+}
+
+.menu-item-icon {
+  width: 50px;
+  text-align: center;
+}
+
+.bm-menu {
+  background: #303030;
+  box-shadow: 2px 0px 2px #666666;
+  font-size: 1.15em;
+  padding: 1.5em 0;
+}
+
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em 0em;
+}
+
+.bm-overlay {
+  background: rgba(256, 256, 256, 0.7) !important;
+}
+
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 24px;
+  top: 24px;
+}
+
+.bm-burger-bars {
+  background: #FFC33F;
+}
+
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+.bm-cross {
+  background: #FFC33F;
+}
+
+@media only screen and (min-width : 780px) {
+  .bm-burger-button {
+    display: none;
+  }
+
+  .bm-cross-button {
+    display: none;
+  }
+}
