@@ -17,7 +17,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf ./dist",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config config/webpack.dev.config.js",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config config/webpack.config.js",
     "build": "cross-env NODE_ENV=production yarn run clean && webpack --progress --config config/webpack.prod.config.js",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
@@ -51,6 +51,7 @@
     "redux-promise": "^0.5.3",
     "redux-responsive": "^4.3.1",
     "redux-thunk": "^2.2.0",
+    "sass-loader": "^6.0.6",
     "styled-components": "^1.4.6"
   },
   "devDependencies": {

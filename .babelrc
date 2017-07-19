@@ -21,6 +21,7 @@
           "@config": "./src/config",
           "@core": "./src/core",
           "@routes": "./src/routes",
+          "@schemas": "./src/schemas",
           "@propTypes": "./src/propTypes",
           "@images": "./src/assets/images",
           "underscore": "./src/lodash"

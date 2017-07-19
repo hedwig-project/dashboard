@@ -46,6 +46,10 @@ module.exports = {
         include: /flexboxgrid/,
       },
       {
+        test: /\.scss$/,
+        use: [ 'style-loader', 'css-loader', 'sass-loader' ]
+      },
+      {
         test: /\.(jpg|png|svg)$/,
         use: [
           {
@@ -56,6 +60,10 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(eot|ttf|woff|woff2)$/,
+        loader: 'file-loader?name=[name].[ext]&outputPath=build/fonts/'
+      }
     ],
   },
   plugins: [
