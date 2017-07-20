@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import * as authActions from '@modules/auth/actions/authActions.js'
 import { reduxForm } from 'redux-form'
-import schema from '@modules/auth/schemas/signup'
+import schema from '@schemas/signup'
 import validator from '@helpers/validator'
-import SignupForm from '@modules/auth/components/SignupForm'
+import SignupForm from '@routes/SignUp/components/SignUpForm'
 
 const validate = values => validator(values, schema)
 

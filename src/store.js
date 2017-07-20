@@ -1,11 +1,12 @@
 /* global window */
-import { applyMiddleware, compose, createStore } from 'redux';
+
+import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import { routerMiddleware as createRouterMiddleware } from 'react-router-redux'
 import { browserHistory } from 'react-router'
-import createLogger from 'redux-logger';
+import createLogger from 'redux-logger'
 import { responsiveStoreEnhancer } from 'redux-responsive'
-import reducers from './reducers';
+import reducers from '@modules/reducers'
 
 const logger = createLogger({
   stateTransformer: state => state.toJS ? state.toJS() : state,
@@ -36,8 +37,8 @@ export default (initialState = {}) => {
 
   // ----
   if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      store.replaceReducer(require('./reducers').default);
+    module.hot.accept('./modules/reducers', () => {
+      store.replaceReducer(require('./modules/reducers').default);
     });
   }
 

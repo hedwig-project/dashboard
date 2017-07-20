@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import withNavigation from '@hocs/withNavigation'
-import ForgotPassword from '@modules/auth/containers/ForgotPassword'
+import ForgotPassword from '@routes/ForgotPassword/containers/ForgotPassword'
 
 const backTextStyle = {
   textAlign: 'center',

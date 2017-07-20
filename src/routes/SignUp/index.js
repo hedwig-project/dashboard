@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import withNavigation from '@hocs/withNavigation'
-import Signup from '@modules/auth/containers/Signup'
+import Signup from '@routes/SignUp/containers/SignUp'
 
 const backTextStyle = {
   textAlign: 'center',

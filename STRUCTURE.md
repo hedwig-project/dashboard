@@ -1,31 +1,34 @@
 # Arquitetura do projeto
 
+Based on 'File Layout' session on https://medium.com/lexical-labs-engineering/redux-best-practices-64d59775802e
+
 ```
 .babelrc                --> Configuração do Babel (alias, presets, plugins)
-.env                    --> Chaves de acesso da AWS
-.s3-website.json        --> Configurações de deploy da AWS
-server.js               --> Configuração do server (dependências, schemas, módulos de controladores, endpoints...)
-webpack.dev.config.js   --> Configuração do webpack para rodar em development
-webpack.prod.config.js  --> Configuração do webpack para rodar em production
-package.json            --> Configuração de dependências a serem instaladas pelo npm
-style/                  --> Arquivos CSS globais
-src/                    --> Arquivos do frontend
-  assets/                 --> Assets do projeto
-  components/             --> Componentes a seram reaproveitados no projeto (contém o App e o Root)
-  config/                 --> Configurações do JOI
-  consts/                 --> Page types
-  helpers/                --> Arquivos com funções de utilidade geral
+config/
+  webpack.dev.config.js   
+  webpack.prod.config.js 
+package.json              
+src/                      
+  assets/                 
+  components/             --> Componentes to be used throughout project (e.g. App and Root)
+  config/                 --> Configuratin for Joi
+  consts/                 --> Constants
+  containers/             --> Containers to be used throughout project (mainly the App container)
+  helpers/                
   hocs/                   --> High Order Components
-  routes/                 --> Arquivo de configuração com todas as rotas
-  modules/                --> Contém todos os módulos do projeto
-    <feature>/
-      actions/              --> Todas as ações a serem chamadas na feature
-      actionTypes/          --> Definição das ações
-      components/           --> Componentes visuais da feature
-      containers/           --> Componentes com lógica (integram as ações e os componentes)
-      pages/                --> Componentes que são carregados a partir das rotas
-      reducers/             --> Consomem/executam as ações
-      schemas/              --> Schemas para formulários
-    reducers.js           --> Definição de todos os reducers
-    store.js              --> Configurações da store do Redux e Firebase
-```
+  modules/                --> Contains all data related functionalities
+    <feature>/            --> Groups functionalities by feature
+      actionTypes/        --> Groups all actions types related to this feature
+      actions/            --> Groups all actions related to this feature
+      reducers/           --> Groups all reducers related to this feature
+    reducers.js           --> Reducers combiner
+  routes/                 
+    index.js              --> Contains all routes in the app
+    <page>/               --> Groups all files related to a specific page
+      index.js            --> Dumb Component for the page
+      containers/         --> Groups all smart components required for page
+      components/         --> Groups all dumb components required for page
+  index.js                --> App entry point
+  index.html              --> HTML template
+  store.js                --> Redux store config
+``` 

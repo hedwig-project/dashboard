@@ -1,7 +1,7 @@
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import ForgotPasswordForm from '@modules/auth/components/ForgotPasswordForm'
+import ForgotPasswordForm from '@routes/ForgotPassword/components/ForgotPasswordForm'
 import { setResetPasswordMessage, clearResetPasswordMessage } from '@modules/auth/actions/authActions.js'
 
 const mapDispatchToProps = dispatch => ({

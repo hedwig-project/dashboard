@@ -1,7 +1,7 @@
 // import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import LoginForm from '@modules/auth/components/LoginForm'
+import LoginForm from '@routes/Login/components/LoginForm'
 import {
   startAuth,
   finishAuth,

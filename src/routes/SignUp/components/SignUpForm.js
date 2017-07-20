@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import { normalizeDate } from '@helpers/normalizers'
-import style from './styles'
+import style from './SignUpFormStyles'
 
 const SignupForm = ({
   signUp,
