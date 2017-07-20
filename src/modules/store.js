@@ -1,11 +1,10 @@
 /* global window */
-
 import { applyMiddleware, compose, createStore } from 'redux';
+import thunk from 'redux-thunk'
 import { routerMiddleware as createRouterMiddleware } from 'react-router-redux'
 import { browserHistory } from 'react-router'
 import createLogger from 'redux-logger';
 import { responsiveStoreEnhancer } from 'redux-responsive'
-import ReduxPromise from 'redux-promise';
 import reducers from './reducers';
 
 const logger = createLogger({
@@ -28,16 +27,12 @@ export default (initialState = {}) => {
     }
   }
 
-  // const createStoreWithFirebase = compose(
-  //   reactReduxFirebase(config, {}),
-  // )(createStore)
-  const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
+  const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
   const store = createStoreWithMiddleware(reducers, initialState, compose(
     responsiveStoreEnhancer,
     middleware,
   ))
-
 
   // ----
   if (module.hot) {
