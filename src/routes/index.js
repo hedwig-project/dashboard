@@ -2,13 +2,14 @@ import React, { PropTypes } from 'react'
 // import { UserAuthWrapper } from 'redux-auth-wrapper'
 // import { replace } from 'react-router-redux'
 import { Router, IndexRoute, Route } from 'react-router'
-import App from '@containers/App';
-import LoginPage from '@routes/Login'
-import ForgotPasswordPage from '@routes/ForgotPassword'
-import SignupPage from '@routes/SignUp'
-import GuestLayout from '@components/GuestLayout'
+// import App from '@containers/App';
+// import LoginPage from '@routes/Login'
+// import ForgotPasswordPage from '@routes/ForgotPassword'
+// import SignupPage from '@routes/SignUp'
+// import GuestLayout from '@components/GuestLayout'
 import AuthorizedLayout from '@components/AuthorizedLayout'
 import WelcomePage from '@components/WelcomePage'
+import LandingPage from '@routes/LandingPage'
 
 // export const userIsAuthenticated = UserAuthWrapper({
   // failureRedirectPath: '/inicio',
@@ -50,9 +51,6 @@ export default class Routes extends React.Component {
     //         <Route path="/esqueci-senha" component={ForgotPasswordPage} />
     //         <Route path="/cadastro" component={SignupPage} />
     //       </Route>
-    //       <Route component={userIsAuthenticated(AuthorizedLayout)}>
-    //         {/*<IndexRoute component={WelcomePage} />*/}
-    //       </Route>
 
     //     </Route>
     //   </Router>
@@ -60,11 +58,12 @@ export default class Routes extends React.Component {
     return (
       <Router history={history}>
         <Route path="/" component={App}>
-          <Route component={GuestLayout}>
-            <Route path="/login" component={LoginPage} />
-            <Route path="/esqueci-senha" component={ForgotPasswordPage} />
-            <Route path="/cadastro" component={SignupPage} />
-          </Route>
+        {/*<Route path="/">
+          <IndexRoute component={LandingPage} />
+         <IndexRoute component={userIsNotAuthenticated(LandingPage)} />
+         <Route component={userIsAuthenticated(AuthorizedLayout)}>
+           <IndexRoute component={WelcomePage} />
+         </Route>*/}
           <Route component={AuthorizedLayout}>
             <IndexRoute component={WelcomePage} />
           </Route>
