@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import DefaultButton from '@components/DefaultButton'
 import DefaultDialog from '@components/DefaultDialog'
 import DefaultInputField from '@components/DefaultInputField'
+import { normalizeDate } from '@helpers/normalizers'
 import fonts from '@consts/fonts'
 import colors from '@consts/colors'
 
@@ -14,11 +15,11 @@ const Header = styled.h2`
   font-weight: normal;
 `
 
-const LoginForm = ({
-  loginWithPassword,
+const SignupForm = ({
+  signUp,
   authLoading,
-  authError,
   handleSubmit,
+  authError,
   clearError,
 }) => {
   const decodeError = (errorCode) => {
@@ -27,12 +28,31 @@ const LoginForm = ({
 
   return (
     <div>
-      <Header>Login</Header>
-      <form onSubmit={handleSubmit(loginWithPassword)}>
+      <Header>Cadastro</Header>
+      <form onSubmit={handleSubmit(signUp)}>
         <div>
           <DefaultInputField
             name="email"
             floatingLabelText="Email"
+          />
+        </div>
+        <div>
+          <DefaultInputField
+            name="username"
+            floatingLabelText="Nome de usuário"
+          />
+        </div>
+        <div>
+          <DefaultInputField
+            name="name"
+            floatingLabelText="Nome"
+          />
+        </div>
+        <div>
+          <DefaultInputField
+            name="birthday"
+            floatingLabelText="Data de nascimento (DD/MM/AAAA)"
+            normalize={normalizeDate}
           />
         </div>
         <div>
@@ -42,15 +62,22 @@ const LoginForm = ({
             floatingLabelText="Senha"
           />
         </div>
+        <div>
+          <DefaultInputField
+            name="passwordConfirmation"
+            type="password" // TODO check if default input field needs to explicity repass type
+            floatingLabelText="Confirme a senha"
+          />
+        </div>
         <DefaultButton
           disabled={authLoading}
-          label="Entrar"
+          label="Cadastrar"
           type="submit"  // TODO check if default button needs to explicity repass type
         />
       </form>
       <DefaultDialog
         actions={[{ label: 'Ok', onTouchTap: clearError }]}
-        title="Login inválido"
+        title="Cadastro inválido"
         open={authError}
         onRequestClose={clearError}
       >
@@ -59,14 +86,12 @@ const LoginForm = ({
     </div>)
 }
 
-LoginForm.propTypes = {
-  loginWithPassword: PropTypes.func.isRequired,
+SignupForm.propTypes = {
+  signUp: PropTypes.func.isRequired,
   authLoading: PropTypes.bool.isRequired,
   authError: PropTypes.object,
   handleSubmit: PropTypes.func.isRequired,
-  goToSignUp: PropTypes.func.isRequired,
-  goToForgotPassword: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
 }
 
-export default (LoginForm)
+export default (SignupForm)

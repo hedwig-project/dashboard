@@ -1,10 +1,9 @@
 import { connect } from 'react-redux'
 import App from '@components/App'
-import colors from '@consts/colors'
+// import colors from '@consts/colors'
 
 const theme = {
   default: {
-    main: { backgroundColor: colors.mainBlue },
   },
 }
 
