@@ -38,13 +38,14 @@ const ForgotPasswordForm = ({
         <div>
           <DefaultInputField
             name="email"
+            type="email"
             floatingLabelText="Email"
           />
         </div>
         <DefaultButton
           disabled={authLoading}
           label="Recuperar Senha"
-          type="submit"  // TODO check if default button needs to explicity repass type
+          type="submit"
         />
       </form>
       <DefaultDialog

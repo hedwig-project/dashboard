@@ -33,6 +33,7 @@ const SignupForm = ({
         <div>
           <DefaultInputField
             name="email"
+            type="email"
             floatingLabelText="Email"
           />
         </div>
@@ -58,21 +59,21 @@ const SignupForm = ({
         <div>
           <DefaultInputField
             name="password"
-            type="password" // TODO check if default input field needs to explicity repass type
+            type="password"
             floatingLabelText="Senha"
           />
         </div>
         <div>
           <DefaultInputField
             name="passwordConfirmation"
-            type="password" // TODO check if default input field needs to explicity repass type
+            type="password"
             floatingLabelText="Confirme a senha"
           />
         </div>
         <DefaultButton
           disabled={authLoading}
           label="Cadastrar"
-          type="submit"  // TODO check if default button needs to explicity repass type
+          type="submit"
         />
       </form>
       <DefaultDialog

@@ -32,20 +32,21 @@ const LoginForm = ({
         <div>
           <DefaultInputField
             name="email"
+            type="email"
             floatingLabelText="Email"
           />
         </div>
         <div>
           <DefaultInputField
             name="password"
-            type="password" // TODO check if default input field needs to explicity repass type
+            type="password"
             floatingLabelText="Senha"
           />
         </div>
         <DefaultButton
           disabled={authLoading}
           label="Entrar"
-          type="submit"  // TODO check if default button needs to explicity repass type
+          type="submit"
         />
       </form>
       <DefaultDialog

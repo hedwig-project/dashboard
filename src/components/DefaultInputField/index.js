@@ -9,6 +9,7 @@ const DefaultInputField = ({
   children,
   disabled,
   normalize,
+  type,
 }) => (
   <Field
     disabled={disabled}
@@ -21,6 +22,7 @@ const DefaultInputField = ({
     name={name}
     floatingLabelText={floatingLabelText}
     normalize={normalize}
+    type={type}
   />
 )
 
@@ -30,6 +32,7 @@ DefaultInputField.propTypes = {
   children: PropTypes.node.isRequired,
   disabled: PropTypes.bool,
   normalize: PropTypes.func,
+  floatingLabelText: PropTypes.string,
 }
 
 export default DefaultInputField
