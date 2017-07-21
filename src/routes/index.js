@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 // import { UserAuthWrapper } from 'redux-auth-wrapper'
 // import { replace } from 'react-router-redux'
 import { Router, IndexRoute, Route } from 'react-router'
-// import App from '@containers/App';
+import App from '@containers/App'
 // import LoginPage from '@routes/Login'
 // import ForgotPasswordPage from '@routes/ForgotPassword'
 // import SignupPage from '@routes/SignUp'
@@ -64,9 +64,7 @@ export default class Routes extends React.Component {
          <Route component={userIsAuthenticated(AuthorizedLayout)}>
            <IndexRoute component={WelcomePage} />
          </Route>*/}
-          <Route component={AuthorizedLayout}>
-            <IndexRoute component={WelcomePage} />
-          </Route>
+            <IndexRoute component={LandingPage} />
         </Route>
       </Router>
     )

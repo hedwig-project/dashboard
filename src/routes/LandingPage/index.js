@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Login from '@routes/LandingPage/containers/Login'
+import { connect } from 'react-redux'
 
 const mapStateToProps = state => ({
   lessThanSmall: state.browser.lessThan.large,
@@ -26,10 +27,10 @@ class LandingPage extends Component {
     const {
       loginMode,
     } = this.state
-    
+
     return (
       <div>
-        { loginMode && (<Login/>)}
+        { loginMode && (<Login />)}
       </div>
     )
   }
