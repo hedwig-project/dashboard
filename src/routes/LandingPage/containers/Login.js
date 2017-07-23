@@ -1,12 +1,16 @@
-// import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import LoginForm from '@routes/Login/components/LoginForm'
+import { reduxForm } from 'redux-form'
+import validator from '@helpers/validator'
+import schema from '@schemas/login'
+import LoginForm from '@routes/LandingPage/components/LoginForm'
 import {
   startAuth,
   finishAuth,
   clearAuthErrors,
 } from '@modules/auth/actions/authActions.js'
+
+const validate = values => validator(values, schema)
 
 const mapDispatchToProps = dispatch => ({
   loginWithPassword({ email, password }) {
@@ -34,4 +38,8 @@ const mapStateToProps = state => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  reduxForm({
+    form: 'LoginForm',
+    validate,
+  }),
 )(LoginForm)

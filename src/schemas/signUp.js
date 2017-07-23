@@ -4,7 +4,7 @@ import Joi from 'joi-full' // has funcionalities for date type that used to be
 export default Joi.object({
   email: Joi.string().email().required().label('E-mail'),
   password: Joi.string().min(6).required().label('Senha'),
-  passwordConfirm: Joi.any().valid(Joi.ref('password'))
+  passwordConfirmation: Joi.any().valid(Joi.ref('password'))
     .required().label('Confirmação de senha')
     .options({
       language: {

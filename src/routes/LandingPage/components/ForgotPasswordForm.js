@@ -1,10 +1,18 @@
 import React, { PropTypes } from 'react'
-import { Field, reduxForm } from 'redux-form'
-import { TextField } from 'redux-form-material-ui'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
-import Dialog from 'material-ui/Dialog'
-import style from './styles'
+import styled from 'styled-components'
+import DefaultButton from '@components/DefaultButton'
+import DefaultDialog from '@components/DefaultDialog'
+import DefaultInputField from '@components/DefaultInputField'
+import fonts from '@consts/fonts'
+import colors from '@consts/colors'
+
+const Header = styled.h2`
+  font-size: ${fonts.large};
+  color: ${colors.mainBlue};
+  text-align: center;
+  margin: 30px 0 0 0;
+  font-weight: normal;
+`
 
 const ForgotPasswordForm = ({
   forgotPassword,
@@ -13,19 +21,6 @@ const ForgotPasswordForm = ({
   handleSubmit,
   closeDialog,
 }) => {
-  const actions = [
-    <FlatButton
-      label="Ok"
-      primary
-      onTouchTap={() => closeDialog(resetPasswordMessage.success)}
-    />,
-  ]
-
-  const customContentStyle = {
-    width: '30%',
-    minWidth: '220px',
-  }
-
   const defineTitle = () => {
     if (resetPasswordMessage) {
       if (resetPasswordMessage.success) {
@@ -38,35 +33,29 @@ const ForgotPasswordForm = ({
 
   return (
     <div>
-      <h1 style={style.title}>Esqueci Minha Senha</h1>
+      <Header>Esqueci Minha Senha</Header>
       <form onSubmit={handleSubmit(forgotPassword)}>
         <div>
-          <Field
+          <DefaultInputField
             name="email"
-            style={style.inputField}
-            component={TextField}
+            type="email"
             floatingLabelText="Email"
           />
         </div>
-        <RaisedButton
-          style={style.submitButtonExternal}
-          buttonStyle={style.submitButton}
-          labelStyle={{ textTransform: 'none', color: 'white' }}
+        <DefaultButton
           disabled={authLoading}
           label="Recuperar Senha"
           type="submit"
         />
       </form>
-      <Dialog
+      <DefaultDialog
+        actions={[{ label: 'Ok', onTouchTap: () => closeDialog(resetPasswordMessage.success) }]}
         title={defineTitle()}
-        contentStyle={customContentStyle}
-        actions={actions}
-        modal={false}
         open={resetPasswordMessage}
         onRequestClose={() => closeDialog(resetPasswordMessage.success)}
       >
         { resetPasswordMessage ? resetPasswordMessage.message : '' }
-      </Dialog>
+      </DefaultDialog>
     </div>)
 }
 
@@ -78,6 +67,4 @@ ForgotPasswordForm.propTypes = {
   closeDialog: PropTypes.func.isRequired,
 }
 
-export default reduxForm({
-  form: 'ForgotPasswordForm',
-})(ForgotPasswordForm)
+export default (ForgotPasswordForm)

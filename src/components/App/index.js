@@ -10,8 +10,8 @@ import colors from '@consts/colors'
 const muiTheme = getMuiTheme({
   fontFamily: 'Helvetica',
   palette: {
-    primary1Color: colors.mainBlue,
-    accent1Color: colors.mainRed,
+    primary1Color: colors.primaryColor,
+    accent1Color: colors.secondaryColor,
   },
 })
 class App extends Component {

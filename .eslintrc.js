@@ -21,7 +21,6 @@ module.exports = {
   "rules": {
     "react/no-array-index-key": 0,
     "react/prefer-stateless-function": 0,
-    "import/no-unresolved": [ 2, { ignore: ['meteor/*'] } ], // ignore meteor imports
     "import/no-extraneous-dependencies": 0,
     "no-unused-vars": [ "error", { "varsIgnorePattern": "PropTypes|state|dispatch" } ],
     "no-unused-expressions": 0, // allows to do x && x();

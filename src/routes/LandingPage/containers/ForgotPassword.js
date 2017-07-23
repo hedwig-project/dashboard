@@ -1,7 +1,7 @@
-import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import ForgotPasswordForm from '@routes/ForgotPassword/components/ForgotPasswordForm'
+import { reduxForm } from 'redux-form'
+import ForgotPasswordForm from '@routes/LandingPage/components/ForgotPasswordForm'
 import { setResetPasswordMessage, clearResetPasswordMessage } from '@modules/auth/actions/authActions.js'
 
 const mapDispatchToProps = dispatch => ({
@@ -21,9 +21,6 @@ const mapDispatchToProps = dispatch => ({
   },
   closeDialog(success) {
     dispatch(clearResetPasswordMessage())
-    if (success) {
-      dispatch(push('/login'))
-    }
   },
 })
 
@@ -34,4 +31,7 @@ const mapStateToProps = state => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  reduxForm({
+    form: 'ForgotPasswordForm',
+  }),
 )(ForgotPasswordForm)
