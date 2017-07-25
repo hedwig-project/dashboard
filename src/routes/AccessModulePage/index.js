@@ -2,11 +2,22 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import StatusBox from '@routes/AccessModulePage/components/StatusBox'
+import Keyboard from '@routes/AccessModulePage/components/Keyboard'
+import GateInfo from '@routes/AccessModulePage/components/GateInfo'
 
 const Wrapper = styled.section`
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
+`
+
+const Box = styled.section`
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  background-color: #80DEEA;
 `
 
 class AccessModulePage extends Component {
@@ -18,6 +29,11 @@ class AccessModulePage extends Component {
     return (
       <Wrapper lessThanSmall={this.props.lessThanSmall}>
         <StatusBox />
+        <br />
+        <Box>
+          <Keyboard />
+          <GateInfo />
+        </Box>
       </Wrapper>
     )
   }
