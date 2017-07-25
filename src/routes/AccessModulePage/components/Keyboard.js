@@ -22,7 +22,6 @@ const Visor = styled.div`
   width: 100%;
   background-color: #EEEEEE;
   border: 1px solid #ECEFF1;
-  box-sizing: border-box;
   font-size: 24px;
   padding: 20px 15px;
 `
@@ -31,7 +30,6 @@ const Key = styled.div`
   width: 33.33333%;
   background-color: #CFD8DC;
   border: 1px solid #ECEFF1;
-  box-sizing: border-box;
   color: #37474F;
   font-size: 24px;
   padding: 20px 0px;

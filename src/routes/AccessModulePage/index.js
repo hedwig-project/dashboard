@@ -8,7 +8,6 @@ import GateInfo from '@routes/AccessModulePage/components/GateInfo'
 const Wrapper = styled.section`
   width: 100%;
   padding: 20px;
-  box-sizing: border-box;
 `
 
 const Box = styled.section`
@@ -16,7 +15,6 @@ const Box = styled.section`
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
-  box-sizing: border-box;
   background-color: #80DEEA;
 `
 

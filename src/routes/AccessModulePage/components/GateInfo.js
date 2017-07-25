@@ -9,13 +9,11 @@ const Container = styled.article`
   width: 50%;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
   padding-left: 20px;
 `
 
 const Status = styled.div`
-  box-sizing: border-box;
   background-color: #E0F7FA;
   color: #006064;
   font-size: 24px;
@@ -29,7 +27,6 @@ const AccessList = styled.div`
 
 const AccessListItem = styled.div`
   background-color: ${props => props.backgroundColor};
-  box-sizing: border-box;
   color: ${props => props.color};
   font-size: 16px;
   margin-top: 3px;
