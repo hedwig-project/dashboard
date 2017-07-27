@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import StatusBox from '@routes/AccessModulePage/components/StatusBox'
+import StatusBox from '@routes/AccessModulePage/containers/StatusBox'
 import Keyboard from '@routes/AccessModulePage/components/Keyboard'
 import GateInfo from '@routes/AccessModulePage/components/GateInfo'
 

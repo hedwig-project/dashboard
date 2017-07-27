@@ -61,6 +61,13 @@ class StatusBox extends Component {
   }
 
   render() {
+    const {
+      alarm,
+      alarmTimeSinceLastChange,
+      humidity,
+      presence,
+      temperature,
+    } = this.props
     return (
       <Container>
         <Box color={this.boxColors[0]}>
@@ -69,8 +76,10 @@ class StatusBox extends Component {
             style={this.iconStyle}
             color={'white'}
           />
-          <MainInfoAlt>Alarme Ativo</MainInfoAlt>
-          <div>Última alteração 3 horas atrás</div>
+          <MainInfoAlt>
+            {alarm ? 'Alarme Ativo' : (alarm === false ? 'Alarme Inativo' : '?')}
+          </MainInfoAlt>
+          <div>Última alteração {alarmTimeSinceLastChange || '?'} horas atrás</div>
         </Box>
         <Box color={this.boxColors[1]}>
           <FontIcon
@@ -78,7 +87,7 @@ class StatusBox extends Component {
             style={this.iconStyle}
             color={'white'}
           />
-          <MainInfo>?</MainInfo>
+          <MainInfo>{presence || '?'}</MainInfo>
           <BoxTitle>Sensor de presença</BoxTitle>
         </Box>
         <Box color={this.boxColors[2]}>
@@ -88,7 +97,7 @@ class StatusBox extends Component {
               style={this.iconStyle}
               color={'white'}
             />
-            <MainInfo>26ºC</MainInfo>
+            <MainInfo>{`${temperature || '?'} ºC`}</MainInfo>
             <BoxTitle>Temperatura</BoxTitle>
           </div>
         </Box>
@@ -98,12 +107,20 @@ class StatusBox extends Component {
             style={this.iconStyle}
             color={'white'}
           />
-          <MainInfo>78%</MainInfo>
+          <MainInfo>{`${humidity || '?'} %`}</MainInfo>
           <BoxTitle>Umidade</BoxTitle>
         </Box>
       </Container>
     );
   }
+}
+
+StatusBox.propTypes = {
+  alarm: PropTypes.bool.isRequired,
+  alarmTimeSinceLastChange: PropTypes.string.isRequired,
+  humidity: PropTypes.number.isRequired,
+  presence: PropTypes.number.isRequired,
+  temperature: PropTypes.number.isRequired,
 }
 
 export default StatusBox
