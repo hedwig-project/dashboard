@@ -53,8 +53,8 @@ import {
 } from '@modules/auth/actionTypes/authActionTypes'
 import { signUp as signUpRequest } from '@config/axios'
 
-export const signUp = () => {
-  signUpRequest()
+export const signUp = (data) => {
+  signUpRequest(data)
   return {
     type: LOGIN_REQUEST,
   }
