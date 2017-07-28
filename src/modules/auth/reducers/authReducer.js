@@ -1,4 +1,7 @@
 import {
+  SIGN_UP_REQUEST,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -55,13 +58,28 @@ export const initialState = Map({
 // The auth reducer. The starting state sets authentication
 // based on a token being in local storage. In a real app,
 // we would also want a util to check if the token is expired.
-export default (state = initialState, action) => {
-  switch (action.type) {
+export default (state = initialState, { type, payload }) => {
+  switch (type) {
+    case SIGN_UP_REQUEST:
+      return state
+        .set('isFetching', true)
+        .set('isAuthenticated', false)
+        .set('user', payload.userData)
+    case SIGN_UP_SUCCESS:
+      return state
+        .set('isFetching', false)
+        .set('isAuthenticated', true)
+        .set('user', payload.userData)
+    case SIGN_UP_FAILURE:
+      return state
+        .set('isFetching', false)
+        .set('isAuthenticated', false)
+        .set('error', payload.error)
     case LOGIN_REQUEST:
       return state
         .set('isFetching', true)
         .set('isAuthenticated', false)
-        .set('user', action.creds)
+        .set('user', payload.creds)
     case LOGIN_SUCCESS:
       return state
         .set('isFetching', false)
@@ -71,7 +89,7 @@ export default (state = initialState, action) => {
       return state
         .set('isFetching', false)
         .set('isAuthenticated', false)
-        .set('errorMessage', action.message)
+        .set('errorMessage', payload.message)
     case LOGOUT_SUCCESS:
       return state
         .set('isFetching', true)

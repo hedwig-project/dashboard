@@ -45,20 +45,49 @@
 // }
 
 import {
+  SIGN_UP_REQUEST,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
 } from '@modules/auth/actionTypes/authActionTypes'
-import { signUp as signUpRequest } from '@config/axios'
+import { unauthenticatedPost } from '@config/axios'
 
-export const signUp = (data) => {
-  signUpRequest(data)
-  return {
-    type: LOGIN_REQUEST,
-  }
-}
+const requestSignUp = userData => ({
+  type: SIGN_UP_REQUEST,
+  payload: {
+    userData,
+  },
+})
+
+const signUpSuccess = userData => ({
+  type: SIGN_UP_SUCCESS,
+  payload: {
+    userData,
+  },
+})
+
+const signUpFailure = error => ({
+  type: SIGN_UP_FAILURE,
+  payload: {
+    error,
+  },
+})
+
+export const signUp = data => ((dispatch) => {
+  dispatch(requestSignUp(data))
+  return unauthenticatedPost('user/register', data)
+    .then((response) => {
+      localStorage.setItem('token', response.data.token)
+      dispatch(signUpSuccess(response))
+    })
+    .catch((error) => {
+      dispatch(signUpFailure(error.message))
+    })
+})
 
 function requestLogin(creds) {
   return {
