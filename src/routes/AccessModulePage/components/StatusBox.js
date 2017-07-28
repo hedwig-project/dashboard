@@ -72,12 +72,12 @@ class StatusBox extends Component {
       <Container>
         <Box color={this.boxColors[0]}>
           <FontIcon
-            className="fa fa-check-circle-o"
+            className={alarm ? 'fa fa-check-circle-o' : (alarm === false ? 'fa fa-times-circle-o' : 'fa fa-question-circle-o')}
             style={this.iconStyle}
             color={'white'}
           />
           <MainInfoAlt>
-            {alarm ? 'Alarme Ativo' : (alarm === false ? 'Alarme Inativo' : '?')}
+            {alarm ? 'Alarme Ativo' : (alarm === false ? 'Alarme Inativo' : 'Alarme ?')}
           </MainInfoAlt>
           <div>Última alteração {alarmTimeSinceLastChange || '?'} horas atrás</div>
         </Box>

@@ -7,6 +7,7 @@ import FontIcon from 'material-ui/FontIcon'
 
 const Container = styled.article`
   width: 50%;
+  min-height: 350px;
   display: flex;
   flex-direction: column;
   font-family: 'Roboto', sans-serif;
@@ -14,6 +15,7 @@ const Container = styled.article`
 `
 
 const Status = styled.div`
+  flex-grow: 1;
   background-color: #E0F7FA;
   color: #006064;
   font-size: 24px;
@@ -22,10 +24,12 @@ const Status = styled.div`
 
 const AccessList = styled.div`
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
 `
 
 const AccessListItem = styled.div`
+  flex-grow: 1;
   background-color: ${props => props.backgroundColor};
   color: ${props => props.color};
   font-size: 16px;
@@ -42,36 +46,43 @@ class GateInfo extends Component {
   }
 
   render() {
+    const {
+      accesses,
+      gate,
+    } = this.props
     return (
       <Container>
         <Status>
           <FontIcon
-            className="fa fa-check-circle-o"
+            className={gate ? 'fa fa-unlock-alt' : (gate === false ? 'fa fa-lock' : 'fa fa-question-circle-o')}
             style={this.iconStyle}
             color={'#006064'}
           />
-          Portão fechado
+          {gate ? 'Portão aberto' : (gate === false ? 'Portão fechado' : 'Portão ?')}
         </Status>
         <AccessList>
           <AccessListItem backgroundColor={'#00838F'} color={'#F5F5F5'}>
             Últimos acessos
           </AccessListItem>
-          <AccessListItem backgroundColor={'#4DD0E1'}>
-            Terça, 25 de julho de 2017 19:16:34
-          </AccessListItem>
-          <AccessListItem backgroundColor={'#4DD0E1'}>
-            Terça, 25 de julho de 2017 17:02:12
-          </AccessListItem>
-          <AccessListItem backgroundColor={'#4DD0E1'}>
-            Terça, 25 de julho de 2017 7:01:57
-          </AccessListItem>
-          <AccessListItem backgroundColor={'#4DD0E1'}>
-            Segunda, 24 de julho de 2017 20:09:03
-          </AccessListItem>
+          {
+            accesses.slice(0, 4).map(access =>
+              <AccessListItem backgroundColor={'#4DD0E1'}>
+                {access}
+              </AccessListItem>)
+          }
         </AccessList>
       </Container>
     );
   }
+}
+
+GateInfo.propTypes = {
+  accesses: PropTypes.array,
+  gate: PropTypes.bool.isRequired,
+}
+
+GateInfo.defaultProps = {
+  accesses: [],
 }
 
 export default GateInfo

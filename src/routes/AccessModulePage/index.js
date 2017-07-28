@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import StatusBox from '@routes/AccessModulePage/containers/StatusBox'
 import Keyboard from '@routes/AccessModulePage/containers/Keyboard'
-import GateInfo from '@routes/AccessModulePage/components/GateInfo'
+import GateInfo from '@routes/AccessModulePage/containers/GateInfo'
 
 const Wrapper = styled.section`
   width: 100%;
