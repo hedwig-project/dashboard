@@ -1,10 +1,10 @@
-import { 
+import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT_SUCCESS,
-} from '@modules/auth/actions/authActions'
-import { Map } from 'immutable';
+} from '@modules/auth/actionTypes/authActionTypes'
+import { Map } from 'immutable'
 // import {
 //   AUTH_START,
 //   AUTH_FINISH,
@@ -78,5 +78,5 @@ export default (state = initialState, action) => {
         .set('isAuthenticated', false)
     default:
       return state
+  }
 }
-

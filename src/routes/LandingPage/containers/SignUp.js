@@ -10,7 +10,7 @@ const validate = values => validator(values, schema)
 
 const mapDispatchToProps = dispatch => ({
   signUp: (values) => {
-    // dispatch(authActions.signUp(values, firebaseKey))
+    dispatch(authActions.signUp())
     console.log('pedido de cadastro recebido. values: ', values)
   },
   clearError() {
@@ -27,6 +27,6 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'SignUpForm',
-    validate,
+    // validate,
   }),
 )(SignUpForm)

@@ -50,7 +50,15 @@ import {
   LOGIN_FAILURE,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
-} from '@modules/auth/actions/authActions'
+} from '@modules/auth/actionTypes/authActionTypes'
+import { signUp as signUpRequest } from '@config/axios'
+
+export const signUp = () => {
+  signUpRequest()
+  return {
+    type: LOGIN_REQUEST,
+  }
+}
 
 function requestLogin(creds) {
   return {

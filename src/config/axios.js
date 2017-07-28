@@ -4,7 +4,7 @@ axios.defaults.baseURL = '138.197.83.143:3000/'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 
-export const signUp = axios.post('user/register', {
+export const signUp = () => axios.post('http://138.197.83.143:3000/user/register', {
   name: 'teste gabi',
   birthday: '10/28/1994',
   username: 'testegabi',
