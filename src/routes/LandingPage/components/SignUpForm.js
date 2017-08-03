@@ -17,13 +17,15 @@ const Header = styled.h2`
 
 const SignupForm = ({
   signUp,
-  authLoading,
+  authFetching,
   handleSubmit,
   authError,
   clearError,
 }) => {
   const decodeError = (errorCode) => {
-    return 'Ocorreu um erro desconhecido, tente novamente'
+    // TODO
+    console.log(errorCode)
+    return errorCode + '   Ocorreu um erro desconhecido, tente novamente'
   }
 
   return (
@@ -71,7 +73,7 @@ const SignupForm = ({
           />
         </div>
         <DefaultButton
-          disabled={authLoading}
+          disabled={authFetching}
           label="Cadastrar"
           type="submit"
         />
@@ -82,15 +84,15 @@ const SignupForm = ({
         open={authError}
         onRequestClose={clearError}
       >
-        { authError ? decodeError(authError.code) : '' }
+        { authError ? decodeError(authError) : '' }
       </DefaultDialog>
     </div>)
 }
 
 SignupForm.propTypes = {
   signUp: PropTypes.func.isRequired,
-  authLoading: PropTypes.bool.isRequired,
-  authError: PropTypes.object,
+  authFetching: PropTypes.bool.isRequired,
+  authError: PropTypes.array,
   handleSubmit: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
 }

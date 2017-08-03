@@ -11,7 +11,6 @@ const validate = values => validator(values, schema)
 const mapDispatchToProps = dispatch => ({
   signUp: (values) => {
     dispatch(authActions.signUp(values))
-    console.log('pedido de cadastro recebido. values: ', values)
   },
   clearError() {
     dispatch(authActions.clearAuthErrors())
@@ -19,8 +18,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  authLoading: state.auth.get('authLoading'),
-  authError: state.auth.get('authError'),
+  authFetching: state.auth.get('isFetching'),
+  authError: state.auth.get('error'),
 })
 
 export default compose(
