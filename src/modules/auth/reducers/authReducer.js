@@ -9,10 +9,25 @@ import {
   CLEAR_AUTH_ERRORS,
 } from '@modules/auth/actionTypes/authActionTypes'
 import { Map } from 'immutable'
+import JWT from 'jwt-client'
+
+const checkToken = () => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    try {
+      if (JWT.validate(token)) {
+        return true
+      }
+    } catch (err) {
+      return false
+    }
+  }
+  return false
+}
 
 export const initialState = Map({
   isFetching: false,
-  isAuthenticated: localStorage.getItem('id_token') ? true : false,
+  isAuthenticated: checkToken(),
 })
 
 export default (state = initialState, { type, payload }) => {

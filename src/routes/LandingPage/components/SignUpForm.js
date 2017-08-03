@@ -23,9 +23,20 @@ const SignupForm = ({
   clearError,
 }) => {
   const decodeError = (errorCode) => {
-    // TODO
-    console.log(errorCode)
-    return errorCode + '   Ocorreu um erro desconhecido, tente novamente'
+    if (errorCode[0] === 'BLANK_USERNAME') {
+      return 'O campo de nome de usuário deve estar preenchido'
+    } else if (errorCode[0] === 'BLANK_NAME') {
+      return 'O campo de nome deve estar preenchido'
+    } else if (errorCode[0] === 'BLANK_EMAIL') {
+      return 'O campo de email deve estar preenchido'
+    } else if (errorCode[0] === 'INVALID_EMAIL') {
+      return 'Email inválido'
+    } else if (errorCode[0] === 'BLANK_PASSWORD') {
+      return 'O campo de senha deve estar preenchido'
+    } else if (errorCode[0] === 'BLANK_BIRTHDAY') {
+      return 'O campo de data de nascimento deve estar preenchido'
+    }
+    return 'Ocorreu um erro desconhecido, tente novamente'
   }
 
   return (

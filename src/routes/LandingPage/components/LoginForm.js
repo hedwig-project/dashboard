@@ -15,25 +15,22 @@ const Header = styled.h2`
 `
 
 const LoginForm = ({
-  loginWithPassword,
-  authLoading,
+  login,
+  authFetching,
   authError,
   handleSubmit,
   clearError,
 }) => {
-  const decodeError = (errorCode) => {
-    return 'Ocorreu um erro desconhecido, tente novamente'
-  }
+  const decodeError = () => ('Login inválido')
 
   return (
     <div>
       <Header>Login</Header>
-      <form onSubmit={handleSubmit(loginWithPassword)}>
+      <form onSubmit={handleSubmit(login)}>
         <div>
           <DefaultInputField
-            name="email"
-            type="email"
-            floatingLabelText="Email"
+            name="username"
+            floatingLabelText="Username"
           />
         </div>
         <div>
@@ -44,7 +41,7 @@ const LoginForm = ({
           />
         </div>
         <DefaultButton
-          disabled={authLoading}
+          disabled={authFetching}
           label="Entrar"
           type="submit"
         />
@@ -55,18 +52,16 @@ const LoginForm = ({
         open={authError}
         onRequestClose={clearError}
       >
-        { authError ? decodeError(authError.code) : '' }
+        { authError ? decodeError() : '' }
       </DefaultDialog>
     </div>)
 }
 
 LoginForm.propTypes = {
-  loginWithPassword: PropTypes.func.isRequired,
-  authLoading: PropTypes.bool.isRequired,
-  authError: PropTypes.object,
+  login: PropTypes.func.isRequired,
+  authFetching: PropTypes.bool.isRequired,
+  authError: PropTypes.array,
   handleSubmit: PropTypes.func.isRequired,
-  goToSignUp: PropTypes.func.isRequired,
-  goToForgotPassword: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
 }
 

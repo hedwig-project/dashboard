@@ -55,32 +55,44 @@ export const signUp = data => ((dispatch) => {
     })
 })
 
-function requestLogin(creds) {
-  return {
-    type: LOGIN_REQUEST,
-    isFetching: true,
-    isAuthenticated: false,
+const requestLogin = creds => ({
+  type: LOGIN_REQUEST,
+  payload: {
     creds,
-  }
-}
+  },
+})
 
-function receiveLogin(user) {
-  return {
-    type: LOGIN_SUCCESS,
-    isFetching: false,
-    isAuthenticated: true,
-    id_token: user.id_token,
-  }
-}
+const loginSuccess = userData => ({
+  type: LOGIN_SUCCESS,
+  payload: {
+    userData,
+  },
+})
 
-function loginError(message) {
-  return {
-    type: LOGIN_FAILURE,
-    isFetching: false,
-    isAuthenticated: false,
-    message,
-  }
-}
+const loginFailure = error => ({
+  type: LOGIN_FAILURE,
+  payload: {
+    error,
+  },
+})
+
+export const login = creds => ((dispatch) => {
+  dispatch(requestLogin(creds))
+
+  return unauthenticatedPost('user/authenticate', creds)
+    .then((response) => {
+      localStorage.setItem('token', response.data.token)
+      dispatch(loginSuccess(response))
+    })
+    .catch((error) => {
+      const data = error.data
+      let message = ''
+      if (data) {
+        message = data.message
+      }
+      dispatch(loginFailure(message ? message : 'Default message'))
+    })
+})
 
 const receiveLogout = () => ({
   type: LOGOUT,
