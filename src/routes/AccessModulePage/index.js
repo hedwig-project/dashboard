@@ -5,6 +5,7 @@ import StatusBox from '@routes/AccessModulePage/containers/StatusBox'
 import Keyboard from '@routes/AccessModulePage/containers/Keyboard'
 import GateInfo from '@routes/AccessModulePage/containers/GateInfo'
 import AlarmConfiguration from '@routes/AccessModulePage/containers/AlarmConfiguration'
+import LightConfiguration from '@routes/AccessModulePage/containers/LightConfiguration'
 
 const Wrapper = styled.section`
   width: 100%;
@@ -35,6 +36,8 @@ class AccessModulePage extends Component {
         </Box>
         <br />
         <AlarmConfiguration />
+        <br />
+        <LightConfiguration />
       </Wrapper>
     )
   }
