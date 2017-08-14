@@ -6,6 +6,7 @@ import Keyboard from '@routes/AccessModulePage/containers/Keyboard'
 import GateInfo from '@routes/AccessModulePage/containers/GateInfo'
 import AlarmConfiguration from '@routes/AccessModulePage/containers/AlarmConfiguration'
 import LightConfiguration from '@routes/AccessModulePage/containers/LightConfiguration'
+import GatePasswordConfiguration from '@routes/AccessModulePage/containers/GatePasswordConfiguration'
 
 const Wrapper = styled.section`
   width: 100%;
@@ -38,6 +39,8 @@ class AccessModulePage extends Component {
         <AlarmConfiguration />
         <br />
         <LightConfiguration />
+        <br />
+        <GatePasswordConfiguration />
       </Wrapper>
     )
   }
