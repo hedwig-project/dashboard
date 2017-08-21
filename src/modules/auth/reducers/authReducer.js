@@ -1,45 +1,75 @@
-import { Map } from 'immutable';
 import {
-  AUTH_START,
-  AUTH_FINISH,
-  LOGOUT_SUCCESS,
-  SIGNUP_FINISH,
+  SIGN_UP_REQUEST,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAILURE,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT,
   CLEAR_AUTH_ERRORS,
-  SET_RESET_PASSWORD_MESSAGE,
-  CLEAR_RESET_PASSWORD_MESSAGE,
-} from '@modules/auth/actionTypes/authActionTypes.js';
+} from '@modules/auth/actionTypes/authActionTypes'
+import { Map } from 'immutable'
+import JWT from 'jwt-client'
+
+const checkToken = () => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    try {
+      if (JWT.validate(token)) {
+        return true
+      }
+    } catch (err) {
+      return false
+    }
+  }
+  return false
+}
 
 export const initialState = Map({
-  authLoading: false,
-  initialSignUpComplete: false,
-});
+  isFetching: false,
+  isAuthenticated: checkToken(),
+})
 
-export default (state = initialState, { payload, type }) => {
+export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case AUTH_START:
-      return state
-        .set('authLoading', true)
-    case AUTH_FINISH:
-      return state
-        .set('authLoading', false)
-        .set('initialSignUpComplete', false)
-        .set('authError', payload.error || null)
     case CLEAR_AUTH_ERRORS:
       return state
-        .set('authError', null)
-    case SET_RESET_PASSWORD_MESSAGE:
+        .set('error', null)
+    case SIGN_UP_REQUEST:
       return state
-        .set('resetPasswordMessage', payload.message)
-    case CLEAR_RESET_PASSWORD_MESSAGE:
+        .set('isFetching', true)
+        .set('isAuthenticated', false)
+        .set('user', payload.userData)
+    case SIGN_UP_SUCCESS:
       return state
-        .set('resetPasswordMessage', null)
-    case SIGNUP_FINISH:
+        .set('isFetching', false)
+        .set('isAuthenticated', true)
+        .set('user', payload.userData)
+    case SIGN_UP_FAILURE:
       return state
-        .set('authLoading', false)
-        .set('initialSignUpComplete', true)
-    case LOGOUT_SUCCESS:
+        .set('isFetching', false)
+        .set('isAuthenticated', false)
+        .set('error', payload.error)
+    case LOGIN_REQUEST:
       return state
+        .set('isFetching', true)
+        .set('isAuthenticated', false)
+        .set('user', payload.creds)
+    case LOGIN_SUCCESS:
+      return state
+        .set('isFetching', false)
+        .set('isAuthenticated', true)
+        .set('user', payload.userData)
+    case LOGIN_FAILURE:
+      return state
+        .set('isFetching', false)
+        .set('isAuthenticated', false)
+        .set('error', payload.error)
+    case LOGOUT:
+      return state
+        .set('isFetching', false)
+        .set('isAuthenticated', false)
     default:
-      return state;
+      return state
   }
 }

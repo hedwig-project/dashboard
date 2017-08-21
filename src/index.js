@@ -6,7 +6,6 @@ import { AppContainer } from 'react-hot-loader';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store.js';
-// import 'whatwg-fetch';  TODO conferir isso aqui
 import Root from './components/Root'
 import './index.css';
 
