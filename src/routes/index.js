@@ -1,41 +1,10 @@
 import React, { PropTypes } from 'react'
-// import { UserAuthWrapper } from 'redux-auth-wrapper'
-// import { replace } from 'react-router-redux'
 import { Router, IndexRoute, Route } from 'react-router'
 import App from '@containers/App'
-// import LoginPage from '@routes/Login'
-// import ForgotPasswordPage from '@routes/ForgotPassword'
-// import SignupPage from '@routes/SignUp'
-// import GuestLayout from '@components/GuestLayout'
-import AuthorizedLayout from '@components/AuthorizedLayout'
-import WelcomePage from '@components/WelcomePage'
 import LandingPage from '@routes/LandingPage'
 import AccessModulePage from '@routes/AccessModulePage'
 import NotFoundPage from '@routes/NotFoundPage'
-
-// export const userIsAuthenticated = UserAuthWrapper({
-  // failureRedirectPath: '/inicio',
-  // wrapperDisplayName: 'UserIsAuthenticated',
-  // authSelector: ({ firebase }) => pathToJS(firebase, 'auth'),
-  // authenticatingSelector: ({ firebase }) => pathToJS(firebase, 'auth') === undefined,
-  // predicate: auth => auth !== null,
-  // redirectAction: newLoc => (dispatch) => {
-  //   dispatch(replace(newLoc))
-  // },
-// })
-
-// export const userIsNotAuthenticated = UserAuthWrapper({
-  // wrapperDisplayName: 'UserIsNotAuthenticated',
-  // allowRedirectBack: false,
-  // failureRedirectPath: '/',
-  // authSelector: ({ firebase }) => pathToJS(firebase, 'auth'),
-  // authenticatingSelector: ({ firebase }) => pathToJS(firebase, 'auth') === undefined,
-  // // quando retorna falso, cai no redirectAct
-  // predicate: auth => auth === null,
-  // redirectAction: newLoc => (dispatch) => {
-  //   dispatch(replace(newLoc))
-  // },
-// })
+import { requireAuthentication } from '@hocs/requireAuthentication'
 
 export default class Routes extends React.Component {
   static propTypes = {
@@ -45,29 +14,12 @@ export default class Routes extends React.Component {
     const {
       history,
     } = this.props
-    // return (
-    //   <Router history={history}>
-    //     <Route path="/" component={App}>
-    //       <Route component={userIsNotAuthenticated(GuestLayout)}>
-    //         <Route path="/login" component={LoginPage} />
-    //         <Route path="/esqueci-senha" component={ForgotPasswordPage} />
-    //         <Route path="/cadastro" component={SignupPage} />
-    //       </Route>
 
-    //     </Route>
-    //   </Router>
-    // )
     return (
       <Router history={history}>
         <Route path="/" component={App}>
-        {/*<Route path="/">
-          <IndexRoute component={LandingPage} />
-         <IndexRoute component={userIsNotAuthenticated(LandingPage)} />
-         <Route component={userIsAuthenticated(AuthorizedLayout)}>
-           <IndexRoute component={WelcomePage} />
-         </Route>*/}
-            <IndexRoute component={LandingPage} />
-            <Route path="access" component={AccessModulePage} />
+          <IndexRoute component={requireAuthentication(false, LandingPage)} />
+          <Route path="access" component={requireAuthentication(true, AccessModulePage)} />
           <Route path="*" component={NotFoundPage} />
         </Route>
       </Router>
