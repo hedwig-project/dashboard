@@ -17,12 +17,25 @@ const Header = styled.h2`
 
 const SignupForm = ({
   signUp,
-  authLoading,
+  authFetching,
   handleSubmit,
   authError,
   clearError,
 }) => {
   const decodeError = (errorCode) => {
+    if (errorCode[0] === 'BLANK_USERNAME') {
+      return 'O campo de nome de usuário deve estar preenchido'
+    } else if (errorCode[0] === 'BLANK_NAME') {
+      return 'O campo de nome deve estar preenchido'
+    } else if (errorCode[0] === 'BLANK_EMAIL') {
+      return 'O campo de email deve estar preenchido'
+    } else if (errorCode[0] === 'INVALID_EMAIL') {
+      return 'Email inválido'
+    } else if (errorCode[0] === 'BLANK_PASSWORD') {
+      return 'O campo de senha deve estar preenchido'
+    } else if (errorCode[0] === 'BLANK_BIRTHDAY') {
+      return 'O campo de data de nascimento deve estar preenchido'
+    }
     return 'Ocorreu um erro desconhecido, tente novamente'
   }
 
@@ -71,7 +84,7 @@ const SignupForm = ({
           />
         </div>
         <DefaultButton
-          disabled={authLoading}
+          disabled={authFetching}
           label="Cadastrar"
           type="submit"
         />
@@ -82,15 +95,15 @@ const SignupForm = ({
         open={authError}
         onRequestClose={clearError}
       >
-        { authError ? decodeError(authError.code) : '' }
+        { authError ? decodeError(authError) : '' }
       </DefaultDialog>
     </div>)
 }
 
 SignupForm.propTypes = {
   signUp: PropTypes.func.isRequired,
-  authLoading: PropTypes.bool.isRequired,
-  authError: PropTypes.object,
+  authFetching: PropTypes.bool.isRequired,
+  authError: PropTypes.array,
   handleSubmit: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
 }

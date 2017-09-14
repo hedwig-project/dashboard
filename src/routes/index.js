@@ -11,6 +11,7 @@ import AuthorizedLayout from '@components/AuthorizedLayout'
 import WelcomePage from '@components/WelcomePage'
 import LandingPage from '@routes/LandingPage'
 import AccessModulePage from '@routes/AccessModulePage'
+import NotFoundPage from '@routes/NotFoundPage'
 
 // export const userIsAuthenticated = UserAuthWrapper({
   // failureRedirectPath: '/inicio',
@@ -67,6 +68,7 @@ export default class Routes extends React.Component {
          </Route>*/}
             <IndexRoute component={LandingPage} />
             <Route path="access" component={AccessModulePage} />
+          <Route path="*" component={NotFoundPage} />
         </Route>
       </Router>
     )
