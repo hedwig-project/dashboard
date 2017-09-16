@@ -7,7 +7,6 @@ import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store.js';
 import Root from './components/Root'
-import './assets/styles/reset.css'
 import './index.css';
 
 // Needed for onTouchTap
