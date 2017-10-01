@@ -23,10 +23,7 @@ export const requireAuthentication = (doRequire, Component) => {
     render() {
       return (
         <div>
-          {this.props.isAuthenticated === true
-            ? <Component {...this.props} />
-            : null
-          }
+          <Component {...this.props} />
         </div>
       )
     }
