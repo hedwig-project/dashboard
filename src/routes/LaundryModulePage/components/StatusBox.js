@@ -39,12 +39,12 @@ const MainInfo = styled.div`
 
 class StatusBox extends Component {
   boxColors = [
-    '#006064',
-    '#00838F',
-    '#0097A7',
-    '#00ACC1',
-    '#00BCD4',
-    '#26C6DA',
+    '#1B5E20',
+    '#2E7D32',
+    '#388E3C',
+    '#43A047',
+    '#4CAF50',
+    '#66BB6A',
   ]
 
   iconStyle = {

@@ -2,7 +2,9 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import StatusBox from '@routes/AccessModulePage/containers/StatusBox'
+import RelayControl from '@routes/AccessModulePage/containers/RelayControl'
 import Keyboard from '@routes/AccessModulePage/containers/Keyboard'
+import AlarmInfo from '@routes/AccessModulePage/containers/AlarmInfo'
 import GateInfo from '@routes/AccessModulePage/containers/GateInfo'
 import AlarmConfiguration from '@routes/AccessModulePage/containers/AlarmConfiguration'
 import LightConfiguration from '@routes/AccessModulePage/containers/LightConfiguration'
@@ -30,6 +32,10 @@ class AccessModulePage extends Component {
     return (
       <Wrapper lessThanSmall={this.props.lessThanSmall}>
         <StatusBox />
+        <br />
+        <RelayControl />
+        <br />
+        <AlarmInfo />
         <br />
         <Box>
           <Keyboard />

@@ -45,6 +45,7 @@ class GateInfo extends Component {
     verticalAlign: 'middle',
   }
 
+  /* eslint-disable no-nested-ternary */
   render() {
     const {
       accesses,
