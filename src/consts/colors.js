@@ -1,6 +1,6 @@
 export default {
-  primaryButtonColor: 'blue',
-  secondaryButtonColor: 'red',
-  primaryColor: 'blue',
-  secondaryColor: 'red',
+  primaryButtonColor: '#1565C0',
+  secondaryButtonColor: '#C62828',
+  primaryColor: '#1565C0',
+  secondaryColor: '#C62828',
 }

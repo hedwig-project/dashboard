@@ -22,7 +22,7 @@ export const requireAuthentication = (doRequire, Component) => {
     }
     render() {
       return (
-        <div>
+        <div style={{ height: '100%' }}>
           <Component {...this.props} />
         </div>
       )
