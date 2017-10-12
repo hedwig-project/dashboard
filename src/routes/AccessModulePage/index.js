@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import Menu from '@components/Menu'
 import StatusBox from '@routes/AccessModulePage/containers/StatusBox'
 import RelayControl from '@routes/AccessModulePage/containers/RelayControl'
 import Keyboard from '@routes/AccessModulePage/containers/Keyboard'
@@ -36,7 +35,6 @@ class AccessModulePage extends Component {
   render() {
     return (
       <Wrapper>
-        <Menu />
         <Content lessThanSmall={this.props.lessThanSmall}>
           <StatusBox />
           <br />

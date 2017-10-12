@@ -5,9 +5,15 @@ import Divider from 'material-ui/Divider'
 import Drawer from 'material-ui/Drawer'
 import FontIcon from 'material-ui/FontIcon'
 import MenuItem from 'material-ui/MenuItem'
+import withNavigation from '@hocs/withNavigation'
 
 /* eslint-disable arrow-body-style */
 class Menu extends React.Component {
+  static propTypes = {
+    logout: PropTypes.func.isRequired,
+    goTo: PropTypes.func.isRequired,
+  }
+
   state = {
     open: false,
   };
@@ -17,6 +23,16 @@ class Menu extends React.Component {
   };
 
   render() {
+    const {
+      logout,
+      goTo,
+    } = this.props
+
+    const redirect = (page) => {
+      this.handleChange()
+      goTo(page)
+    }
+
     return (
       <div>
         <AppBar
@@ -40,74 +56,74 @@ class Menu extends React.Component {
           >
             Hedwig
           </MenuItem>
-          <a href="/access" style={{ textDecoration: 'none' }}>
+          <div onTouchTap={() => redirect('/access')}>
             <MenuItem
               leftIcon={<FontIcon className="fa fa-lock" />}
             >
               Acesso
             </MenuItem>
-          </a>
-          <a href="/aquarium" style={{ textDecoration: 'none' }}>
+          </div>
+          <div onTouchTap={() => redirect('/aquarium')}>
             <MenuItem
               leftIcon={<FontIcon className="fa fa-tint" />}
             >
               Aquário
             </MenuItem>
-          </a>
-          <a href="/hallway" style={{ textDecoration: 'none' }}>
+          </div>
+          <div onTouchTap={() => redirect('/hallway')}>
             <MenuItem
               leftIcon={<FontIcon className="fa fa-square" />}
             >
               Corredor
             </MenuItem>
-          </a>
-          <a href="/kitchen" style={{ textDecoration: 'none' }}>
+          </div>
+          <div onTouchTap={() => redirect('/kitchen')}>
             <MenuItem
               leftIcon={<FontIcon className="fa fa-cutlery" />}
             >
               Cozinha
             </MenuItem>
-          </a>
-          <a href="/laundry" style={{ textDecoration: 'none' }}>
+          </div>
+          <div onTouchTap={() => redirect('/laundry')}>
             <MenuItem
               leftIcon={<FontIcon className="fa fa-shirtsinbulk" />}
             >
               Lavanderia
             </MenuItem>
-          </a>
-          <a href="/livingroom" style={{ textDecoration: 'none' }}>
+          </div>
+          <div onTouchTap={() => redirect('/livingroom')}>
             <MenuItem
               leftIcon={<FontIcon className="fa fa-television" />}
             >
               Sala
             </MenuItem>
-          </a>
-          <a href="/#" style={{ textDecoration: 'none' }}>
+          </div>
+          <div onTouchTap={() => redirect('#')}>
             <MenuItem
               leftIcon={<FontIcon className="fa fa-plus-circle" />}
             >
               Adicionar módulo...
             </MenuItem>
-          </a>
+          </div>
           <Divider />
-          <a href="/#" style={{ textDecoration: 'none' }}>
+          <div onTouchTap={() => redirect('#')}>
             <MenuItem
               leftIcon={<FontIcon className="fa fa-cog" />}
             >
               Configurações
             </MenuItem>
-          </a>
-          <a href="/#" style={{ textDecoration: 'none' }}>
+          </div>
+          <div onTouchTap={logout}>
             <MenuItem
               leftIcon={<FontIcon className="fa fa-sign-out" />}
             >
               Sair
             </MenuItem>
-          </a>
+          </div>
         </Drawer>
       </div>
     )
   }
 }
 
-export default Menu
+export default withNavigation(Menu)

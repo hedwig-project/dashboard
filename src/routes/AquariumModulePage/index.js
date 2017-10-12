@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import Menu from '@components/Menu'
 import StatusBox from '@routes/AquariumModulePage/containers/StatusBox'
 import RelayControl from '@routes/AquariumModulePage/containers/RelayControl'
 
@@ -22,7 +21,6 @@ class AquariumModulePage extends Component {
   render() {
     return (
       <Wrapper>
-        <Menu />
         <Content lessThanSmall={this.props.lessThanSmall}>
           <StatusBox />
           <br />

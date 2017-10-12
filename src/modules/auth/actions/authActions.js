@@ -76,13 +76,19 @@ const loginFailure = error => ({
   },
 })
 
+const normalizeToken = (token) => {
+  const splittedToken = token.split(' ')
+  return splittedToken[splittedToken.length - 1]
+}
+
 export const login = creds => ((dispatch) => {
   dispatch(requestLogin(creds))
 
   return unauthenticatedPost('user/authenticate', creds)
     .then((response) => {
-      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('token', normalizeToken(response.data.token))
       dispatch(loginSuccess(response))
+      return true
     })
     .catch((error) => {
       const data = error.data
@@ -90,7 +96,8 @@ export const login = creds => ((dispatch) => {
       if (data) {
         message = data.message
       }
-      dispatch(loginFailure(message ? message : 'Default message'))
+      dispatch(loginFailure(message ? message : 'Erro no login'))
+      return false
     })
 })
 
@@ -100,7 +107,7 @@ const receiveLogout = () => ({
   isAuthenticated: false,
 })
 
-export const logoutUser = () => ((dispatch) => {
+export const logout = () => ((dispatch) => {
   localStorage.removeItem('token')
   dispatch(receiveLogout())
 })
