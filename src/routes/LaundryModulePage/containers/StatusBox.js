@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import StatusBox from '@routes/AccessModulePage/components/StatusBox'
+import StatusBox from '@routes/LaundryModulePage/components/StatusBox'
 
 const mapDispatchToProps = dispatch => ({
   // TODO

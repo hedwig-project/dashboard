@@ -5,25 +5,49 @@ import FlatButton from 'material-ui/FlatButton'
 import Login from '@routes/LandingPage/containers/Login'
 import SignUp from '@routes/LandingPage/containers/SignUp'
 import ForgotPassword from '@routes/LandingPage/containers/ForgotPassword'
-import hedwigLogo from '@images/hedwig_logo.png'
+import hedwigLogo from '@images/hedwig.png'
+
+const Wrapper = styled.div`
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+  background-color: #42A5F5;
+`
 
 const Logo = styled.img`
-  width: 25%;
+  width: ${props => (props.lessThanSmall ? '25%' : '50%')};
 `
 
 const IntroText = styled.p`
-  
+  margin: 10px 0;
 `
 
 const FirstWrapper = styled.div`
-  float: left;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
   width: ${props => (props.lessThanSmall ? '100%' : '50%')};
+  margin: 50px 0;
 `
 
 const SecondWrapper = styled.div`
-  float: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: ${props => (props.lessThanSmall ? '100%' : '50%')};
+  padding: 50px 20px;
+`
+
+const FormContainer = styled.div`
+  background-color: white;
+  padding: 10px;
+`
+
+const ButtonContainer = styled.div`
+  background-color: white;
+  padding: 10px;
 `
 
 const mapStateToProps = state => ({
@@ -90,41 +114,38 @@ class LandingPage extends Component {
     }
 
     return (
-      <div>
+      <Wrapper>
         <FirstWrapper lessThanSmall={lessThanSmall}>
           <Logo
             src={hedwigLogo}
           />
           <IntroText>Seja bem vindo ao Hedwig!</IntroText>
           <IntroText>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-            Cras massa odio, tincidunt at scelerisque nec, tempus nec 
-            velit. Nulla sed dictum magna. Aliquam sed lobortis nisl, 
-            a scelerisque neque. Duis laoreet condimentum scelerisque. 
-            Nulla hendrerit erat in lacus sollicitudin, 
-            eu aliquet mi tincidunt.
+            Monitore e controle sua casa mesmo quando você está longe
           </IntroText>
         </FirstWrapper>
         <SecondWrapper lessThanSmall={lessThanSmall}>
-          { showLogin && (
-            <Login
-              goToForgotPassword={this.goToForgotPassword}
-              goToSignUp={this.goToSignUp}
-            />
-          )}
-          { showSignUp && (
-            <SignUp
-              goToLogin={this.goToLogin}
-              goToForgotPassword={this.goToForgotPassword}
-            />
-          )}
-          { showForgotPassword && (
-            <ForgotPassword
-              goToLogin={this.goToLogin}
-              goToSignUp={this.goToSignUp}
-            />
-          )}
-          <div>
+          <FormContainer>
+            { showLogin && (
+              <Login
+                goToForgotPassword={this.goToForgotPassword}
+                goToSignUp={this.goToSignUp}
+              />
+            )}
+            { showSignUp && (
+              <SignUp
+                goToLogin={this.goToLogin}
+                goToForgotPassword={this.goToForgotPassword}
+              />
+            )}
+            { showForgotPassword && (
+              <ForgotPassword
+                goToLogin={this.goToLogin}
+                goToSignUp={this.goToSignUp}
+              />
+            )}
+          </FormContainer>
+          <ButtonContainer>
             { !showLogin && (
               <FlatButton
                 label="Voltar para login"
@@ -149,9 +170,9 @@ class LandingPage extends Component {
                 onClick={this.goToForgotPassword}
               />
             )}
-          </div>
+          </ButtonContainer>
         </SecondWrapper>
-      </div>
+      </Wrapper>
     )
   }
 }

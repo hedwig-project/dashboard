@@ -32,7 +32,7 @@ class App extends Component {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <ThemeProvider theme={theme}>
-          <div>
+          <div style={{ height: '100%' }}>
             {children}
           </div>
         </ThemeProvider>
