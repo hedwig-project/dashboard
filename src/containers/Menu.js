@@ -1,10 +1,12 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { push } from 'react-router-redux';
+import { push } from 'react-router-redux'
 import Menu from '@components/Menu'
-import * as authActions from '@modules/auth/actions/authActions.js'
+import * as authActions from '@modules/auth/actions'
 
-const mapStateToProps = () => ({})
+const mapStateToProps = state => ({
+  connected: state.socketio.get('connected'),
+})
 
 const mapDispatchToProps = dispatch => ({
   logout() {

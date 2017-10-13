@@ -4,12 +4,14 @@ import AppBar from 'material-ui/AppBar'
 import Divider from 'material-ui/Divider'
 import Drawer from 'material-ui/Drawer'
 import FontIcon from 'material-ui/FontIcon'
+import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
 import withNavigation from '@hocs/withNavigation'
 
 /* eslint-disable arrow-body-style */
 class Menu extends React.Component {
   static propTypes = {
+    connected: PropTypes.bool.isRequired,
     logout: PropTypes.func.isRequired,
     goTo: PropTypes.func.isRequired,
   }
@@ -24,6 +26,7 @@ class Menu extends React.Component {
 
   render() {
     const {
+      connected,
       logout,
       goTo,
     } = this.props
@@ -38,6 +41,14 @@ class Menu extends React.Component {
         <AppBar
           title="Hedwig"
           onLeftIconButtonTouchTap={this.handleChange}
+          iconElementRight={
+            <IconButton>
+              <FontIcon
+                className={connected ? 'fa fa-check' : 'fa fa-exclamation'}
+                style={{ color: '#FFFFFF' }}
+              />
+            </IconButton>
+          }
           style={{ backgroundColor: '#424242' }}
         />
         <Drawer

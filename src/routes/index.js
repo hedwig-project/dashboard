@@ -11,6 +11,7 @@ import LaundryModulePage from '@routes/LaundryModulePage'
 import LivingRoomModulePage from '@routes/LivingRoomModulePage'
 import NotFoundPage from '@routes/NotFoundPage'
 import { requireAuthentication } from '@hocs/requireAuthentication'
+import SocketIOConnector from '@hocs/SocketIOConnector'
 
 export default class Routes extends React.Component {
   static propTypes = {
@@ -25,13 +26,15 @@ export default class Routes extends React.Component {
       <Router history={history}>
         <Route path="/" component={App}>
           <IndexRoute component={requireAuthentication(false, LandingPage)} />
-          <Route path="hello" component={requireAuthentication(true, HelloPage)} />
-          <Route path="access" component={requireAuthentication(true, AccessModulePage)} />
-          <Route path="aquarium" component={requireAuthentication(true, AquariumModulePage)} />
-          <Route path="hallway" component={requireAuthentication(true, HallwayModulePage)} />
-          <Route path="kitchen" component={requireAuthentication(true, KitchenModulePage)} />
-          <Route path="laundry" component={requireAuthentication(true, LaundryModulePage)} />
-          <Route path="livingroom" component={requireAuthentication(true, LivingRoomModulePage)} />
+          <Route component={SocketIOConnector}>
+            <Route path="hello" component={HelloPage} />
+            <Route path="access" component={AccessModulePage} />
+            <Route path="aquarium" component={AquariumModulePage} />
+            <Route path="hallway" component={HallwayModulePage} />
+            <Route path="kitchen" component={KitchenModulePage} />
+            <Route path="laundry" component={LaundryModulePage} />
+            <Route path="livingroom" component={LivingRoomModulePage} />
+          </Route>
           <Route path="*" component={NotFoundPage} />
         </Route>
       </Router>

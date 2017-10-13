@@ -7,7 +7,7 @@ import {
   LOGIN_FAILURE,
   LOGOUT,
   CLEAR_AUTH_ERRORS,
-} from '@modules/auth/actionTypes/authActionTypes'
+} from '@modules/auth/actionTypes'
 import { unauthenticatedPost } from '@config/axios'
 
 export const clearAuthErrors = () => ({
