@@ -16,11 +16,11 @@ class Menu extends React.Component {
 
   state = {
     open: false,
-  };
+  }
 
   handleChange = () => {
-    this.setState({ open: !this.state.open });
-  };
+    this.setState({ open: !this.state.open })
+  }
 
   render() {
     const {
@@ -46,6 +46,7 @@ class Menu extends React.Component {
           onRequestChange={open => this.setState({ open })}
         >
           <MenuItem
+            onTouchTap={() => redirect('/hello')}
             style={{
               backgroundColor: '#424242',
               color: '#FFFFFF',
@@ -56,70 +57,61 @@ class Menu extends React.Component {
           >
             Hedwig
           </MenuItem>
-          <div onTouchTap={() => redirect('/access')}>
-            <MenuItem
-              leftIcon={<FontIcon className="fa fa-lock" />}
-            >
-              Acesso
-            </MenuItem>
-          </div>
-          <div onTouchTap={() => redirect('/aquarium')}>
-            <MenuItem
-              leftIcon={<FontIcon className="fa fa-tint" />}
-            >
-              Aquário
-            </MenuItem>
-          </div>
-          <div onTouchTap={() => redirect('/hallway')}>
-            <MenuItem
-              leftIcon={<FontIcon className="fa fa-square" />}
-            >
-              Corredor
-            </MenuItem>
-          </div>
-          <div onTouchTap={() => redirect('/kitchen')}>
-            <MenuItem
-              leftIcon={<FontIcon className="fa fa-cutlery" />}
-            >
-              Cozinha
-            </MenuItem>
-          </div>
-          <div onTouchTap={() => redirect('/laundry')}>
-            <MenuItem
-              leftIcon={<FontIcon className="fa fa-shirtsinbulk" />}
-            >
-              Lavanderia
-            </MenuItem>
-          </div>
-          <div onTouchTap={() => redirect('/livingroom')}>
-            <MenuItem
-              leftIcon={<FontIcon className="fa fa-television" />}
-            >
-              Sala
-            </MenuItem>
-          </div>
-          <div onTouchTap={() => redirect('#')}>
-            <MenuItem
-              leftIcon={<FontIcon className="fa fa-plus-circle" />}
-            >
-              Adicionar módulo...
-            </MenuItem>
-          </div>
+          <MenuItem
+            leftIcon={<FontIcon className="fa fa-lock" />}
+            onTouchTap={() => redirect('/access')}
+          >
+            Acesso
+          </MenuItem>
+          <MenuItem
+            leftIcon={<FontIcon className="fa fa-tint" />}
+            onTouchTap={() => redirect('/aquarium')}
+          >
+            Aquário
+          </MenuItem>
+          <MenuItem
+            leftIcon={<FontIcon className="fa fa-square" />}
+            onTouchTap={() => redirect('/hallway')}
+          >
+            Corredor
+          </MenuItem>
+          <MenuItem
+            leftIcon={<FontIcon className="fa fa-cutlery" />}
+            onTouchTap={() => redirect('/kitchen')}
+          >
+            Cozinha
+          </MenuItem>
+          <MenuItem
+            leftIcon={<FontIcon className="fa fa-shirtsinbulk" />}
+            onTouchTap={() => redirect('/laundry')}
+          >
+            Lavanderia
+          </MenuItem>
+          <MenuItem
+            leftIcon={<FontIcon className="fa fa-television" />}
+            onTouchTap={() => redirect('/livingroom')}
+          >
+            Sala
+          </MenuItem>
+          <MenuItem
+            leftIcon={<FontIcon className="fa fa-plus-circle" />}
+            onTouchTap={() => redirect('#')}
+          >
+            Adicionar módulo...
+          </MenuItem>
           <Divider />
-          <div onTouchTap={() => redirect('#')}>
-            <MenuItem
-              leftIcon={<FontIcon className="fa fa-cog" />}
-            >
-              Configurações
-            </MenuItem>
-          </div>
-          <div onTouchTap={logout}>
-            <MenuItem
-              leftIcon={<FontIcon className="fa fa-sign-out" />}
-            >
-              Sair
-            </MenuItem>
-          </div>
+          <MenuItem
+            leftIcon={<FontIcon className="fa fa-cog" />}
+            onTouchTap={() => redirect('#')}
+          >
+            Configurações
+          </MenuItem>
+          <MenuItem
+            leftIcon={<FontIcon className="fa fa-sign-out" />}
+            onTouchTap={logout}
+          >
+            Sair
+          </MenuItem>
         </Drawer>
       </div>
     )

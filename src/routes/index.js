@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import { Router, IndexRoute, Route } from 'react-router'
 import App from '@containers/App'
 import LandingPage from '@routes/LandingPage'
+import HelloPage from '@routes/HelloPage'
 import AccessModulePage from '@routes/AccessModulePage'
 import AquariumModulePage from '@routes/AquariumModulePage'
 import HallwayModulePage from '@routes/HallwayModulePage'
@@ -24,6 +25,7 @@ export default class Routes extends React.Component {
       <Router history={history}>
         <Route path="/" component={App}>
           <IndexRoute component={requireAuthentication(false, LandingPage)} />
+          <Route path="hello" component={requireAuthentication(true, HelloPage)} />
           <Route path="access" component={requireAuthentication(true, AccessModulePage)} />
           <Route path="aquarium" component={requireAuthentication(true, AquariumModulePage)} />
           <Route path="hallway" component={requireAuthentication(true, HallwayModulePage)} />

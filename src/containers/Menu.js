@@ -4,6 +4,8 @@ import { push } from 'react-router-redux';
 import Menu from '@components/Menu'
 import * as authActions from '@modules/auth/actions/authActions.js'
 
+const mapStateToProps = () => ({})
+
 const mapDispatchToProps = dispatch => ({
   logout() {
     dispatch(authActions.logout())
@@ -12,5 +14,5 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
 )(Menu)
