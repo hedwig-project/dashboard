@@ -88,7 +88,7 @@ export const login = creds => ((dispatch) => {
   return unauthenticatedPost('/user/authenticate', creds)
     .then((response) => {
       localStorage.setItem('token', normalizeToken(response.data.token))
-      dispatch(loginSuccess(response))
+      dispatch(loginSuccess(response.data.response.user))
       return true
     })
     .catch((error) => {
