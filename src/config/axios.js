@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://138.197.83.143:9090/'
+axios.defaults.baseURL = '//138.197.83.143:9090'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 export const unauthenticatedPost = (url, data) =>

@@ -10,6 +10,11 @@ import {
 } from '@modules/auth/actionTypes'
 import { unauthenticatedPost } from '@config/axios'
 
+const normalizeToken = (token) => {
+  const splittedToken = token.split(' ')
+  return splittedToken[splittedToken.length - 1]
+}
+
 export const clearAuthErrors = () => ({
   type: CLEAR_AUTH_ERRORS,
 })
@@ -42,12 +47,13 @@ export const signUp = data => ((dispatch) => {
   // but birthday from form comes in BR date format
   if (data.birthday) {
     const birthdayPieces = data.birthday.split('/')
-    data.birthday = birthdayPieces[1] + '/' + birthdayPieces[0] + '/' + birthdayPieces[2]
+    // eslint-disable-next-line no-param-reassign
+    data.birthday = `${birthdayPieces[1]}/${birthdayPieces[0]}/${birthdayPieces[2]}`
   }
 
-  return unauthenticatedPost('user/register', data)
+  return unauthenticatedPost('/user/register', data)
     .then((response) => {
-      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('token', normalizeToken(response.data.token))
       dispatch(signUpSuccess(response))
     })
     .catch((error) => {
@@ -76,15 +82,10 @@ const loginFailure = error => ({
   },
 })
 
-const normalizeToken = (token) => {
-  const splittedToken = token.split(' ')
-  return splittedToken[splittedToken.length - 1]
-}
-
 export const login = creds => ((dispatch) => {
   dispatch(requestLogin(creds))
 
-  return unauthenticatedPost('user/authenticate', creds)
+  return unauthenticatedPost('/user/authenticate', creds)
     .then((response) => {
       localStorage.setItem('token', normalizeToken(response.data.token))
       dispatch(loginSuccess(response))
@@ -96,7 +97,7 @@ export const login = creds => ((dispatch) => {
       if (data) {
         message = data.message
       }
-      dispatch(loginFailure(message ? message : 'Erro no login'))
+      dispatch(loginFailure(message || 'Erro no login'))
       return false
     })
 })
