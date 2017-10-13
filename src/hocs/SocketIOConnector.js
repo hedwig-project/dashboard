@@ -9,7 +9,7 @@ import ReconnectFailedSnackbar from '@containers/ReconnectFailedSnackbar'
 import ReconnectSnackbar from '@containers/ReconnectSnackbar'
 import * as action from '@modules/socketio/actions'
 
-const socket = io.connect(ioconfig.url, ioconfig.options)
+let socket
 
 class SocketIOConnector extends React.Component {
   static propTypes = {
@@ -28,6 +28,8 @@ class SocketIOConnector extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props
+
+    socket = io.connect(ioconfig.url, ioconfig.options)
 
     socket.on('connect', () => {
       socket.emit('hello', '{"morpheusId":"adf654wae84fea5d8ea6","type":"dashboard"}')
