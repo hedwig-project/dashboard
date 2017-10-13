@@ -81,7 +81,7 @@ class Menu extends React.Component {
             Aquário
           </MenuItem>
           <MenuItem
-            leftIcon={<FontIcon className="fa fa-square" />}
+            leftIcon={<FontIcon className="fa fa-bullseye" />}
             onTouchTap={() => redirect('/hallway')}
           >
             Corredor
@@ -103,6 +103,12 @@ class Menu extends React.Component {
             onTouchTap={() => redirect('/livingroom')}
           >
             Sala
+          </MenuItem>
+          <MenuItem
+            leftIcon={<FontIcon className="fa fa-bullseye" />}
+            onTouchTap={() => redirect('#')}
+          >
+            Personalizado
           </MenuItem>
           <MenuItem
             leftIcon={<FontIcon className="fa fa-plus-circle" />}
