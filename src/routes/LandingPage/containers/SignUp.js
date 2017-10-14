@@ -1,16 +1,22 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import * as authActions from '@modules/auth/actions'
+import { push } from 'react-router-redux'
 import { reduxForm } from 'redux-form'
 import schema from '@schemas/signUp'
 import validator from '@helpers/validator'
 import SignUpForm from '@routes/LandingPage/components/SignUpForm'
+import * as authActions from '@modules/auth/actions'
 
 const validate = values => validator(values, schema)
 
 const mapDispatchToProps = dispatch => ({
   signUp: (values) => {
-    dispatch(authActions.signUp(values))
+    dispatch(authActions.signUp(values)).then(
+      (success) => {
+        if (success) {
+          dispatch(push('/access'))
+        }
+      })
   },
   clearError() {
     dispatch(authActions.clearAuthErrors())
