@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { reduxForm } from 'redux-form'
+import { reduxForm, reset } from 'redux-form'
 import validator from '@helpers/validator'
 import schema from '@schemas/addModule'
 import AddModuleForm from '@routes/AddDevicePage/components/AddModuleForm'
@@ -11,6 +11,7 @@ const validate = values => validator(values, schema)
 const mapDispatchToProps = dispatch => ({
   addModule(data) {
     dispatch(modulesActions.addModule(data))
+    dispatch(reset('AddModuleForm'))
   },
   clearError() {
     dispatch(modulesActions.clearModuleErrors())
@@ -25,7 +26,7 @@ const mapStateToProps = state => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
-    form: 'AddModulesForm',
+    form: 'AddModuleForm',
     validate,
   }),
 )(AddModuleForm)

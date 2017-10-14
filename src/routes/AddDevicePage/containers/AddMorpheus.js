@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { reduxForm } from 'redux-form'
+import { reduxForm, reset } from 'redux-form'
 import validator from '@helpers/validator'
 import schema from '@schemas/addMorpheus'
 import AddMorpheusForm from '@routes/AddDevicePage/components/AddMorpheusForm'
@@ -11,6 +11,7 @@ const validate = values => validator(values, schema)
 const mapDispatchToProps = dispatch => ({
   addMorpheus(data) {
     dispatch(morpheusActions.addMorpheus(data))
+    dispatch(reset('AddMorpheusForm'))
   },
   clearError() {
     dispatch(morpheusActions.clearMorpheusErrors())

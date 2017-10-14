@@ -16,10 +16,10 @@ const Header = styled.h2`
 
 const AddModuleForm = ({
   addModule,
-  // authFetching,
-  // authError,
+  moduleAdding,
+  moduleError,
   handleSubmit,
-  // clearError,
+  clearError,
 }) => {
   const decodeError = () => ('Erro ao adicionar Módulo')
 
@@ -58,28 +58,28 @@ const AddModuleForm = ({
           />
         </div>
         <DefaultButton
-          // disabled={authFetching}
+          disabled={moduleAdding}
           label="Adicionar"
           type="submit"
         />
       </form>
-      {/* <DefaultDialog
-      //   actions={[{ label: 'Ok', onTouchTap: clearError }]}
-      //   title="Login inválido"
-      //   open={authError}
-      //   onRequestClose={clearError}
-      // >
-      //   { authError ? decodeError() : '' }
-      // </DefaultDialog>*/}
+      <DefaultDialog
+        actions={[{ label: 'Ok', onTouchTap: clearError }]}
+        title="Erro adicionando módulo"
+        open={moduleError}
+        onRequestClose={clearError}
+      >
+        { moduleError ? decodeError() : '' }
+      </DefaultDialog>
     </div>)
 }
 
 AddModuleForm.propTypes = {
-  // login: PropTypes.func.isRequired,
-  // authFetching: PropTypes.bool.isRequired,
-  // authError: PropTypes.array,
-  // handleSubmit: PropTypes.func.isRequired,
-  // clearError: PropTypes.func.isRequired,
+  addModule: PropTypes.func.isRequired,
+  moduleAdding: PropTypes.bool.isRequired,
+  moduleError: PropTypes.array,
+  handleSubmit: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
 }
 
 export default (AddModuleForm)
