@@ -36,9 +36,6 @@ export const addModule = module => ((dispatch) => {
   const token = localStorage.getItem('token')
   // module.morpheusId = TODO
 
-  // eslint-disable-next-line no-param-reassign
-  module.resend = true  // TODO check this
-
   return authenticatedPost('/modules', module, token)
     .then((response) => {
       dispatch(moduleAddSuccess(module))

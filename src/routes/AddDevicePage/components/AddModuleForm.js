@@ -1,5 +1,9 @@
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
+import MenuItem from 'material-ui/MenuItem'
+import {
+  SelectField,
+} from 'redux-form-material-ui'
 import DefaultButton from '@components/DefaultButton'
 import DefaultDialog from '@components/DefaultDialog'
 import DefaultInputField from '@components/DefaultInputField'
@@ -48,8 +52,15 @@ const AddModuleForm = ({
         <div>
           <DefaultInputField
             name="location"
-            floatingLabelText="Tipo" // TODO shouldnt be an open field
-          />
+            component={SelectField}
+            floatingLabelText="Tipo"
+          >
+            <MenuItem value={'ACCESS'} primaryText="Acesso" />
+            <MenuItem value={'AQUARIUM'} primaryText="Aquário" />
+            <MenuItem value={'KITCHEN'} primaryText="Cozinha" />
+            <MenuItem value={'LAUNDRY'} primaryText="Lavanderia" />
+            <MenuItem value={'LIVING_ROOM'} primaryText="Sala" />
+          </DefaultInputField>
         </div>
         <div>
           <DefaultInputField
