@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import Menu from '@containers/Menu'
+import DefaultPage from '@components/DefaultPage'
 
 export const requireAuthentication = (doRequire, Component) => {
   class AuthenticatedComponent extends React.Component {
@@ -22,20 +22,22 @@ export const requireAuthentication = (doRequire, Component) => {
       if (!this.props.isAuthenticated && doRequire) {
         this.props.dispatch(push('/'))
       } else if (this.props.isAuthenticated && !doRequire) {
-        this.props.dispatch(push('/access'))
+        this.props.dispatch(push('/hello'))
       }
     }
+
     render() {
       return (
-        <div style={{ height: '100%' }}>
-          {this.props.isAuthenticated && (<Menu />)}
+        <DefaultPage isAuthenticated={this.props.isAuthenticated}>
           <Component {...this.props} />
-        </div>
+        </DefaultPage>
       )
     }
   }
+
   const mapStateToProps = state => ({
     isAuthenticated: state.auth.get('isAuthenticated'),
   })
-  return connect(mapStateToProps)(AuthenticatedComponent);
+
+  return connect(mapStateToProps)(AuthenticatedComponent)
 }

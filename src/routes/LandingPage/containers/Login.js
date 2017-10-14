@@ -5,7 +5,7 @@ import { push } from 'react-router-redux';
 import validator from '@helpers/validator'
 import schema from '@schemas/login'
 import LoginForm from '@routes/LandingPage/components/LoginForm'
-import * as authActions from '@modules/auth/actions/authActions.js'
+import * as authActions from '@modules/auth/actions'
 
 const validate = values => validator(values, schema)
 

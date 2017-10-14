@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import * as authActions from '@modules/auth/actions/authActions.js'
+import * as authActions from '@modules/auth/actions'
 import { reduxForm } from 'redux-form'
 import schema from '@schemas/signUp'
 import validator from '@helpers/validator'

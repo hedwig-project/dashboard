@@ -14,7 +14,7 @@ const Wrapper = styled.section`
 `
 
 const Title = styled.h1`
-  font-size: 128px;
+  font-size: 56px;
 `
 
 const Text = styled.div`
@@ -24,7 +24,7 @@ const Text = styled.div`
 
 export default () => (
   <Wrapper>
-    <Title>404</Title>
-    <Text>Ooops! Parece que essa página não existe :(</Text>
+    <Title>Página de módulo não encontrada!</Title>
+    <Text>Ooops! Parece que esse módulo não existe :(</Text>
   </Wrapper>
 )
