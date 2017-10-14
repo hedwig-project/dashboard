@@ -38,15 +38,6 @@ const MainInfo = styled.div`
 `
 
 class StatusBox extends Component {
-  boxColors = [
-    '#B71C1C',
-    '#C62828',
-    '#D32F2F',
-    '#E53935',
-    '#F44336',
-    '#EF5350',
-  ]
-
   iconStyle = {
     display: 'block',
     fontSize: '64px',
@@ -59,6 +50,7 @@ class StatusBox extends Component {
 
   render() {
     const {
+      boxColors,
       humidity,
       luminosity,
       opening,
@@ -68,7 +60,7 @@ class StatusBox extends Component {
     /* eslint-disable no-nested-ternary */
     return (
       <Container>
-        <Box color={this.boxColors[0]}>
+        <Box color={boxColors[0]}>
           <FontIcon
             className={opening ? 'fa fa-unlock-alt' : (opening === false ? 'fa fa-lock' : 'fa fa-question-circle-o')}
             style={this.iconStyle}
@@ -79,7 +71,7 @@ class StatusBox extends Component {
           </MainInfo>
           <BoxTitle>Sensor de abertura</BoxTitle>
         </Box>
-        <Box color={this.boxColors[1]}>
+        <Box color={boxColors[1]}>
           <FontIcon
             className="fa fa-user"
             style={this.iconStyle}
@@ -88,7 +80,7 @@ class StatusBox extends Component {
           <MainInfo>{presence || '?'}</MainInfo>
           <BoxTitle>Sensor de presença</BoxTitle>
         </Box>
-        <Box color={this.boxColors[2]}>
+        <Box color={boxColors[2]}>
           <div>
             <FontIcon
               className="fa fa-thermometer-three-quarters"
@@ -99,7 +91,7 @@ class StatusBox extends Component {
             <BoxTitle>Temperatura</BoxTitle>
           </div>
         </Box>
-        <Box color={this.boxColors[3]}>
+        <Box color={boxColors[3]}>
           <FontIcon
             className="fa fa-tint"
             style={this.iconStyle}
@@ -108,7 +100,7 @@ class StatusBox extends Component {
           <MainInfo>{`${humidity || '?'} %`}</MainInfo>
           <BoxTitle>Umidade</BoxTitle>
         </Box>
-        <Box color={this.boxColors[4]}>
+        <Box color={boxColors[4]}>
           <FontIcon
             className="fa fa-lightbulb-o"
             style={this.iconStyle}
@@ -123,6 +115,7 @@ class StatusBox extends Component {
 }
 
 StatusBox.propTypes = {
+  boxColors: PropTypes.array.isRequired,
   humidity: PropTypes.number.isRequired,
   luminosity: PropTypes.number.isRequired,
   opening: PropTypes.bool.isRequired,

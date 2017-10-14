@@ -6,6 +6,7 @@ import Drawer from 'material-ui/Drawer'
 import FontIcon from 'material-ui/FontIcon'
 import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
+import { getModuleLocationClass } from '@helpers/modules'
 import withNavigation from '@hocs/withNavigation'
 
 /* eslint-disable arrow-body-style */
@@ -14,6 +15,7 @@ class Menu extends React.Component {
     connected: PropTypes.bool.isRequired,
     logout: PropTypes.func.isRequired,
     goTo: PropTypes.func.isRequired,
+    modules: PropTypes.object.isRequired,
   }
 
   state = {
@@ -29,11 +31,28 @@ class Menu extends React.Component {
       connected,
       logout,
       goTo,
+      modules,
     } = this.props
 
     const redirect = (page) => {
       this.handleChange()
       goTo(page)
+    }
+
+    const renderModuleItems = (data) => {
+      const moduleIds = Object.keys(data)
+
+      return moduleIds.map((key) => {
+        return (
+          <MenuItem
+            key={key}
+            leftIcon={<FontIcon className={getModuleLocationClass(data[key].location)} />}
+            onTouchTap={() => redirect(`/module/${key}`)}
+          >
+            {data[key].name}
+          </MenuItem>
+        )
+      })
     }
 
     return (
@@ -68,53 +87,12 @@ class Menu extends React.Component {
           >
             Hedwig
           </MenuItem>
-          <MenuItem
-            leftIcon={<FontIcon className="fa fa-lock" />}
-            onTouchTap={() => redirect('/access')}
-          >
-            Acesso
-          </MenuItem>
-          <MenuItem
-            leftIcon={<FontIcon className="fa fa-tint" />}
-            onTouchTap={() => redirect('/aquarium')}
-          >
-            Aquário
-          </MenuItem>
-          <MenuItem
-            leftIcon={<FontIcon className="fa fa-bullseye" />}
-            onTouchTap={() => redirect('/hallway')}
-          >
-            Corredor
-          </MenuItem>
-          <MenuItem
-            leftIcon={<FontIcon className="fa fa-cutlery" />}
-            onTouchTap={() => redirect('/kitchen')}
-          >
-            Cozinha
-          </MenuItem>
-          <MenuItem
-            leftIcon={<FontIcon className="fa fa-shirtsinbulk" />}
-            onTouchTap={() => redirect('/laundry')}
-          >
-            Lavanderia
-          </MenuItem>
-          <MenuItem
-            leftIcon={<FontIcon className="fa fa-television" />}
-            onTouchTap={() => redirect('/livingroom')}
-          >
-            Sala
-          </MenuItem>
-          <MenuItem
-            leftIcon={<FontIcon className="fa fa-bullseye" />}
-            onTouchTap={() => redirect('#')}
-          >
-            Personalizado
-          </MenuItem>
+          {renderModuleItems(modules)}
           <MenuItem
             leftIcon={<FontIcon className="fa fa-plus-circle" />}
             onTouchTap={() => redirect('#')}
           >
-            Adicionar módulo...
+            Adicionar dispositivo...
           </MenuItem>
           <Divider />
           <MenuItem
