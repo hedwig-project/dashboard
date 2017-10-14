@@ -1,9 +1,12 @@
 import {
-  MORPHEUS_ADD,
+  MORPHEUS_ADD_REQUEST,
+  MORPHEUS_ADD_SUCCESS,
+  MORPHEUS_ADD_FAILURE,
+  CLEAR_MORPHEUS_ERRORS,
   MORPHEUS_DELETE,
   MORPHEUS_LOAD,
   MORPHEUS_UPDATE,
-} from '@morpheus/morpheus/actionTypes.js'
+} from '@modules/morpheus/actionTypes.js'
 import { Map } from 'immutable'
 
 export const initialState = Map({})
@@ -24,8 +27,20 @@ export const initialState = Map({})
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case MORPHEUS_ADD:
-      return state.set(action.payload.morpheus.id, action.payload.morpheus)
+    case CLEAR_MORPHEUS_ERRORS:
+      return state
+        .set('error', null)
+    case MORPHEUS_ADD_REQUEST:
+      return state
+        .set('isAdding', true)
+    case MORPHEUS_ADD_SUCCESS:
+      return state
+        .set('isAdding', false)
+        .set(action.payload.morpheus.id, action.payload.morpheus)
+    case MORPHEUS_ADD_FAILURE:
+      return state
+        .set('isAdding', false)
+        .set('error', action.payload.error)
     case MORPHEUS_DELETE:
       return state.delete(action.payload.morpheus.id)
     case MORPHEUS_LOAD:

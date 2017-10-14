@@ -1,5 +1,8 @@
 import {
-  MODULE_ADD,
+  MODULE_ADD_REQUEST,
+  MODULE_ADD_SUCCESS,
+  MODULE_ADD_FAILURE,
+  CLEAR_MODULE_ERRORS,
   MODULE_DELETE,
   MODULE_LOAD,
   MODULE_UPDATE,
@@ -29,8 +32,20 @@ export const initialState = Map({})
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case MODULE_ADD:
-      return state.set(action.payload.module.id, action.payload.module)
+    case CLEAR_MODULE_ERRORS:
+      return state
+        .set('error', null)
+    case MODULE_ADD_REQUEST:
+      return state
+        .set('isAdding', true)
+    case MODULE_ADD_SUCCESS:
+      return state
+        .set('isAdding', false)
+        .set(action.payload.module.id, action.payload.module)
+    case MODULE_ADD_FAILURE:
+      return state
+        .set('isAdding', false)
+        .set('error', action.payload.error)
     case MODULE_DELETE:
       return state.delete(action.payload.module.id)
     case MODULE_LOAD:

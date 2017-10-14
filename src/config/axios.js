@@ -18,7 +18,7 @@ export const unauthenticatedPost = (url, data) =>
 export const authenticatedPost = (url, data, token) =>
   new Promise((resolve, reject) => {
     axios.post(url, data, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `JWT ${token}` },
     })
     .then((response) => {
       if (response.data.success !== undefined && response.data.success === false) {

@@ -16,10 +16,10 @@ const Header = styled.h2`
 
 const AddMorpheusForm = ({
   addMorpheus,
-  // authFetching,
-  // authError,
+  morpheusAdding,
+  morpheusError,
   handleSubmit,
-  // clearError,
+  clearError,
 }) => {
   const decodeError = () => ('Erro ao adicionar Morpheus')
 
@@ -34,28 +34,28 @@ const AddMorpheusForm = ({
           />
         </div>
         <DefaultButton
-          // disabled={authFetching}
+          disabled={morpheusAdding}
           label="Adicionar"
           type="submit"
         />
       </form>
-      {/* <DefaultDialog
-      //   actions={[{ label: 'Ok', onTouchTap: clearError }]}
-      //   title="Login inválido"
-      //   open={authError}
-      //   onRequestClose={clearError}
-      // >
-      //   { authError ? decodeError() : '' }
-      // </DefaultDialog>*/}
+      <DefaultDialog
+        actions={[{ label: 'Ok', onTouchTap: clearError }]}
+        title="Erro adicionando Morpheus"
+        open={morpheusError}
+        onRequestClose={clearError}
+      >
+        { morpheusError ? decodeError() : '' }
+      </DefaultDialog>
     </div>)
 }
 
 AddMorpheusForm.propTypes = {
-  // login: PropTypes.func.isRequired,
-  // authFetching: PropTypes.bool.isRequired,
-  // authError: PropTypes.array,
-  // handleSubmit: PropTypes.func.isRequired,
-  // clearError: PropTypes.func.isRequired,
+  addMorpheus: PropTypes.func.isRequired,
+  morpheusAdding: PropTypes.bool.isRequired,
+  morpheusError: PropTypes.array,
+  handleSubmit: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
 }
 
 export default (AddMorpheusForm)

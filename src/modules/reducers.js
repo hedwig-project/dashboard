@@ -6,6 +6,7 @@ import auth from '@modules/auth/reducer'
 import access from '@modules/access/reducer'
 import data from '@modules/data/reducer'
 import modules from '@modules/modules/reducer'
+import morpheus from '@modules/morpheus/reducer'
 import socketio from '@modules/socketio/reducer'
 
 export default combineReducers({
@@ -16,5 +17,6 @@ export default combineReducers({
   access,
   data,
   modules,
+  morpheus,
   socketio,
 })

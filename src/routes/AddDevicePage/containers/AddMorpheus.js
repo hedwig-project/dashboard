@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { reduxForm } from 'redux-form'
-import { push } from 'react-router-redux'
 import validator from '@helpers/validator'
 import schema from '@schemas/addMorpheus'
 import AddMorpheusForm from '@routes/AddDevicePage/components/AddMorpheusForm'
@@ -11,19 +10,16 @@ const validate = values => validator(values, schema)
 
 const mapDispatchToProps = dispatch => ({
   addMorpheus(data) {
-    // dispatch(authActions.login(creds)).then(
-    //   (success) => {
-    //     if (success) {
-    //       dispatch(push('/access'))
-    //     }
-    //   })
+    dispatch(morpheusActions.addMorpheus(data))
   },
   clearError() {
-    // dispatch(authActions.clearAuthErrors())
+    dispatch(morpheusActions.clearMorpheusErrors())
   },
 })
 
 const mapStateToProps = state => ({
+  morpheusAdding: state.morpheus.get('isAdding'),
+  morpheusError: state.morpheus.get('error'),
 })
 
 export default compose(

@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { reduxForm } from 'redux-form'
-import { push } from 'react-router-redux'
 import validator from '@helpers/validator'
 import schema from '@schemas/addModule'
 import AddModuleForm from '@routes/AddDevicePage/components/AddModuleForm'
@@ -10,20 +9,17 @@ import * as modulesActions from '@modules/modules/actions'
 const validate = values => validator(values, schema)
 
 const mapDispatchToProps = dispatch => ({
-  addModule(creds) {
-    // dispatch(authActions.login(creds)).then(
-    //   (success) => {
-    //     if (success) {
-    //       dispatch(push('/access'))
-    //     }
-    //   })
+  addModule(data) {
+    dispatch(modulesActions.addModule(data))
   },
   clearError() {
-    // dispatch(authActions.clearAuthErrors())
+    dispatch(modulesActions.clearModuleErrors())
   },
 })
 
 const mapStateToProps = state => ({
+  modulesAdding: state.modules.get('isAdding'),
+  modulesError: state.modules.get('error'),
 })
 
 export default compose(
