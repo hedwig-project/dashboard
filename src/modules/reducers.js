@@ -4,6 +4,7 @@ import { reducer as formReducer } from 'redux-form'
 import { responsiveStateReducer } from 'redux-responsive'
 import auth from '@modules/auth/reducer'
 import access from '@modules/access/reducer'
+import modules from '@modules/modules/reducer'
 import socketio from '@modules/socketio/reducer'
 
 export default combineReducers({
@@ -12,5 +13,6 @@ export default combineReducers({
   form: formReducer,
   auth,
   access,
+  modules,
   socketio,
 })
