@@ -7,7 +7,7 @@ import {
   MORPHEUS_LOAD_REQUEST,
   MORPHEUS_UPDATE,
   MORPHEUS_UPDATE_REQUEST,
-} from '@morpheus/morpheus/actionTypes.js'
+} from '@modules/morpheus/actionTypes.js'
 
 
 export const morpheusAddRequest = morpheus => ({
