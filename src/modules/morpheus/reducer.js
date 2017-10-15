@@ -9,19 +9,23 @@ import {
 } from '@modules/morpheus/actionTypes.js'
 import { Map } from 'immutable'
 
-export const initialState = Map({})
+export const initialState = Map({ morpheus: {} })
 
 /*
  * State example
  * {
- *   'morpheusid1234': {
- *     resend: true,
- *     serial: 'morpheusid1234',
- *   },
- *   'morpheusid6789': {
- *     resend: false,
- *     serial: 'morpheusid6789',
- *   },
+ *   error: null,
+ *   isAdding: false,
+ *   morpheus: {
+ *     'morpheusid1234': {
+ *       resend: true,
+ *       serial: 'morpheusid1234',
+ *     },
+ *     'morpheusid6789': {
+ *       resend: false,
+ *       serial: 'morpheusid6789',
+ *     },
+ *   }
  * }
  */
 
@@ -34,9 +38,11 @@ export default (state = initialState, action) => {
       return state
         .set('isAdding', true)
     case MORPHEUS_ADD_SUCCESS:
+      const newMorpheus = { morpheus: {} }
+      newMorpheus.morpheus[action.payload.morpheus._id] = action.payload.morpheus
       return state
         .set('isAdding', false)
-        .set(action.payload.morpheus.id, action.payload.morpheus)
+        .merge(Map(newMorpheus))
     case MORPHEUS_ADD_FAILURE:
       return state
         .set('isAdding', false)

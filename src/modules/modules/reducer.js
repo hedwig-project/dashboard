@@ -9,23 +9,27 @@ import {
 } from '@modules/modules/actionTypes.js'
 import { Map } from 'immutable'
 
-export const initialState = Map({})
+export const initialState = Map({ modules: {} })
 
 /*
  * State example
  * {
- *   '0123456': {
- *     components: {
- *       relay1: {
- *         name: 'Luz 1',
+ *   error: null,
+ *   isAdding: false,
+ *   modules: {
+ *     '0123456': {
+ *       components: {
+ *         relay1: {
+ *           name: 'Luz 1',
+ *         },
+ *         relay2: {
+ *           name: 'Luz 2',
+ *         },
  *       },
- *       relay2: {
- *         name: 'Luz 2',
- *       },
- *     },
- *     location: 'KITCHEN',
- *     name: 'Minha Cozinha',
- *     serial: '0123456',
+ *       location: 'KITCHEN',
+ *       name: 'Minha Cozinha',
+ *       serial: '0123456',
+ *     }
  *   },
  * }
  */
@@ -39,9 +43,11 @@ export default (state = initialState, action) => {
       return state
         .set('isAdding', true)
     case MODULE_ADD_SUCCESS:
+      const newModule = { modules: {} }
+      newModule.modules[action.payload.module._id] = action.payload.module
       return state
         .set('isAdding', false)
-        .set(action.payload.module.id, action.payload.module)
+        .merge(Map(newModule))
     case MODULE_ADD_FAILURE:
       return state
         .set('isAdding', false)

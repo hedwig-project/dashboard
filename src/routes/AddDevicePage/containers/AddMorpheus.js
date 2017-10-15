@@ -10,8 +10,12 @@ const validate = values => validator(values, schema)
 
 const mapDispatchToProps = dispatch => ({
   addMorpheus(data) {
-    dispatch(morpheusActions.addMorpheus(data))
-    dispatch(reset('AddMorpheusForm'))
+    dispatch(morpheusActions.addMorpheus(data)).then(
+      (success) => {
+        if (success) {
+          dispatch(reset('AddMorpheusForm'))
+        }
+      })
   },
   clearError() {
     dispatch(morpheusActions.clearMorpheusErrors())

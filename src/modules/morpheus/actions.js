@@ -40,7 +40,8 @@ export const addMorpheus = morpheus => ((dispatch) => {
 
   return authenticatedPost('/morpheus', morpheus, token)
     .then((response) => {
-      dispatch(morpheusAddSuccess(morpheus))
+      const returnedMorpheus = response.data.response.morpheus
+      dispatch(morpheusAddSuccess(returnedMorpheus))
       return true
     })
     .catch((error) => {

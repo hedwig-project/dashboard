@@ -10,8 +10,12 @@ const validate = values => validator(values, schema)
 
 const mapDispatchToProps = dispatch => ({
   addModule(data) {
-    dispatch(modulesActions.addModule(data))
-    dispatch(reset('AddModuleForm'))
+    dispatch(modulesActions.addModule(data)).then(
+      (success) => {
+        if (success) {
+          dispatch(reset('AddModuleForm'))
+        }
+      })
   },
   clearError() {
     dispatch(modulesActions.clearModuleErrors())
@@ -19,8 +23,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  modulesAdding: state.modules.get('isAdding'),
-  modulesError: state.modules.get('error'),
+  moduleAdding: state.modules.get('isAdding'),
+  moduleError: state.modules.get('error'),
 })
 
 export default compose(

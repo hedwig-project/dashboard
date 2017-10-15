@@ -38,7 +38,8 @@ export const addModule = module => ((dispatch) => {
 
   return authenticatedPost('/modules', module, token)
     .then((response) => {
-      dispatch(moduleAddSuccess(module))
+      const returnedModule = response.data.response.module
+      dispatch(moduleAddSuccess(returnedModule))
       return true
     })
     .catch((error) => {
