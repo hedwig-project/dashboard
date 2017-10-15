@@ -95,9 +95,9 @@ export const getMorpheusData = () => ((dispatch) => {
 
   return authenticatedGet(`user/${user._id}/morpheus`, token)
     .then((response) => {
-      const returnedMorpheus = response.data.response.morpheus
-      dispatch(morpheusLoadSuccess(returnedMorpheus))
-      return returnedMorpheus[0]._id // TODO assumes there is only one morpheus
+      const returnedMorpheusList = response.data.response.morpheus
+      dispatch(morpheusLoadSuccess(returnedMorpheusList))
+      return returnedMorpheusList
     })
     .catch((error) => {
       const data = error.data

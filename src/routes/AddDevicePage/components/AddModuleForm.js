@@ -68,11 +68,11 @@ const AddModuleForm = ({
           <DefaultInputField
             name="morpheusId"
             component={SelectField}
-            floatingLabelText="Número serial do Morpheus"
+            floatingLabelText="Número de série do Morpheus"
           >
             { morpheusOptions && objectToArray(morpheusOptions).map((morpheus) => {
               return (
-                <MenuItem value={morpheus._id} primaryText={morpheus.serial} />)
+                <MenuItem value={morpheus._id} key={morpheus._id} primaryText={morpheus.serial} />)
             })}
           </DefaultInputField>
         </div>

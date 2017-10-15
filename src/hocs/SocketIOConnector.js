@@ -39,12 +39,14 @@ class SocketIOConnector extends React.Component {
 
     socket.on('connect', () => {
       dispatch(getMorpheusData()).then(
-        (morpheusId) => {
-          if (morpheusId) {
-            socket.emit('hello', `{"morpheusId":${morpheusId},"type":"dashboard"}`)
-// socket.emit('hello', '{"morpheusId":"adf654wae84fea5d8ea6","type":"dashboard"}')TODO get real ID
-          }
+        (morpheusList) => {
+          morpheusList.map((morpheus) => {
+            if (morpheus._id) {
+              socket.emit('hello', `{"morpheusId":"${morpheus._id}","type":"dashboard"}`)
+            }
+          })
         })
+// socket.emit('hello', '{"morpheusId":"adf654wae84fea5d8ea6","type":"dashboard"}')TODO get real ID
       dispatch(action.socketIOConnected())
     })
 
