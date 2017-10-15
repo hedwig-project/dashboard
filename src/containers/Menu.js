@@ -6,7 +6,7 @@ import * as authActions from '@modules/auth/actions'
 
 const mapStateToProps = state => ({
   connected: state.socketio.get('connected'),
-  modules: state.modules.toJS(),
+  modules: state.modules.get('modules'),
 })
 
 const mapDispatchToProps = dispatch => ({

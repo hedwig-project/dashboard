@@ -55,9 +55,11 @@ export const signUp = data => ((dispatch) => {
     .then((response) => {
       localStorage.setItem('token', normalizeToken(response.data.token))
       dispatch(signUpSuccess(response))
+      return true
     })
     .catch((error) => {
       dispatch(signUpFailure(error.data.message))
+      return false
     })
 })
 

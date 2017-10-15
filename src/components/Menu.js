@@ -90,7 +90,7 @@ class Menu extends React.Component {
           {renderModuleItems(modules)}
           <MenuItem
             leftIcon={<FontIcon className="fa fa-plus-circle" />}
-            onTouchTap={() => redirect('#')}
+            onTouchTap={() => redirect('/add-device')}
           >
             Adicionar dispositivo...
           </MenuItem>

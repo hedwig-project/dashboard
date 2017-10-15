@@ -6,7 +6,7 @@ import DefaultPage from '@components/DefaultPage'
 export const requireAuthentication = (doRequire, Component) => {
   class AuthenticatedComponent extends React.Component {
     static propTypes = {
-      isAuthenticated: PropTypes.func.isRequired,
+      isAuthenticated: PropTypes.bool.isRequired,
       dispatch: PropTypes.func.isRequired,
     }
 

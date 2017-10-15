@@ -1,6 +1,8 @@
 import {
-  MODULE_ADD,
+  MODULE_ADD_SUCCESS,
+  MODULE_ADD_FAILURE,
   MODULE_ADD_REQUEST,
+  CLEAR_MODULE_ERRORS,
   MODULE_DELETE,
   MODULE_DELETE_REQUEST,
   MODULE_LOAD,
@@ -8,21 +10,47 @@ import {
   MODULE_UPDATE,
   MODULE_UPDATE_REQUEST,
 } from '@modules/modules/actionTypes.js'
+import { authenticatedPost } from '@config/axios'
 
 
-export const moduleAddRequest = module => ({
+export const moduleAddRequest = () => ({
   type: MODULE_ADD_REQUEST,
-  payload: { module },
 })
 
 export const moduleAddSuccess = module => ({
-  type: MODULE_ADD,
+  type: MODULE_ADD_SUCCESS,
   payload: { module },
 })
 
 export const moduleAddFailed = error => ({
-  type: MODULE_ADD,
+  type: MODULE_ADD_FAILURE,
   payload: { error },
+})
+
+export const clearModuleErrors = () => ({
+  type: CLEAR_MODULE_ERRORS,
+})
+
+export const addModule = module => ((dispatch) => {
+  dispatch(moduleAddRequest())
+  const token = localStorage.getItem('token')
+  // module.morpheusId = TODO
+
+  return authenticatedPost('/modules', module, token)
+    .then((response) => {
+      const returnedModule = response.data.response.module
+      dispatch(moduleAddSuccess(returnedModule))
+      return true
+    })
+    .catch((error) => {
+      const data = error.data
+      let message = ''
+      if (data) {
+        message = data.message
+      }
+      dispatch(moduleAddFailed(message || 'Erro ao adicionar módulo'))
+      return false
+    })
 })
 
 export const moduleDeleteRequest = module => ({
@@ -69,18 +97,3 @@ export const moduleUpdateFailed = error => ({
   type: MODULE_UPDATE,
   payload: { error },
 })
-
-export default {
-  moduleAddRequest,
-  moduleAddSuccess,
-  moduleAddFailed,
-  moduleDeleteRequest,
-  moduleDeleteSuccess,
-  moduleDeleteFailed,
-  moduleLoadRequest,
-  moduleLoadSuccess,
-  moduleLoadFailed,
-  moduleUpdateRequest,
-  moduleUpdateSuccess,
-  moduleUpdateFailed,
-}

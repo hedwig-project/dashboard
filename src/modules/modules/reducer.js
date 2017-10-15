@@ -1,36 +1,57 @@
 import {
-  MODULE_ADD,
+  MODULE_ADD_REQUEST,
+  MODULE_ADD_SUCCESS,
+  MODULE_ADD_FAILURE,
+  CLEAR_MODULE_ERRORS,
   MODULE_DELETE,
   MODULE_LOAD,
   MODULE_UPDATE,
 } from '@modules/modules/actionTypes.js'
 import { Map } from 'immutable'
 
-export const initialState = Map({})
+export const initialState = Map({ modules: {} })
 
 /*
  * State example
  * {
- *   '0123456': {
- *     components: {
- *       relay1: {
- *         name: 'Luz 1',
+ *   error: null,
+ *   isAdding: false,
+ *   modules: {
+ *     '0123456': {
+ *       components: {
+ *         relay1: {
+ *           name: 'Luz 1',
+ *         },
+ *         relay2: {
+ *           name: 'Luz 2',
+ *         },
  *       },
- *       relay2: {
- *         name: 'Luz 2',
- *       },
- *     },
- *     location: 'KITCHEN',
- *     name: 'Minha Cozinha',
- *     serial: '0123456',
+ *       location: 'KITCHEN',
+ *       name: 'Minha Cozinha',
+ *       serial: '0123456',
+ *     }
  *   },
  * }
  */
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case MODULE_ADD:
-      return state.set(action.payload.module.id, action.payload.module)
+    case CLEAR_MODULE_ERRORS:
+      return state
+        .set('error', null)
+    case MODULE_ADD_REQUEST:
+      return state
+        .set('isAdding', true)
+    case MODULE_ADD_SUCCESS:
+      const newModule = { modules: {} }
+      newModule.modules[action.payload.module._id] = action.payload.module
+      return state
+        .set('isAdding', false)
+        .merge(Map(newModule))
+    case MODULE_ADD_FAILURE:
+      return state
+        .set('isAdding', false)
+        .set('error', action.payload.error)
     case MODULE_DELETE:
       return state.delete(action.payload.module.id)
     case MODULE_LOAD:

@@ -32,7 +32,7 @@ class SocketIOConnector extends React.Component {
     socket = io.connect(ioconfig.url, ioconfig.options)
 
     socket.on('connect', () => {
-      socket.emit('hello', '{"morpheusId":"adf654wae84fea5d8ea6","type":"dashboard"}')
+      socket.emit('hello', '{"morpheusId":"adf654wae84fea5d8ea6","type":"dashboard"}') // TODO get real ID
       dispatch(action.socketIOConnected())
     })
 

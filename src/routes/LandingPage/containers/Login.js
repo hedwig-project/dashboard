@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { reduxForm } from 'redux-form'
-import { push } from 'react-router-redux';
+import { push } from 'react-router-redux'
 import validator from '@helpers/validator'
 import schema from '@schemas/login'
 import LoginForm from '@routes/LandingPage/components/LoginForm'
