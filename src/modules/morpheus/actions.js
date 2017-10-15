@@ -5,12 +5,14 @@ import {
   CLEAR_MORPHEUS_ERRORS,
   MORPHEUS_DELETE,
   MORPHEUS_DELETE_REQUEST,
-  MORPHEUS_LOAD,
+  MORPHEUS_LOAD_SUCCESS,
+  MORPHEUS_LOAD_FAILURE,
   MORPHEUS_LOAD_REQUEST,
   MORPHEUS_UPDATE,
   MORPHEUS_UPDATE_REQUEST,
 } from '@modules/morpheus/actionTypes.js'
-import { authenticatedPost } from '@config/axios'
+import { authenticatedPost, authenticatedGet } from '@config/axios'
+import JWT from 'jwt-client'
 
 export const morpheusAddRequest = () => ({
   type: MORPHEUS_ADD_REQUEST,
@@ -33,8 +35,10 @@ export const clearMorpheusErrors = () => ({
 export const addMorpheus = morpheus => ((dispatch) => {
   dispatch(morpheusAddRequest())
   const token = localStorage.getItem('token')
-  // morpheus.user = TODO
+  const user = JWT.read(token).claim
 
+  // eslint-disable-next-line no-param-reassign
+  morpheus.user = user._id
   // eslint-disable-next-line no-param-reassign
   morpheus.resend = true  // TODO check this
 
@@ -70,19 +74,40 @@ export const morpheusDeleteFailed = error => ({
   payload: { error },
 })
 
-export const morpheusLoadRequest = user => ({
-  type: MORPHEUS_LOAD,
-  payload: { user },
+const morpheusLoadRequest = () => ({
+  type: MORPHEUS_LOAD_REQUEST,
 })
 
-export const morpheusLoadSuccess = morpheus => ({
-  type: MORPHEUS_LOAD_REQUEST,
+const morpheusLoadSuccess = morpheus => ({
+  type: MORPHEUS_LOAD_SUCCESS,
   payload: { morpheus },
 })
 
-export const morpheusLoadFailed = error => ({
-  type: MORPHEUS_LOAD,
+const morpheusLoadFailed = error => ({
+  type: MORPHEUS_LOAD_FAILURE,
   payload: { error },
+})
+
+export const getMorpheusData = () => ((dispatch) => {
+  dispatch(morpheusLoadRequest())
+  const token = localStorage.getItem('token')
+  const user = JWT.read(token).claim
+
+  return authenticatedGet(`user/${user._id}/morpheus`, token)
+    .then((response) => {
+      const returnedMorpheusList = response.data.response.morpheus
+      dispatch(morpheusLoadSuccess(returnedMorpheusList))
+      return returnedMorpheusList
+    })
+    .catch((error) => {
+      const data = error.data
+      let message = ''
+      if (data) {
+        message = data.message
+      }
+      dispatch(morpheusLoadFailed(message || 'Erro ao adicionar Morpheus'))
+      return false
+    })
 })
 
 export const morpheusUpdateRequest = morpheus => ({

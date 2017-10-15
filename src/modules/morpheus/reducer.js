@@ -4,7 +4,7 @@ import {
   MORPHEUS_ADD_FAILURE,
   CLEAR_MORPHEUS_ERRORS,
   MORPHEUS_DELETE,
-  MORPHEUS_LOAD,
+  MORPHEUS_LOAD_SUCCESS,
   MORPHEUS_UPDATE,
 } from '@modules/morpheus/actionTypes.js'
 import { Map } from 'immutable'
@@ -49,14 +49,14 @@ export default (state = initialState, action) => {
         .set('error', action.payload.error)
     case MORPHEUS_DELETE:
       return state.delete(action.payload.morpheus.id)
-    case MORPHEUS_LOAD:
+    case MORPHEUS_LOAD_SUCCESS:
       const morpheusList = action.payload.morpheus
         .reduce((obj, morpheus) => {
           // eslint-disable-next-line no-param-reassign
-          obj[morpheus.id] = morpheus
+          obj[morpheus._id] = morpheus
           return obj
         }, {})
-      return state.merge(Map(morpheusList))
+      return state.merge(Map({ morpheus: morpheusList }))
     case MORPHEUS_UPDATE:
       return state.set(action.payload.morpheus.id, action.payload.morpheus)
     default:

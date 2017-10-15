@@ -5,13 +5,14 @@ import {
   CLEAR_MODULE_ERRORS,
   MODULE_DELETE,
   MODULE_DELETE_REQUEST,
-  MODULE_LOAD,
+  MODULE_LOAD_FAILURE,
+  MODULE_LOAD_SUCCESS,
   MODULE_LOAD_REQUEST,
   MODULE_UPDATE,
   MODULE_UPDATE_REQUEST,
 } from '@modules/modules/actionTypes.js'
-import { authenticatedPost } from '@config/axios'
-
+import { authenticatedPost, authenticatedGet } from '@config/axios'
+import JWT from 'jwt-client'
 
 export const moduleAddRequest = () => ({
   type: MODULE_ADD_REQUEST,
@@ -33,8 +34,11 @@ export const clearModuleErrors = () => ({
 
 export const addModule = module => ((dispatch) => {
   dispatch(moduleAddRequest())
+  if (!module.morpheusId || module.morpheusId === '') {
+    dispatch(moduleAddFailed('É necessário primeiro adicionar um Morpheus'))
+    return
+  }
   const token = localStorage.getItem('token')
-  // module.morpheusId = TODO
 
   return authenticatedPost('/modules', module, token)
     .then((response) => {
@@ -68,19 +72,40 @@ export const moduleDeleteFailed = error => ({
   payload: { error },
 })
 
-export const moduleLoadRequest = user => ({
-  type: MODULE_LOAD,
-  payload: { user },
+const modulesLoadRequest = () => ({
+  type: MODULE_LOAD_REQUEST,
 })
 
-export const moduleLoadSuccess = modules => ({
-  type: MODULE_LOAD_REQUEST,
+const modulesLoadSuccess = modules => ({
+  type: MODULE_LOAD_SUCCESS,
   payload: { modules },
 })
 
-export const moduleLoadFailed = error => ({
-  type: MODULE_LOAD,
+const modulesLoadFailed = error => ({
+  type: MODULE_LOAD_FAILURE,
   payload: { error },
+})
+
+export const getModulesData = () => ((dispatch) => {
+  dispatch(modulesLoadRequest())
+  const token = localStorage.getItem('token')
+  const user = JWT.read(token).claim
+
+  return authenticatedGet(`user/${user._id}/modules`, token)
+    .then((response) => {
+      const returnedModules = response.data.response.modules
+      dispatch(modulesLoadSuccess(returnedModules))
+      return true
+    })
+    .catch((error) => {
+      const data = error.data
+      let message = ''
+      if (data) {
+        message = data.message
+      }
+      dispatch(modulesLoadFailed(message || 'Erro ao adicionar Morpheus'))
+      return false
+    })
 })
 
 export const moduleUpdateRequest = module => ({

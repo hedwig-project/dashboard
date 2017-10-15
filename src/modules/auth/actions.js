@@ -7,8 +7,10 @@ import {
   LOGIN_FAILURE,
   LOGOUT,
   CLEAR_AUTH_ERRORS,
+  SET_USER_DATA,
 } from '@modules/auth/actionTypes'
 import { unauthenticatedPost } from '@config/axios'
+import JWT from 'jwt-client'
 
 const normalizeToken = (token) => {
   const splittedToken = token.split(' ')
@@ -113,4 +115,15 @@ const receiveLogout = () => ({
 export const logout = () => ((dispatch) => {
   localStorage.removeItem('token')
   dispatch(receiveLogout())
+})
+
+const setUserData = userData => ({
+  type: SET_USER_DATA,
+  payload: { userData },
+})
+
+export const getUserData = () => ((dispatch) => {
+  const token = localStorage.getItem('token')
+  const decodedToken = JWT.read(token)
+  dispatch(setUserData(decodedToken.claim))
 })

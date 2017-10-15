@@ -8,6 +8,9 @@ import ReconnectingSnackbar from '@containers/ReconnectingSnackbar'
 import ReconnectFailedSnackbar from '@containers/ReconnectFailedSnackbar'
 import ReconnectSnackbar from '@containers/ReconnectSnackbar'
 import * as action from '@modules/socketio/actions'
+import { getUserData } from '@modules/auth/actions'
+import { getModulesData } from '@modules/modules/actions'
+import { getMorpheusData } from '@modules/morpheus/actions'
 
 let socket
 
@@ -29,10 +32,21 @@ class SocketIOConnector extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props
 
+    dispatch(getUserData())
+    dispatch(getModulesData())
+
     socket = io.connect(ioconfig.url, ioconfig.options)
 
     socket.on('connect', () => {
-      socket.emit('hello', '{"morpheusId":"adf654wae84fea5d8ea6","type":"dashboard"}') // TODO get real ID
+      dispatch(getMorpheusData()).then(
+        (morpheusList) => {
+          morpheusList.map((morpheus) => {
+            if (morpheus._id) {
+              socket.emit('hello', `{"morpheusId":"${morpheus._id}","type":"dashboard"}`)
+            }
+          })
+        })
+// socket.emit('hello', '{"morpheusId":"adf654wae84fea5d8ea6","type":"dashboard"}')TODO get real ID
       dispatch(action.socketIOConnected())
     })
 

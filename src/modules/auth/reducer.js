@@ -7,6 +7,7 @@ import {
   LOGIN_FAILURE,
   LOGOUT,
   CLEAR_AUTH_ERRORS,
+  SET_USER_DATA,
 } from '@modules/auth/actionTypes'
 import { Map } from 'immutable'
 import JWT from 'jwt-client'
@@ -69,6 +70,9 @@ export default (state = initialState, { type, payload }) => {
       return state
         .set('isFetching', false)
         .set('isAuthenticated', false)
+    case SET_USER_DATA:
+      return state
+        .set('user', payload.userData)
     default:
       return state
   }
