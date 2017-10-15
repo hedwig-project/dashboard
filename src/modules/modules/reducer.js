@@ -4,7 +4,7 @@ import {
   MODULE_ADD_FAILURE,
   CLEAR_MODULE_ERRORS,
   MODULE_DELETE,
-  MODULE_LOAD,
+  MODULE_LOAD_SUCCESS,
   MODULE_UPDATE,
 } from '@modules/modules/actionTypes.js'
 import { Map } from 'immutable'
@@ -54,14 +54,14 @@ export default (state = initialState, action) => {
         .set('error', action.payload.error)
     case MODULE_DELETE:
       return state.delete(action.payload.module.id)
-    case MODULE_LOAD:
-      const modules = action.payload.modules
+    case MODULE_LOAD_SUCCESS:
+      const moduleList = action.payload.modules
         .reduce((obj, module) => {
           // eslint-disable-next-line no-param-reassign
-          obj[module.id] = module
+          obj[module._id] = module
           return obj
         }, {})
-      return state.merge(Map(modules))
+      return state.merge(Map({ modules: moduleList }))
     case MODULE_UPDATE:
       return state.set(action.payload.module.id, action.payload.module)
     default:

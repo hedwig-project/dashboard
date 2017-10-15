@@ -9,6 +9,7 @@ import DefaultDialog from '@components/DefaultDialog'
 import DefaultInputField from '@components/DefaultInputField'
 import fonts from '@consts/fonts'
 import colors from '@consts/colors'
+import { objectToArray2 as objectToArray } from '@helpers/objectToArray'
 
 const Header = styled.h2`
   font-size: ${fonts.large};
@@ -20,6 +21,7 @@ const Header = styled.h2`
 
 const AddModuleForm = ({
   addModule,
+  morpheusOptions,
   moduleAdding,
   moduleError,
   handleSubmit,
@@ -64,6 +66,18 @@ const AddModuleForm = ({
         </div>
         <div>
           <DefaultInputField
+            name="morpheusId"
+            component={SelectField}
+            floatingLabelText="Número serial do Morpheus"
+          >
+            { morpheusOptions && objectToArray(morpheusOptions).map((morpheus) => {
+              return (
+                <MenuItem value={morpheus._id} primaryText={morpheus.serial} />)
+            })}
+          </DefaultInputField>
+        </div>
+        <div>
+          <DefaultInputField
             name="serial"
             floatingLabelText="Número de série"
           />
@@ -88,6 +102,7 @@ const AddModuleForm = ({
 AddModuleForm.propTypes = {
   addModule: PropTypes.func.isRequired,
   moduleAdding: PropTypes.bool.isRequired,
+  morpheusOptions: PropTypes.object.isRequired,
   moduleError: PropTypes.array,
   handleSubmit: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,

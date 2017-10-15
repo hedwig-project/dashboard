@@ -25,6 +25,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   moduleAdding: state.modules.get('isAdding'),
   moduleError: state.modules.get('error'),
+  morpheusOptions: state.morpheus.get('morpheus'),
 })
 
 export default compose(

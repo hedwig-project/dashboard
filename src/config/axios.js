@@ -27,3 +27,16 @@ export const authenticatedPost = (url, data, token) =>
     })
     .catch(error => reject(error))
   })
+
+export const authenticatedGet = (url, token) =>
+  new Promise((resolve, reject) => {
+    axios.get(url, {
+      headers: { Authorization: `JWT ${token}` },
+    })
+    .then((response) => {
+      if (response.data.success !== undefined && response.data.success === false) {
+        reject(response)
+      } else resolve(response)
+    })
+    .catch(error => reject(error))
+  })
