@@ -14,7 +14,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(authActions.login(creds)).then(
       (success) => {
         if (success) {
-          dispatch(push('/access'))
+          dispatch(push('/hello'))
         }
       })
   },
