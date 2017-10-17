@@ -61,9 +61,6 @@ class AddDevicePage extends Component {
 
   render() {
     const {
-      lessThanSmall,
-    } = this.props
-    const {
       showMorpheus,
       showModule,
     } = this.state
@@ -84,7 +81,7 @@ class AddDevicePage extends Component {
             <AddModule />
           )}
         </FormContainer>
-        <p style={{ 'text-align': 'center' }}>Ou</p>
+        <p style={{ textAlign: 'center' }}>Ou</p>
         <ButtonContainer>
           { !showModule && (
             <FlatButton

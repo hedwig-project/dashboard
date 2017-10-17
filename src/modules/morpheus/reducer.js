@@ -9,7 +9,7 @@ import {
 } from '@modules/morpheus/actionTypes.js'
 import { Map } from 'immutable'
 
-export const initialState = Map({ morpheus: {} })
+export const initialState = Map({ error: null, isAdding: false, morpheus: Map({}) })
 
 /*
  * State example
@@ -38,11 +38,11 @@ export default (state = initialState, action) => {
       return state
         .set('isAdding', true)
     case MORPHEUS_ADD_SUCCESS:
-      const newMorpheus = { morpheus: {} }
-      newMorpheus.morpheus[action.payload.morpheus._id] = action.payload.morpheus
+      const newMorpheus = {}
+      newMorpheus[action.payload.morpheus._id] = action.payload.morpheus
       return state
         .set('isAdding', false)
-        .merge(Map(newMorpheus))
+        .mergeDeep(Map({ morpheus: Map(newMorpheus) }))
     case MORPHEUS_ADD_FAILURE:
       return state
         .set('isAdding', false)
@@ -56,7 +56,7 @@ export default (state = initialState, action) => {
           obj[morpheus._id] = morpheus
           return obj
         }, {})
-      return state.merge(Map({ morpheus: morpheusList }))
+      return state.mergeDeep(Map({ morpheus: Map(morpheusList) }))
     case MORPHEUS_UPDATE:
       return state.set(action.payload.morpheus.id, action.payload.morpheus)
     default:

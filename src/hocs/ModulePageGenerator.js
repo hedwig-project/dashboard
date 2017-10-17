@@ -6,8 +6,13 @@ import NotFoundModule from '@routes/NotFoundModule'
 
 class ModulePageGenerator extends React.Component {
   static propTypes = {
-    module: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
+    module: PropTypes.object,
+    data: PropTypes.object,
+  }
+
+  static defaultProps = {
+    module: null,
+    data: null,
   }
 
   render() {
@@ -36,8 +41,8 @@ class ModulePageGenerator extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  module: state.modules.toJS()[ownProps.params.id],
-  data: state.data.toJS()[ownProps.params.id],
+  module: state.modules.get('modules').get(ownProps.params.id),
+  data: state.data.get(ownProps.params.id),
 })
 
 export default connect(mapStateToProps)(ModulePageGenerator)

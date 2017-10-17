@@ -42,13 +42,13 @@ const AddModuleForm = ({
         <div>
           <DefaultInputField
             name="relay1"
-            floatingLabelText="Relé 1"
+            floatingLabelText="Nome do Relé 1"
           />
         </div>
         <div>
           <DefaultInputField
             name="relay2"
-            floatingLabelText="Relé 2"
+            floatingLabelText="Nome do Relé 2"
           />
         </div>
         <div>
@@ -57,6 +57,7 @@ const AddModuleForm = ({
             component={SelectField}
             floatingLabelText="Tipo"
           >
+            <MenuItem value={'DEFAULT'} primaryText="N/A" />
             <MenuItem value={'ACCESS'} primaryText="Acesso" />
             <MenuItem value={'AQUARIUM'} primaryText="Aquário" />
             <MenuItem value={'KITCHEN'} primaryText="Cozinha" />
@@ -70,10 +71,18 @@ const AddModuleForm = ({
             component={SelectField}
             floatingLabelText="Número de série do Morpheus"
           >
-            { morpheusOptions && objectToArray(morpheusOptions).map((morpheus) => {
-              return (
-                <MenuItem value={morpheus._id} key={morpheus._id} primaryText={morpheus.serial} />)
-            })}
+            {
+              morpheusOptions &&
+              objectToArray(morpheusOptions).map(morpheus =>
+                (
+                  <MenuItem
+                    value={morpheus._id}
+                    key={morpheus._id}
+                    primaryText={morpheus.serial}
+                  />
+                )
+              )
+            }
           </DefaultInputField>
         </div>
         <div>
@@ -106,6 +115,10 @@ AddModuleForm.propTypes = {
   moduleError: PropTypes.array,
   handleSubmit: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
+}
+
+AddModuleForm.defaultProps = {
+  moduleError: [],
 }
 
 export default (AddModuleForm)

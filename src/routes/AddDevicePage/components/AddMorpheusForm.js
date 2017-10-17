@@ -58,4 +58,8 @@ AddMorpheusForm.propTypes = {
   clearError: PropTypes.func.isRequired,
 }
 
+AddMorpheusForm.defaultProps = {
+  morpheusError: [],
+}
+
 export default (AddMorpheusForm)

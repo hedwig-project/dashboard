@@ -9,7 +9,7 @@ import {
 } from '@modules/modules/actionTypes.js'
 import { Map } from 'immutable'
 
-export const initialState = Map({ modules: {} })
+export const initialState = Map({ error: null, isAdding: false, modules: Map({}) })
 
 /*
  * State example
@@ -43,11 +43,11 @@ export default (state = initialState, action) => {
       return state
         .set('isAdding', true)
     case MODULE_ADD_SUCCESS:
-      const newModule = { modules: {} }
-      newModule.modules[action.payload.module._id] = action.payload.module
+      const newModule = { }
+      newModule[action.payload.module._id] = action.payload.module
       return state
         .set('isAdding', false)
-        .merge(Map(newModule))
+        .mergeDeep(Map({ modules: Map(newModule) }))
     case MODULE_ADD_FAILURE:
       return state
         .set('isAdding', false)
@@ -61,7 +61,7 @@ export default (state = initialState, action) => {
           obj[module._id] = module
           return obj
         }, {})
-      return state.merge(Map({ modules: moduleList }))
+      return state.mergeDeep(Map({ modules: Map(moduleList) }))
     case MODULE_UPDATE:
       return state.set(action.payload.module.id, action.payload.module)
     default:
