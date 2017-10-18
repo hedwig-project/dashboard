@@ -10,18 +10,49 @@ export const decodeDataMessage = (message) => {
     .filter(item => item.controlParameters.reduce((result, param) => {
       return param.value === 'temp_umi_pres' || result
     }, false))
-    .map(item => ({
+    .map(item => {
+      return ({
         module: convertTopicToModuleId(item.topic),
         data: {
-          humidity: item.payload.vl1,
-          temperature: item.payload.vl2,
-          presence: item.payload.vl3,
-          relay1: item.payload.vl4,
-          relay2: item.payload.vl5,
+          ...decodePayload(item.payload),
           lastUpdatedAt: getTimestamp(item.controlParameters),
         },
       })
+    }
     )
+}
+
+export const decodePayload = (payload) => {
+  return Object
+    .keys(payload)
+    .filter(key => key.substring(0, 1) === 's')
+    .map(key => ({
+      key: decodeSensorName(payload[key]),
+      value: payload[`vl${key.substring(1)}`],
+    }))
+    .reduce((obj, data) => {
+      obj[data.key] = data.value
+      return obj
+    }, {})
+}
+
+export const decodeSensorName = (name) => {
+  switch (name) {
+    case 'umidade':
+      return 'humidity'
+    case 'temperatura':
+      return 'temperature'
+    case 'presenca':
+      return 'presence'
+    case 'rl1':
+      return 'relay1'
+    case 'rl2':
+      return 'relay2'
+    case 'abertura':
+      return 'opening'
+    case 'luz':
+      return 'luminosity'
+  }
 }
 
 export const getTimestamp = (parameters) => {
@@ -33,5 +64,7 @@ export const getTimestamp = (parameters) => {
 export default {
   convertTopicToModuleId,
   decodeDataMessage,
+  decodePayload,
+  decodeSensorName,
   getTimestamp,
 }
