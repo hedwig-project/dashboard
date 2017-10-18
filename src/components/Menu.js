@@ -4,8 +4,8 @@ import AppBar from 'material-ui/AppBar'
 import Divider from 'material-ui/Divider'
 import Drawer from 'material-ui/Drawer'
 import FontIcon from 'material-ui/FontIcon'
-import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
+import ConnectionStatus from '@components/ConnectionStatus'
 import { getModuleLocationClass } from '@helpers/modules'
 import withNavigation from '@hocs/withNavigation'
 
@@ -61,12 +61,7 @@ class Menu extends React.Component {
           title="Hedwig"
           onLeftIconButtonTouchTap={this.handleChange}
           iconElementRight={
-            <IconButton>
-              <FontIcon
-                className={connected ? 'fa fa-check' : 'fa fa-exclamation'}
-                style={{ color: '#FFFFFF' }}
-              />
-            </IconButton>
+            <ConnectionStatus connected={connected} />
           }
           style={{ backgroundColor: '#424242' }}
         />
