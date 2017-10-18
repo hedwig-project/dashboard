@@ -60,7 +60,7 @@ class StatusBox extends Component {
     /* eslint-disable no-nested-ternary */
     return (
       <Container>
-        <Box color={boxColors[0]}>
+        <Box color={boxColors[0] || '#212121'}>
           <FontIcon
             className={opening ? 'fa fa-unlock-alt' : (opening === false ? 'fa fa-lock' : 'fa fa-question-circle-o')}
             style={this.iconStyle}
@@ -71,7 +71,7 @@ class StatusBox extends Component {
           </MainInfo>
           <BoxTitle>Sensor de abertura</BoxTitle>
         </Box>
-        <Box color={boxColors[1]}>
+        <Box color={boxColors[1] || '#424242'}>
           <FontIcon
             className="fa fa-user"
             style={this.iconStyle}
@@ -80,7 +80,7 @@ class StatusBox extends Component {
           <MainInfo>{presence || '?'}</MainInfo>
           <BoxTitle>Sensor de presença</BoxTitle>
         </Box>
-        <Box color={boxColors[2]}>
+        <Box color={boxColors[2] || '#616161'}>
           <div>
             <FontIcon
               className="fa fa-thermometer-three-quarters"
@@ -91,7 +91,7 @@ class StatusBox extends Component {
             <BoxTitle>Temperatura</BoxTitle>
           </div>
         </Box>
-        <Box color={boxColors[3]}>
+        <Box color={boxColors[3] || '#757575'}>
           <FontIcon
             className="fa fa-tint"
             style={this.iconStyle}
@@ -100,7 +100,7 @@ class StatusBox extends Component {
           <MainInfo>{`${humidity || '?'} %`}</MainInfo>
           <BoxTitle>Umidade</BoxTitle>
         </Box>
-        <Box color={boxColors[4]}>
+        <Box color={boxColors[4] || '#9E9E9E'}>
           <FontIcon
             className="fa fa-lightbulb-o"
             style={this.iconStyle}
@@ -115,12 +115,21 @@ class StatusBox extends Component {
 }
 
 StatusBox.propTypes = {
-  boxColors: PropTypes.array.isRequired,
-  humidity: PropTypes.number.isRequired,
-  luminosity: PropTypes.number.isRequired,
-  opening: PropTypes.bool.isRequired,
-  presence: PropTypes.number.isRequired,
-  temperature: PropTypes.number.isRequired,
+  boxColors: PropTypes.array,
+  humidity: PropTypes.number,
+  luminosity: PropTypes.number,
+  opening: PropTypes.bool,
+  presence: PropTypes.number,
+  temperature: PropTypes.number,
+}
+
+StatusBox.defaultProps = {
+  boxColors: [],
+  humidity: null,
+  luminosity: null,
+  opening: null,
+  presence: null,
+  temperature: null,
 }
 
 export default StatusBox

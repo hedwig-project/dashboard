@@ -62,7 +62,7 @@ class RelayControl extends Component {
     /* eslint-disable no-nested-ternary */
     return (
       <Container>
-        <Box color={boxColors[0]}>
+        <Box color={boxColors[0] || '#9E9E9E'}>
           <FontIcon
             className={relay1 ? 'fa fa-check-circle-o' : (relay1 === false ? 'fa fa-times-circle-o' : 'fa fa-question-circle-o')}
             style={this.iconStyle}
@@ -76,7 +76,7 @@ class RelayControl extends Component {
             <RaisedButton label={relay1 ? 'Desativar' : 'Ativar'} />
           </ButtonContainer>
         </Box>
-        <Box color={boxColors[1]}>
+        <Box color={boxColors[1] || '#BDBDBD'}>
           <FontIcon
             className={relay2 ? 'fa fa-check-circle-o' : (relay2 === false ? 'fa fa-times-circle-o' : 'fa fa-question-circle-o')}
             style={this.iconStyle}
@@ -96,9 +96,15 @@ class RelayControl extends Component {
 }
 
 RelayControl.propTypes = {
-  boxColors: PropTypes.array.isRequired,
-  relay1: PropTypes.bool.isRequired,
-  relay2: PropTypes.bool.isRequired,
+  boxColors: PropTypes.array,
+  relay1: PropTypes.bool,
+  relay2: PropTypes.bool,
+}
+
+RelayControl.defaultProps = {
+  boxColors: [],
+  relay1: null,
+  relay2: null,
 }
 
 export default RelayControl

@@ -15,15 +15,27 @@ const Content = styled.section`
 
 class ModulePage extends Component {
   static propTypes = {
-    boxColors: PropTypes.array.isRequired,
-    humidity: PropTypes.number.isRequired,
-    luminosity: PropTypes.number.isRequired,
-    opening: PropTypes.bool.isRequired,
-    presence: PropTypes.number.isRequired,
-    temperature: PropTypes.number.isRequired,
-    relay1: PropTypes.bool.isRequired,
-    relay2: PropTypes.bool.isRequired,
-    lastUpdatedAt: PropTypes.number.isRequired,
+    boxColors: PropTypes.array,
+    humidity: PropTypes.number,
+    luminosity: PropTypes.number,
+    opening: PropTypes.bool,
+    presence: PropTypes.number,
+    temperature: PropTypes.number,
+    relay1: PropTypes.bool,
+    relay2: PropTypes.bool,
+    lastUpdatedAt: PropTypes.number,
+  }
+
+  static defaultProps = {
+    boxColors: [],
+    humidity: null,
+    luminosity: null,
+    opening: null,
+    presence: null,
+    temperature: null,
+    relay1: null,
+    relay2: null,
+    lastUpdatedAt: null,
   }
 
   render() {
