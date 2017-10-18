@@ -44,7 +44,7 @@ export default (state = initialState, action) => {
         .set('isAdding', true)
     case MODULE_ADD_SUCCESS:
       const newModule = { }
-      newModule[action.payload.module._id] = action.payload.module
+      newModule[action.payload.module.serial] = action.payload.module
       return state
         .set('isAdding', false)
         .mergeDeep(Map({ modules: Map(newModule) }))
@@ -53,17 +53,17 @@ export default (state = initialState, action) => {
         .set('isAdding', false)
         .set('error', action.payload.error)
     case MODULE_DELETE:
-      return state.delete(action.payload.module.id)
+      return state.delete(action.payload.module.serial)
     case MODULE_LOAD_SUCCESS:
       const moduleList = action.payload.modules
         .reduce((obj, module) => {
           // eslint-disable-next-line no-param-reassign
-          obj[module._id] = module
+          obj[module.serial] = module
           return obj
         }, {})
       return state.mergeDeep(Map({ modules: Map(moduleList) }))
     case MODULE_UPDATE:
-      return state.set(action.payload.module.id, action.payload.module)
+      return state.set(action.payload.module.serial, action.payload.module)
     default:
       return state
   }

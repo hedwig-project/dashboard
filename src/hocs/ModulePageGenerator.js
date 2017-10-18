@@ -28,13 +28,13 @@ class ModulePageGenerator extends React.Component {
     return (
       <ModulePage
         boxColors={getModuleLocationColorScheme(module.location)}
-        humidity={data.humidity}
-        luminosity={data.luminosity}
-        opening={data.opening}
-        presence={data.presence}
-        temperature={data.temperature}
-        relay1={data.relay1}
-        relay2={data.relay2}
+        humidity={data.get('humidity')}
+        luminosity={data.get('luminosity')}
+        opening={data.get('opening')}
+        presence={data.get('presence')}
+        temperature={data.get('temperature')}
+        relay1={data.get('relay1')}
+        relay2={data.get('relay2')}
       />
     )
   }
