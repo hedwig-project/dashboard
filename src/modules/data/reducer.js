@@ -14,17 +14,14 @@ export const initialState = Map({})
  * State example
  * {
  *   '0123456': {
- *     components: {
- *       relay1: {
- *         name: 'Luz 1',
- *       },
- *       relay2: {
- *         name: 'Luz 2',
- *       },
- *     },
- *     location: 'KITCHEN',
- *     name: 'Minha Cozinha',
- *     serial: '0123456',
+ *     humidity: 71.9,
+ *     luminosity: 256,
+ *     opening: true,
+ *     presence: false,
+ *     temperature: 23.8,
+ *     relay1: false,
+ *     relay2: true,
+ *     lastUpdatedAt: 1500914158,
  *   },
  * }
  */
@@ -41,6 +38,7 @@ export default (state = initialState, action) => {
         temperature: null,
         relay1: null,
         relay2: null,
+        lastUpdatedAt: null,
       })
       return state.merge(Map(newModule))
     case MODULE_DATA_UPDATE:
@@ -61,6 +59,7 @@ export default (state = initialState, action) => {
             temperature: null,
             relay1: null,
             relay2: null,
+            lastUpdatedAt: null,
           })
           return obj
         }, {})

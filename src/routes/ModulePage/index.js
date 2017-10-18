@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import styled from 'styled-components'
+import LastUpdatedAt from '@components/LastUpdatedAt'
 import StatusBox from '@components/StatusBox'
 import RelayControl from '@components/RelayControl'
 
@@ -22,6 +23,7 @@ class ModulePage extends Component {
     temperature: PropTypes.number.isRequired,
     relay1: PropTypes.bool.isRequired,
     relay2: PropTypes.bool.isRequired,
+    lastUpdatedAt: PropTypes.number.isRequired,
   }
 
   render() {
@@ -34,6 +36,7 @@ class ModulePage extends Component {
       temperature,
       relay1,
       relay2,
+      lastUpdatedAt,
     } = this.props
 
     return (
@@ -54,6 +57,7 @@ class ModulePage extends Component {
             relay2={relay2}
           />
           <br />
+          <LastUpdatedAt timestamp={lastUpdatedAt} />
         </Content>
       </Wrapper>
     )

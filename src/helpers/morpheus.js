@@ -18,12 +18,20 @@ export const decodeDataMessage = (message) => {
           presence: item.payload.vl3,
           relay1: item.payload.vl4,
           relay2: item.payload.vl5,
-        }
+          lastUpdatedAt: getTimestamp(item.controlParameters),
+        },
       })
     )
+}
+
+export const getTimestamp = (parameters) => {
+  const ts = parameters.filter(param => param.parameter === 'ts')
+
+  return ts[0].value
 }
 
 export default {
   convertTopicToModuleId,
   decodeDataMessage,
+  getTimestamp,
 }

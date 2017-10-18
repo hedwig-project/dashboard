@@ -42,6 +42,7 @@ class ModulePageGenerator extends React.Component {
         temperature={data.get('temperature')}
         relay1={data.get('relay1')}
         relay2={data.get('relay2')}
+        lastUpdatedAt={data.get('lastUpdatedAt')}
       />
     )
   }
