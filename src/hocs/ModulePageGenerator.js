@@ -6,20 +6,27 @@ import NotFoundModule from '@routes/NotFoundModule'
 
 class ModulePageGenerator extends React.Component {
   static propTypes = {
+    isLoadingModules: PropTypes.bool,
     module: PropTypes.object,
     data: PropTypes.object,
   }
 
   static defaultProps = {
+    isLoadingModules: false,
     module: null,
     data: null,
   }
 
   render() {
     const {
+      isLoadingModules,
       data,
       module,
     } = this.props
+
+    if (isLoadingModules) {
+      return null
+    }
 
     if (!module || !data) {
       return (<NotFoundModule />)
@@ -41,6 +48,7 @@ class ModulePageGenerator extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  isLoadingModules: state.modules.get('isLoading'),
   module: state.modules.get('modules').get(ownProps.params.id),
   data: state.data.get(ownProps.params.id),
 })
