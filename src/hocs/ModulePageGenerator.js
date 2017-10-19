@@ -6,6 +6,7 @@ import NotFoundModule from '@routes/NotFoundModule'
 
 class ModulePageGenerator extends React.Component {
   static propTypes = {
+    emitAction: PropTypes.func.isRequired,
     isLoadingModules: PropTypes.bool,
     module: PropTypes.object,
     data: PropTypes.object,
@@ -19,6 +20,7 @@ class ModulePageGenerator extends React.Component {
 
   render() {
     const {
+      emitAction,
       isLoadingModules,
       data,
       module,
@@ -34,6 +36,8 @@ class ModulePageGenerator extends React.Component {
 
     return (
       <ModulePage
+        module={module}
+        emitAction={emitAction}
         boxColors={getModuleLocationColorScheme(module.location)}
         humidity={data.get('humidity')}
         luminosity={data.get('luminosity')}

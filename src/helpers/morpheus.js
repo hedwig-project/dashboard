@@ -1,8 +1,25 @@
 /* eslint-disable */
+import moment from 'moment'
+
+export const convertModuleIdToTopic = (moduleId) => {
+  return `hw/${moduleId}`
+}
 
 export const convertTopicToModuleId = (topic) => {
   const re = /hw\/(\w+)/
   return re.exec(topic)[1]
+}
+
+export const encodeActionMessage = (moduleId, ty, payload) => {
+  const message = {}
+
+  message.topic = convertModuleIdToTopic(moduleId)
+  message.controlParameters = []
+  message.controlParameters.push({parameter: 'ts', value: moment().unix()})
+  message.controlParameters.push({parameter: 'ty', value: ty})
+  message.payload = payload
+
+  return message
 }
 
 export const decodeDataMessage = (message) => {
@@ -62,7 +79,9 @@ export const getTimestamp = (parameters) => {
 }
 
 export default {
+  convertModuleIdToTopic,
   convertTopicToModuleId,
+  encodeActionMessage,
   decodeDataMessage,
   decodePayload,
   decodeSensorName,

@@ -15,6 +15,8 @@ const Content = styled.section`
 
 class ModulePage extends Component {
   static propTypes = {
+    module: PropTypes.object.isRequired,
+    emitAction: PropTypes.func.isRequired,
     boxColors: PropTypes.array,
     humidity: PropTypes.number,
     luminosity: PropTypes.number,
@@ -40,6 +42,8 @@ class ModulePage extends Component {
 
   render() {
     const {
+      module,
+      emitAction,
       boxColors,
       humidity,
       luminosity,
@@ -64,6 +68,8 @@ class ModulePage extends Component {
           />
           <br />
           <RelayControl
+            moduleId={module.serial}
+            toggle={emitAction}
             boxColors={boxColors.slice(-2)}
             relay1={relay1}
             relay2={relay2}
