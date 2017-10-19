@@ -1,17 +1,26 @@
+import RaisedButton from 'material-ui/RaisedButton'
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
-import DefaultButton from '@components/DefaultButton'
 import DefaultDialog from '@components/DefaultDialog'
 import DefaultInputField from '@components/DefaultInputField'
 import fonts from '@consts/fonts'
 import colors from '@consts/colors'
 
+const Wrapper = styled.div`
+  margin-top: 20px;
+`
+
 const Header = styled.h2`
   font-size: ${fonts.large};
   color: ${colors.mainBlue};
   text-align: center;
-  margin: 30px 0 0 0;
   font-weight: normal;
+  margin-bottom: 10px;
+`
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 const LoginForm = ({
@@ -24,37 +33,37 @@ const LoginForm = ({
   const decodeError = () => ('Login inválido')
 
   return (
-    <div>
+    <Wrapper>
       <Header>Login</Header>
       <form onSubmit={handleSubmit(login)}>
-        <div>
-          <DefaultInputField
-            name="username"
-            floatingLabelText="Username"
-          />
-        </div>
-        <div>
-          <DefaultInputField
-            name="password"
-            type="password"
-            floatingLabelText="Senha"
-          />
-        </div>
-        <DefaultButton
-          disabled={authFetching}
-          label="Entrar"
-          type="submit"
+        <DefaultInputField
+          name="username"
+          floatingLabelText="Username"
         />
+        <DefaultInputField
+          name="password"
+          type="password"
+          floatingLabelText="Senha"
+        />
+        <ButtonWrapper>
+          <RaisedButton
+            disabled={authFetching}
+            label="Entrar"
+            primary
+            style={{ margin: '15px 0' }}
+            type="submit"
+          />
+        </ButtonWrapper>
       </form>
       <DefaultDialog
         actions={[{ label: 'Ok', onTouchTap: clearError }]}
         title="Login inválido"
-        open={authError}
+        open={authError.length > 0}
         onRequestClose={clearError}
       >
-        { authError ? decodeError() : '' }
+        { authError.length > 0 ? decodeError() : '' }
       </DefaultDialog>
-    </div>)
+    </Wrapper>)
 }
 
 LoginForm.propTypes = {
@@ -63,6 +72,10 @@ LoginForm.propTypes = {
   authError: PropTypes.array,
   handleSubmit: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
+}
+
+LoginForm.defaultProps = {
+  authError: [],
 }
 
 export default (LoginForm)

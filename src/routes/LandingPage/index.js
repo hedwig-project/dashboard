@@ -1,3 +1,4 @@
+import { Card } from 'material-ui/Card'
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
@@ -9,45 +10,43 @@ import hedwigLogo from '@images/hedwig.png'
 
 const Wrapper = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   min-height: 100%;
   background-color: #42A5F5;
+  padding: ${props => (props.lessThanSmall ? '10px 30px' : '10px 0')};
+`
+
+const LogoWrapper = styled.div`
+  position: absolute;
+  width: 100px;
+  top: -125px;
+  right: 5px;
+  z-index: 100;
 `
 
 const Logo = styled.img`
-  width: ${props => (props.lessThanSmall ? '25%' : '50%')};
+  width: 100px;
 `
 
-const IntroText = styled.p`
-  margin: 10px 0;
-`
-
-const FirstWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  width: ${props => (props.lessThanSmall ? '100%' : '50%')};
-  margin: 50px 0;
-`
-
-const SecondWrapper = styled.div`
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: ${props => (props.lessThanSmall ? '100%' : '50%')};
-  padding: 50px 20px;
+  position: relative;
+  width: ${props => (props.lessThanSmall ? '100%' : '33.3%')};
+  margin-top: 110px;
 `
 
 const FormContainer = styled.div`
-  background-color: white;
-  padding: 10px;
+  padding: 15px;
 `
 
 const ButtonContainer = styled.div`
-  background-color: white;
-  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+  padding: 15px;
 `
 
 const mapStateToProps = state => ({
@@ -107,71 +106,58 @@ class LandingPage extends Component {
       showForgotPassword,
     } = this.state
 
-    const flatButtonStyle = {
-      width: '100%',
-      margin: '10px 0',
-      borderRadius: 10,
-    }
-
     return (
-      <Wrapper>
-        <FirstWrapper lessThanSmall={lessThanSmall}>
-          <Logo
-            src={hedwigLogo}
-          />
-          <IntroText>Seja bem vindo ao Hedwig!</IntroText>
-          <IntroText>
-            Monitore e controle sua casa mesmo quando você está longe
-          </IntroText>
-        </FirstWrapper>
-        <SecondWrapper lessThanSmall={lessThanSmall}>
-          <FormContainer>
-            { showLogin && (
-              <Login
-                goToForgotPassword={this.goToForgotPassword}
-                goToSignUp={this.goToSignUp}
-              />
-            )}
-            { showSignUp && (
-              <SignUp
-                goToLogin={this.goToLogin}
-                goToForgotPassword={this.goToForgotPassword}
-              />
-            )}
-            { showForgotPassword && (
-              <ForgotPassword
-                goToLogin={this.goToLogin}
-                goToSignUp={this.goToSignUp}
-              />
-            )}
-          </FormContainer>
-          <ButtonContainer>
-            { !showLogin && (
-              <FlatButton
-                label="Voltar para login"
-                style={flatButtonStyle}
-                labelStyle={{ textTransform: 'none' }}
-                onClick={this.goToLogin}
-              />
-            )}
-            { !showSignUp && (
-              <FlatButton
-                label="Não possuo conta"
-                style={flatButtonStyle}
-                labelStyle={{ textTransform: 'none' }}
-                onClick={this.goToSignUp}
-              />
-            )}
-            { !showForgotPassword && (
-              <FlatButton
-                label="Esqueci minha senha"
-                style={flatButtonStyle}
-                labelStyle={{ textTransform: 'none' }}
-                onClick={this.goToForgotPassword}
-              />
-            )}
-          </ButtonContainer>
-        </SecondWrapper>
+      <Wrapper lessThanSmall={lessThanSmall}>
+        <ContentWrapper lessThanSmall={lessThanSmall}>
+          <LogoWrapper lessThanSmall={lessThanSmall}>
+            <Logo src={hedwigLogo} />
+          </LogoWrapper>
+          <Card>
+            <FormContainer>
+              { showLogin && (
+                <Login
+                  goToForgotPassword={this.goToForgotPassword}
+                  goToSignUp={this.goToSignUp}
+                />
+              )}
+              { showSignUp && (
+                <SignUp
+                  goToLogin={this.goToLogin}
+                  goToForgotPassword={this.goToForgotPassword}
+                />
+              )}
+              { showForgotPassword && (
+                <ForgotPassword
+                  goToLogin={this.goToLogin}
+                  goToSignUp={this.goToSignUp}
+                />
+              )}
+            </FormContainer>
+            <ButtonContainer>
+              { !showLogin && (
+                <FlatButton
+                  label="Voltar para login"
+                  labelStyle={{ textTransform: 'none' }}
+                  onClick={this.goToLogin}
+                />
+              )}
+              { !showSignUp && (
+                <FlatButton
+                  label="Não possuo conta"
+                  labelStyle={{ textTransform: 'none' }}
+                  onClick={this.goToSignUp}
+                />
+              )}
+              { !showForgotPassword && (
+                <FlatButton
+                  label="Esqueci minha senha"
+                  labelStyle={{ textTransform: 'none' }}
+                  onClick={this.goToForgotPassword}
+                />
+              )}
+            </ButtonContainer>
+          </Card>
+        </ContentWrapper>
       </Wrapper>
     )
   }

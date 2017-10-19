@@ -1,18 +1,27 @@
+import RaisedButton from 'material-ui/RaisedButton'
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
-import DefaultButton from '@components/DefaultButton'
 import DefaultDialog from '@components/DefaultDialog'
 import DefaultInputField from '@components/DefaultInputField'
 import { normalizeDate } from '@helpers/normalizers'
 import fonts from '@consts/fonts'
 import colors from '@consts/colors'
 
+const Wrapper = styled.div`
+  margin-top: 20px;
+`
+
 const Header = styled.h2`
   font-size: ${fonts.large};
   color: ${colors.mainBlue};
   text-align: center;
-  margin: 30px 0 0 0;
   font-weight: normal;
+  margin-bottom: 10px;
+`
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 const SignupForm = ({
@@ -40,64 +49,56 @@ const SignupForm = ({
   }
 
   return (
-    <div>
+    <Wrapper>
       <Header>Cadastro</Header>
       <form onSubmit={handleSubmit(signUp)}>
-        <div>
-          <DefaultInputField
-            name="email"
-            type="email"
-            floatingLabelText="Email"
-          />
-        </div>
-        <div>
-          <DefaultInputField
-            name="username"
-            floatingLabelText="Nome de usuário"
-          />
-        </div>
-        <div>
-          <DefaultInputField
-            name="name"
-            floatingLabelText="Nome"
-          />
-        </div>
-        <div>
-          <DefaultInputField
-            name="birthday"
-            floatingLabelText="Data de nascimento (DD/MM/AAAA)"
-            normalize={normalizeDate}
-          />
-        </div>
-        <div>
-          <DefaultInputField
-            name="password"
-            type="password"
-            floatingLabelText="Senha"
-          />
-        </div>
-        <div>
-          <DefaultInputField
-            name="passwordConfirmation"
-            type="password"
-            floatingLabelText="Confirme a senha"
-          />
-        </div>
-        <DefaultButton
-          disabled={authFetching}
-          label="Cadastrar"
-          type="submit"
+        <DefaultInputField
+          name="email"
+          type="email"
+          floatingLabelText="Email"
         />
+        <DefaultInputField
+          name="username"
+          floatingLabelText="Nome de usuário"
+        />
+        <DefaultInputField
+          name="name"
+          floatingLabelText="Nome"
+        />
+        <DefaultInputField
+          name="birthday"
+          floatingLabelText="Data de nascimento (DD/MM/AAAA)"
+          normalize={normalizeDate}
+        />
+        <DefaultInputField
+          name="password"
+          type="password"
+          floatingLabelText="Senha"
+        />
+        <DefaultInputField
+          name="passwordConfirmation"
+          type="password"
+          floatingLabelText="Confirme a senha"
+        />
+        <ButtonWrapper>
+          <RaisedButton
+            disabled={authFetching}
+            label="Cadastrar"
+            primary
+            style={{ margin: '15px 0' }}
+            type="submit"
+          />
+        </ButtonWrapper>
       </form>
       <DefaultDialog
         actions={[{ label: 'Ok', onTouchTap: clearError }]}
         title="Cadastro inválido"
-        open={authError}
+        open={authError.length > 0}
         onRequestClose={clearError}
       >
-        { authError ? decodeError(authError) : '' }
+        { authError.length > 0 ? decodeError(authError) : '' }
       </DefaultDialog>
-    </div>)
+    </Wrapper>)
 }
 
 SignupForm.propTypes = {
@@ -106,6 +107,10 @@ SignupForm.propTypes = {
   authError: PropTypes.array,
   handleSubmit: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
+}
+
+SignupForm.defaultProps = {
+  authError: [],
 }
 
 export default (SignupForm)
