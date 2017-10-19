@@ -1,17 +1,27 @@
+import RaisedButton from 'material-ui/RaisedButton'
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
-import DefaultButton from '@components/DefaultButton'
 import DefaultDialog from '@components/DefaultDialog'
 import DefaultInputField from '@components/DefaultInputField'
 import fonts from '@consts/fonts'
 import colors from '@consts/colors'
 
+const Wrapper = styled.div`
+  margin-top: 20px;
+  padding: 0 10px;
+`
+
 const Header = styled.h2`
   font-size: ${fonts.large};
   color: ${colors.mainBlue};
   text-align: center;
-  margin: 30px 0 0 0;
   font-weight: normal;
+  margin-bottom: 10px;
+`
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 const AddMorpheusForm = ({
@@ -24,20 +34,22 @@ const AddMorpheusForm = ({
   const decodeError = () => ('Erro ao adicionar Morpheus')
 
   return (
-    <div>
+    <Wrapper>
       <Header>Adicionar Morpheus</Header>
       <form onSubmit={handleSubmit(addMorpheus)}>
-        <div>
-          <DefaultInputField
-            name="serial"
-            floatingLabelText="Número de série"
-          />
-        </div>
-        <DefaultButton
-          disabled={morpheusAdding}
-          label="Adicionar"
-          type="submit"
+        <DefaultInputField
+          name="serial"
+          floatingLabelText="Número de série"
         />
+        <ButtonWrapper>
+          <RaisedButton
+            disabled={morpheusAdding}
+            label="Adicionar"
+            primary
+            style={{ margin: '15px 0' }}
+            type="submit"
+          />
+        </ButtonWrapper>
       </form>
       <DefaultDialog
         actions={[{ label: 'Ok', onTouchTap: clearError }]}
@@ -47,7 +59,7 @@ const AddMorpheusForm = ({
       >
         { morpheusError ? decodeError() : '' }
       </DefaultDialog>
-    </div>)
+    </Wrapper>)
 }
 
 AddMorpheusForm.propTypes = {

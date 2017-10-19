@@ -1,7 +1,8 @@
+import { Card } from 'material-ui/Card'
+import { Tabs, Tab } from 'material-ui/Tabs'
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import FlatButton from 'material-ui/FlatButton'
 import AddMorpheus from '@routes/AddDevicePage/containers/AddMorpheus'
 import AddModule from '@routes/AddDevicePage/containers/AddModule'
 
@@ -19,11 +20,6 @@ const FormContainer = styled.div`
   padding: 10px;
 `
 
-const ButtonContainer = styled.div`
-  background-color: white;
-  padding: 10px;
-`
-
 const mapStateToProps = state => ({
   lessThanSmall: state.browser.lessThan.large,
 })
@@ -33,73 +29,19 @@ class AddDevicePage extends Component {
     lessThanSmall: PropTypes.bool.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      showMorpheus: true,
-      showModule: false,
-    }
-
-    this.goToMorpheus = this.goToMorpheus.bind(this)
-    this.goToModule = this.goToModule.bind(this)
-  }
-
-  goToMorpheus() {
-    this.setState({
-      showMorpheus: true,
-      showModule: false,
-    })
-  }
-
-  goToModule() {
-    this.setState({
-      showMorpheus: false,
-      showModule: true,
-    })
-  }
-
   render() {
-    const {
-      showMorpheus,
-      showModule,
-    } = this.state
-
-    const flatButtonStyle = {
-      width: '100%',
-      margin: '10px 0',
-      borderRadius: 10,
-    }
-
     return (
-      <Wrapper>
-        <FormContainer>
-          { showMorpheus && (
-            <AddMorpheus />
-          )}
-          { showModule && (
-            <AddModule />
-          )}
-        </FormContainer>
-        <p style={{ textAlign: 'center' }}>Ou</p>
-        <ButtonContainer>
-          { !showModule && (
-            <FlatButton
-              label="Adicionar módulo"
-              style={flatButtonStyle}
-              labelStyle={{ textTransform: 'none' }}
-              onClick={this.goToModule}
-            />
-          )}
-          { !showMorpheus && (
-            <FlatButton
-              label="Adicionar Morpheus"
-              style={flatButtonStyle}
-              labelStyle={{ textTransform: 'none' }}
-              onClick={this.goToMorpheus}
-            />
-          )}
-        </ButtonContainer>
+      <Wrapper lessThanSmall={this.props.lessThanSmall}>
+        <Card>
+          <Tabs>
+            <Tab label="Adicionar Morpheus">
+              <FormContainer><AddMorpheus /></FormContainer>
+            </Tab>
+            <Tab label="Adicionar módulo">
+              <FormContainer><AddModule /></FormContainer>
+            </Tab>
+          </Tabs>
+        </Card>
       </Wrapper>
     )
   }
