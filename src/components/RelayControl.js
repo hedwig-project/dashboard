@@ -67,15 +67,15 @@ class RelayControl extends Component {
       <Container>
         <Box color={boxColors[0] || '#9E9E9E'}>
           <FontIcon
-            className={relay1 ? 'fa fa-check-circle-o' : (relay1 === false ? 'fa fa-times-circle-o' : 'fa fa-question-circle-o')}
+            className={relay1 === 1 ? 'fa fa-check-circle-o' : (relay1 === 0 ? 'fa fa-times-circle-o' : 'fa fa-question-circle-o')}
             style={this.iconStyle}
             color={'white'}
           />
           <MainInfo>
-            {relay1 ? 'Ativo' : (relay1 === false ? 'Inativo' : '?')}
+            {relay1 === 1 ? 'Ativo' : (relay1 === 0 ? 'Inativo' : '?')}
           </MainInfo>
           <BoxTitle>Relê 1</BoxTitle>
-          <ButtonContainer style={relay1 === undefined ? { display: 'none' } : {}}>
+          <ButtonContainer>
             <RaisedButton
               disabled={relay1 === null}
               onClick={() =>
@@ -86,15 +86,15 @@ class RelayControl extends Component {
         </Box>
         <Box color={boxColors[1] || '#BDBDBD'}>
           <FontIcon
-            className={relay2 ? 'fa fa-check-circle-o' : (relay2 === false ? 'fa fa-times-circle-o' : 'fa fa-question-circle-o')}
+            className={relay2 === 1 ? 'fa fa-check-circle-o' : (relay2 === 0 ? 'fa fa-times-circle-o' : 'fa fa-question-circle-o')}
             style={this.iconStyle}
             color={'white'}
           />
           <MainInfo>
-            {relay2 ? 'Ativo' : (relay2 === false ? 'Inativo' : '?')}
+            {relay2 === 1 ? 'Ativo' : (relay2 === 0 ? 'Inativo' : '?')}
           </MainInfo>
           <BoxTitle>Relê 2</BoxTitle>
-          <ButtonContainer style={relay2 === undefined ? { display: 'none' } : {}}>
+          <ButtonContainer>
             <RaisedButton
               disabled={relay2 === null}
               onClick={() =>
@@ -112,8 +112,8 @@ RelayControl.propTypes = {
   moduleId: PropTypes.string.isRequired,
   toggle: PropTypes.func.isRequired,
   boxColors: PropTypes.array,
-  relay1: PropTypes.bool,
-  relay2: PropTypes.bool,
+  relay1: PropTypes.number,
+  relay2: PropTypes.number,
 }
 
 RelayControl.defaultProps = {

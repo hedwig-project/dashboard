@@ -20,11 +20,11 @@ class ModulePage extends Component {
     boxColors: PropTypes.array,
     humidity: PropTypes.number,
     luminosity: PropTypes.number,
-    opening: PropTypes.bool,
+    opening: PropTypes.number,
     presence: PropTypes.number,
     temperature: PropTypes.number,
-    relay1: PropTypes.bool,
-    relay2: PropTypes.bool,
+    relay1: PropTypes.number,
+    relay2: PropTypes.number,
     lastUpdatedAt: PropTypes.number,
   }
 

@@ -24,7 +24,7 @@ const Box = styled.article`
   color: white;
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
-  padding: 20px;
+  padding: 50px 20px;
   text-align: center;
 `
 
@@ -33,7 +33,7 @@ const BoxTitle = styled.div`
 `
 
 const MainInfo = styled.div`
-  font-size: 64px;
+  font-size: 56px;
   padding-top: 10px;
 `
 
@@ -62,12 +62,12 @@ class StatusBox extends Component {
       <Container>
         <Box color={boxColors[0] || '#212121'}>
           <FontIcon
-            className={opening ? 'fa fa-unlock-alt' : (opening === false ? 'fa fa-lock' : 'fa fa-question-circle-o')}
+            className={opening === 1 ? 'fa fa-unlock-alt' : (opening === 0 ? 'fa fa-lock' : 'fa fa-question-circle-o')}
             style={this.iconStyle}
             color={'white'}
           />
           <MainInfo>
-            {opening ? 'Aberto' : (opening === false ? 'Fechado' : '?')}
+            {opening === 1 ? 'Aberto' : (opening === 0 ? 'Fechado' : '?')}
           </MainInfo>
           <BoxTitle>Sensor de abertura</BoxTitle>
         </Box>
@@ -77,7 +77,7 @@ class StatusBox extends Component {
             style={this.iconStyle}
             color={'white'}
           />
-          <MainInfo>{presence || '?'}</MainInfo>
+          <MainInfo>{presence === 1 ? 'Sim' : (presence === 0 ? 'Não' : '?')}</MainInfo>
           <BoxTitle>Sensor de presença</BoxTitle>
         </Box>
         <Box color={boxColors[2] || '#616161'}>
@@ -87,7 +87,7 @@ class StatusBox extends Component {
               style={this.iconStyle}
               color={'white'}
             />
-            <MainInfo>{`${temperature || '?'} ºC`}</MainInfo>
+            <MainInfo>{`${temperature || '?'}ºC`}</MainInfo>
             <BoxTitle>Temperatura</BoxTitle>
           </div>
         </Box>
@@ -97,7 +97,7 @@ class StatusBox extends Component {
             style={this.iconStyle}
             color={'white'}
           />
-          <MainInfo>{`${humidity || '?'} %`}</MainInfo>
+          <MainInfo>{`${humidity || '?'}%`}</MainInfo>
           <BoxTitle>Umidade</BoxTitle>
         </Box>
         <Box color={boxColors[4] || '#9E9E9E'}>
@@ -118,7 +118,7 @@ StatusBox.propTypes = {
   boxColors: PropTypes.array,
   humidity: PropTypes.number,
   luminosity: PropTypes.number,
-  opening: PropTypes.bool,
+  opening: PropTypes.number,
   presence: PropTypes.number,
   temperature: PropTypes.number,
 }
