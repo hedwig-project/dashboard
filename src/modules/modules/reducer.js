@@ -1,4 +1,7 @@
 import {
+  LOGOUT,
+} from '@modules/auth/actionTypes'
+import {
   MODULE_ADD_REQUEST,
   MODULE_ADD_SUCCESS,
   MODULE_ADD_FAILURE,
@@ -75,6 +78,13 @@ export default (state = initialState, action) => {
         .mergeDeep(Map({ modules: Map(moduleList) }))
     case MODULE_UPDATE:
       return state.set(action.payload.module.serial, action.payload.module)
+    case LOGOUT:
+      return Map({
+        error: null,
+        isAdding: false,
+        isLoading: false,
+        modules: Map({}),
+      })
     default:
       return state
   }

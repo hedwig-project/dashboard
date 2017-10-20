@@ -1,4 +1,7 @@
 import {
+  LOGOUT,
+} from '@modules/auth/actionTypes'
+import {
   MODULE_DATA_UPDATE,
 } from '@modules/data/actionTypes.js'
 import {
@@ -64,6 +67,8 @@ export default (state = initialState, action) => {
           return obj
         }, {})
       return state.merge(Map(moduleList))
+    case LOGOUT:
+      return Map({})
     default:
       return state
   }
