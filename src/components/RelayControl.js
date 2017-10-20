@@ -57,6 +57,7 @@ class RelayControl extends Component {
   render() {
     const {
       moduleId,
+      morpheusId,
       toggle,
       boxColors,
       relay1,
@@ -79,7 +80,7 @@ class RelayControl extends Component {
             <RaisedButton
               disabled={relay1 === null}
               onClick={() =>
-                toggle('001', encodeActionMessage(moduleId, 'rele1_action', { rele1: relay1 ? 0 : 1 }))}
+                toggle(morpheusId, encodeActionMessage(moduleId, 'rele1_action', { rele1: relay1 ? 0 : 1 }))}
               label={relay1 ? 'Desativar' : 'Ativar'}
             />
           </ButtonContainer>
@@ -98,7 +99,7 @@ class RelayControl extends Component {
             <RaisedButton
               disabled={relay2 === null}
               onClick={() =>
-                toggle('002', encodeActionMessage(moduleId, 'rele2_action', { rele2: !relay2 ? 0 : 1 }))}
+                toggle(morpheusId, encodeActionMessage(moduleId, 'rele2_action', { rele2: !relay2 ? 0 : 1 }))}
               label={relay2 ? 'Desativar' : 'Ativar'}
             />
           </ButtonContainer>
@@ -110,6 +111,7 @@ class RelayControl extends Component {
 
 RelayControl.propTypes = {
   moduleId: PropTypes.string.isRequired,
+  morpheusId: PropTypes.string.isRequired,
   toggle: PropTypes.func.isRequired,
   boxColors: PropTypes.array,
   relay1: PropTypes.number,

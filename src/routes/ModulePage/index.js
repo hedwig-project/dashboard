@@ -69,6 +69,7 @@ class ModulePage extends Component {
           <br />
           <RelayControl
             moduleId={module.serial}
+            morpheusId={module.morpheus.serial}
             toggle={emitAction}
             boxColors={boxColors.slice(-2)}
             relay1={relay1}
