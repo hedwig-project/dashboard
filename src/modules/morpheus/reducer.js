@@ -2,6 +2,9 @@ import {
   LOGOUT,
 } from '@modules/auth/actionTypes'
 import {
+  MODULE_ADD_SUCCESS,
+} from '@modules/modules/actionTypes.js'
+import {
   MORPHEUS_ADD_REQUEST,
   MORPHEUS_ADD_SUCCESS,
   MORPHEUS_ADD_FAILURE,
@@ -62,6 +65,15 @@ export default (state = initialState, action) => {
       return state.mergeDeep(Map({ morpheus: Map(morpheusList) }))
     case MORPHEUS_UPDATE:
       return state.set(action.payload.morpheus.serial, action.payload.morpheus)
+    case MODULE_ADD_SUCCESS:
+      const beforeModuleAdd = state.get('morpheus').get(action.payload.module.morpheus.serial)
+      return state.setIn(
+        ['morpheus', action.payload.module.morpheus.serial],
+        {
+          ...beforeModuleAdd,
+          modules: beforeModuleAdd.modules.concat([action.payload.module._id]),
+        },
+      )
     case LOGOUT:
       return Map({ error: null, isAdding: false, morpheus: Map({}) })
     default:
