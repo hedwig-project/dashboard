@@ -11,15 +11,16 @@ import * as action from '@modules/socketio/actions'
 import { getUserData } from '@modules/auth/actions'
 import { getModulesData } from '@modules/modules/actions'
 import { getMorpheusData } from '@modules/morpheus/actions'
-import { processDataMessage } from '@modules/data/actions'
+import { morpheusHello, processDataMessage } from '@modules/data/actions'
 
 let socket
 
 class SocketIOConnector extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    morpheus: PropTypes.array.isRequired,
   }
 
   componentWillMount() {
@@ -35,19 +36,11 @@ class SocketIOConnector extends React.Component {
 
     dispatch(getUserData())
     dispatch(getModulesData())
+    dispatch(getMorpheusData())
 
     socket = io.connect(ioconfig.url, ioconfig.options)
 
     socket.on('connect', () => {
-      dispatch(getMorpheusData())
-        .then((morpheusList) => {
-          // eslint-disable-next-line array-callback-return
-          morpheusList.map((morpheus) => {
-            if (morpheus.serial) {
-              socket.emit('hello', morpheus.serial, `{"morpheusId":"${morpheus.serial}","type":"dashboard"}`)
-            }
-          })
-        })
       dispatch(action.socketIOConnected())
     })
 
@@ -84,6 +77,20 @@ class SocketIOConnector extends React.Component {
     dispatch(action.socketIODisconnected())
   }
 
+  componentDidUpdate(prevProps) {
+    const { dispatch, morpheus } = this.props
+    morpheus
+      .map(morpheusData => morpheusData.serial)
+      .filter(serial => !prevProps.morpheus
+        .map(morpheusData => morpheusData.serial)
+        .includes(serial),
+      )
+      .map((serial) => {
+        socket.emit('hello', serial, `{"morpheusId":"${serial}","type":"dashboard"}`)
+        return dispatch(morpheusHello(serial))
+      })
+  }
+
   emitAction = (morpheusId, message) => {
     const { dispatch } = this.props
 
@@ -110,6 +117,7 @@ class SocketIOConnector extends React.Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.get('isAuthenticated'),
+  morpheus: state.morpheus.get('morpheus').toArray(),
 })
 
 export default connect(mapStateToProps)(SocketIOConnector)
