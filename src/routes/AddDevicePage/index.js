@@ -3,6 +3,7 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import DeviceAddedSnackbar from '@components/DeviceAddedSnackbar'
 import AddMorpheus from '@routes/AddDevicePage/containers/AddMorpheus'
 import AddModule from '@routes/AddDevicePage/containers/AddModule'
 
@@ -20,13 +21,11 @@ const FormContainer = styled.div`
   padding: 10px;
 `
 
-const mapStateToProps = state => ({
-  lessThanSmall: state.browser.lessThan.large,
-})
-
 class AddDevicePage extends Component {
   static propTypes = {
     lessThanSmall: PropTypes.bool.isRequired,
+    modulesCount: PropTypes.number.isRequired,
+    morpheusCount: PropTypes.number.isRequired,
   }
 
   render() {
@@ -42,9 +41,17 @@ class AddDevicePage extends Component {
             </Tab>
           </Tabs>
         </Card>
+        <DeviceAddedSnackbar deviceCount={this.props.modulesCount} message="Módulo adicionado!" />
+        <DeviceAddedSnackbar deviceCount={this.props.morpheusCount} message="Morpheus adicionado!" />
       </Wrapper>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  lessThanSmall: state.browser.lessThan.large,
+  modulesCount: state.modules.get('modules').toArray().length,
+  morpheusCount: state.morpheus.get('morpheus').toArray().length,
+})
 
 export default connect(mapStateToProps)(AddDevicePage)
