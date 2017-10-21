@@ -92,9 +92,9 @@ class Menu extends React.Component {
           <Divider />
           <MenuItem
             leftIcon={<FontIcon className="fa fa-cog" />}
-            onTouchTap={() => redirect('#')}
+            onTouchTap={() => redirect('/user-settings')}
           >
-            Configurações
+            Configurações gerais
           </MenuItem>
           <MenuItem
             leftIcon={<FontIcon className="fa fa-sign-out" />}

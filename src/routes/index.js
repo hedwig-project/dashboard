@@ -6,6 +6,7 @@ import HelloPage from '@routes/HelloPage'
 import AccessModulePage from '@routes/AccessModulePage'
 import NotFoundPage from '@routes/NotFoundPage'
 import AddDevicePage from '@routes/AddDevicePage'
+import UserSettingsPage from '@routes/UserSettingsPage'
 import ModulePageGenerator from '@hocs/ModulePageGenerator'
 import { requireAuthentication } from '@hocs/requireAuthentication'
 import SocketIOConnector from '@hocs/SocketIOConnector'
@@ -28,6 +29,7 @@ export default class Routes extends React.Component {
             <Route path="access" component={AccessModulePage} />
             <Route path="module/:id" component={ModulePageGenerator} />
             <Route path="add-device" component={AddDevicePage} />
+            <Route path="user-settings" component={UserSettingsPage} />
           </Route>
           <Route path="*" component={NotFoundPage} />
         </Route>

@@ -8,8 +8,11 @@ import {
   LOGOUT,
   CLEAR_AUTH_ERRORS,
   SET_USER_DATA,
+  SETTINGS_EDIT_REQUEST,
+  SETTINGS_EDIT_SUCCESS,
+  SETTINGS_EDIT_FAILURE,
 } from '@modules/auth/actionTypes'
-import { unauthenticatedPost } from '@config/axios'
+import { authenticatedPost, unauthenticatedPost } from '@config/axios'
 import JWT from 'jwt-client'
 
 const normalizeToken = (token) => {
@@ -126,4 +129,48 @@ export const getUserData = () => ((dispatch) => {
   const token = localStorage.getItem('token')
   const decodedToken = JWT.read(token)
   dispatch(setUserData(decodedToken.claim))
+})
+
+const settingsEditRequest = userData => ({
+  type: SETTINGS_EDIT_REQUEST,
+  payload: {
+    userData,
+  },
+})
+
+const settingsEditSuccess = userData => ({
+  type: SETTINGS_EDIT_SUCCESS,
+  payload: {
+    userData,
+  },
+})
+
+const settingsEditFailure = error => ({
+  type: SETTINGS_EDIT_FAILURE,
+  payload: {
+    error,
+  },
+})
+
+export const editSettings = data => ((dispatch) => {
+  dispatch(settingsEditRequest(data))
+
+  // this is needed as API expects birthday in US date format,
+  // but birthday from form comes in BR date format
+  if (data.birthday) {
+    const birthdayPieces = data.birthday.split('/')
+    // eslint-disable-next-line no-param-reassign
+    data.birthday = `${birthdayPieces[1]}/${birthdayPieces[0]}/${birthdayPieces[2]}`
+  }
+
+  return authenticatedPost('/user/update', data)
+    .then((response) => {
+      localStorage.setItem('token', normalizeToken(response.data.token))
+      dispatch(settingsEditSuccess(response))
+      return true
+    })
+    .catch((error) => {
+      dispatch(settingsEditFailure(error.data.message))
+      return false
+    })
 })
