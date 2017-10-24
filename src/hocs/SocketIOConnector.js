@@ -50,7 +50,7 @@ class SocketIOConnector extends React.Component {
 
     socket.on('data', (morpheusId, message) => {
       dispatch(action.socketIOData(message))
-      dispatch(processDataMessage(message))
+      dispatch(processDataMessage([message]))
     })
 
     socket.on('reconnect', () => {
@@ -94,7 +94,7 @@ class SocketIOConnector extends React.Component {
   emitAction = (morpheusId, message) => {
     const { dispatch } = this.props
 
-    socket.emit('actionRequest', morpheusId, message)
+    socket.emit('action', morpheusId, message)
     dispatch(action.socketIOAction(message))
   }
 

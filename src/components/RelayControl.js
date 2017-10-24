@@ -99,7 +99,7 @@ class RelayControl extends Component {
             <RaisedButton
               disabled={relay2 === null}
               onClick={() =>
-                toggle(morpheusId, encodeActionMessage(moduleId, 'rele2_action', { rele2: !relay2 ? 0 : 1 }))}
+                toggle(morpheusId, encodeActionMessage(moduleId, 'rele2_action', { rele2: relay2 ? 0 : 1 }))}
               label={relay2 ? 'Desativar' : 'Ativar'}
             />
           </ButtonContainer>
