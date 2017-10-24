@@ -11,6 +11,7 @@ const Wrapper = styled.section`
   height: 100%;
   background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0.5) 80%, rgba(0,0,0,0) 100%), url(${pattern});
   color: #424242;
+  text-align: center;
 `
 
 const Title = styled.h1`

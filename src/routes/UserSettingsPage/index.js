@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: ${props => (props.lessThanSmall ? '100%' : '50%')};
+  width: ${props => (props.lessThanMedium ? '100%' : '50%')};
   padding: 50px 20px;
   margin: 0 auto;
 `
@@ -20,12 +20,12 @@ const FormContainer = styled.div`
 
 class UserSettingsPage extends Component {
   static propTypes = {
-    lessThanSmall: PropTypes.bool.isRequired,
+    lessThanMedium: PropTypes.bool.isRequired,
   }
 
   render() {
     return (
-      <Wrapper lessThanSmall={this.props.lessThanSmall}>
+      <Wrapper lessThanMedium={this.props.lessThanMedium}>
         <Card>
           <FormContainer><UserEdit /></FormContainer>
         </Card>
@@ -35,7 +35,7 @@ class UserSettingsPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  lessThanSmall: state.browser.lessThan.large,
+  lessThanMedium: state.browser.lessThan.medium,
 })
 
 export default connect(mapStateToProps)(UserSettingsPage)

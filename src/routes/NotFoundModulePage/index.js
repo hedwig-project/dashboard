@@ -11,6 +11,7 @@ const Wrapper = styled.section`
   height: 100%;
   background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0.5) 80%, rgba(0,0,0,0) 100%), url(${pattern});
   color: #424242;
+  text-align: center;
 `
 
 const Title = styled.h1`
@@ -22,9 +23,11 @@ const Text = styled.div`
   padding: 20px 0;
 `
 
-export default () => (
+const NotFoundModulePage = () => (
   <Wrapper>
     <Title>Página de módulo não encontrada!</Title>
     <Text>Ooops! Parece que esse módulo não existe :(</Text>
   </Wrapper>
 )
+
+export default NotFoundModulePage

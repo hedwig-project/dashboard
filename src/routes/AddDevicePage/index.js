@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: ${props => (props.lessThanSmall ? '100%' : '50%')};
+  width: ${props => (props.lessThanMedium ? '100%' : '50%')};
   padding: 50px 20px;
   margin: 0 auto;
 `
@@ -23,14 +23,14 @@ const FormContainer = styled.div`
 
 class AddDevicePage extends Component {
   static propTypes = {
-    lessThanSmall: PropTypes.bool.isRequired,
+    lessThanMedium: PropTypes.bool.isRequired,
     modulesCount: PropTypes.number.isRequired,
     morpheusCount: PropTypes.number.isRequired,
   }
 
   render() {
     return (
-      <Wrapper lessThanSmall={this.props.lessThanSmall}>
+      <Wrapper lessThanMedium={this.props.lessThanMedium}>
         <Card>
           <Tabs>
             <Tab label="Adicionar Morpheus">
@@ -49,7 +49,7 @@ class AddDevicePage extends Component {
 }
 
 const mapStateToProps = state => ({
-  lessThanSmall: state.browser.lessThan.large,
+  lessThanMedium: state.browser.lessThan.medium,
   modulesCount: state.modules.get('modules').toArray().length,
   morpheusCount: state.morpheus.get('morpheus').toArray().length,
 })

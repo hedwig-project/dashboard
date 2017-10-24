@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   width: 100%;
   min-height: 100%;
   background-color: #42A5F5;
-  padding: ${props => (props.lessThanSmall ? '10px 30px' : '10px 0')};
+  padding: ${props => (props.lessThanMedium ? '10px 30px' : '10px 0')};
 `
 
 const LogoWrapper = styled.div`
@@ -35,7 +35,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   position: relative;
-  width: ${props => (props.lessThanSmall ? '100%' : '33.3%')};
+  width: ${props => (props.lessThanMedium ? '100%' : '33.3%')};
   margin-top: 110px;
 `
 
@@ -50,12 +50,12 @@ const ButtonContainer = styled.div`
 `
 
 const mapStateToProps = state => ({
-  lessThanSmall: state.browser.lessThan.large,
+  lessThanMedium: state.browser.lessThan.medium,
 })
 
 class LandingPage extends Component {
   static propTypes = {
-    lessThanSmall: PropTypes.bool.isRequired,
+    lessThanMedium: PropTypes.bool.isRequired,
   }
 
   constructor(props) {
@@ -98,7 +98,7 @@ class LandingPage extends Component {
 
   render() {
     const {
-      lessThanSmall,
+      lessThanMedium,
     } = this.props
     const {
       showLogin,
@@ -107,9 +107,9 @@ class LandingPage extends Component {
     } = this.state
 
     return (
-      <Wrapper lessThanSmall={lessThanSmall}>
-        <ContentWrapper lessThanSmall={lessThanSmall}>
-          <LogoWrapper lessThanSmall={lessThanSmall}>
+      <Wrapper lessThanMedium={lessThanMedium}>
+        <ContentWrapper lessThanMedium={lessThanMedium}>
+          <LogoWrapper lessThanMedium={lessThanMedium}>
             <Logo src={hedwigLogo} />
           </LogoWrapper>
           <Card>

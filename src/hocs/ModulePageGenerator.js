@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { getModuleLocationColorScheme } from '@helpers/modules'
 import ModulePage from '@routes/ModulePage'
-import NotFoundModule from '@routes/NotFoundModule'
+import NotFoundModulePage from '@routes/NotFoundModulePage'
 
 class ModulePageGenerator extends React.Component {
   static propTypes = {
@@ -31,7 +31,7 @@ class ModulePageGenerator extends React.Component {
     }
 
     if (!module || !data) {
-      return (<NotFoundModule />)
+      return (<NotFoundModulePage />)
     }
 
     return (

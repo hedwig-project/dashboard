@@ -16,7 +16,7 @@ const Container = styled.article`
 const Box = styled.article`
   width: 100%;
   min-height: 180px;
-  flex: 1;
+  flex: 1 1 200px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
