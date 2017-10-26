@@ -91,7 +91,7 @@ export const getModulesData = () => ((dispatch) => {
   const token = localStorage.getItem('token')
   const user = JWT.read(token).claim
 
-  return authenticatedGet(`user/${user._id}/modules`, token)
+  return authenticatedGet(`users/${user._id}/modules`, token)
     .then((response) => {
       const returnedModules = response.data.response.modules
       dispatch(modulesLoadSuccess(returnedModules))

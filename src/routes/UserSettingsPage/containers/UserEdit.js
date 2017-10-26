@@ -8,9 +8,9 @@ import * as authActions from '@modules/auth/actions'
 
 const validate = values => validator(values, schema)
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   editSettings: (values) => {
-    dispatch(authActions.editSettings(values))
+    dispatch(authActions.editSettings(ownProps.userId, values))
   },
   clearError() {
     dispatch(authActions.clearAuthErrors())
@@ -18,14 +18,22 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  authFetching: state.auth.get('isFetching'),
   authError: state.auth.get('error'),
+  initialValues: {
+    email: state.auth.get('user') ? state.auth.get('user').email : '',
+    username: state.auth.get('user') ? state.auth.get('user').username : '',
+    name: state.auth.get('user') ? state.auth.get('user').name : '',
+    birthday: state.auth.get('user') ? state.auth.get('user').birthday : '',
+  },
+  isEditing: state.auth.get('isEditing'),
+  userId: state.auth.get('user') ? state.auth.get('user')._id : '',
 })
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'UserEditForm',
+    enableReinitialize: true,
     validate,
   }),
 )(UserEditForm)

@@ -93,7 +93,7 @@ export const getMorpheusData = () => ((dispatch) => {
   const token = localStorage.getItem('token')
   const user = JWT.read(token).claim
 
-  return authenticatedGet(`user/${user._id}/morpheus`, token)
+  return authenticatedGet(`users/${user._id}/morpheus`, token)
     .then((response) => {
       const returnedMorpheusList = response.data.response.morpheus
       dispatch(morpheusLoadSuccess(returnedMorpheusList))

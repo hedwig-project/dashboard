@@ -12,7 +12,7 @@ import {
   SETTINGS_EDIT_SUCCESS,
   SETTINGS_EDIT_FAILURE,
 } from '@modules/auth/actionTypes'
-import { authenticatedPost, unauthenticatedPost } from '@config/axios'
+import { unauthenticatedPost, authenticatedGet, authenticatedPut } from '@config/axios'
 import JWT from 'jwt-client'
 
 const normalizeToken = (token) => {
@@ -56,9 +56,9 @@ export const signUp = data => ((dispatch) => {
     data.birthday = `${birthdayPieces[1]}/${birthdayPieces[0]}/${birthdayPieces[2]}`
   }
 
-  return unauthenticatedPost('/user/register', data)
+  return unauthenticatedPost('/users', data)
     .then((response) => {
-      localStorage.setItem('token', normalizeToken(response.data.token))
+      localStorage.setItem('token', normalizeToken(response.data.response.token))
       dispatch(signUpSuccess(response))
       return true
     })
@@ -92,9 +92,9 @@ const loginFailure = error => ({
 export const login = creds => ((dispatch) => {
   dispatch(requestLogin(creds))
 
-  return unauthenticatedPost('/user/authenticate', creds)
+  return unauthenticatedPost('/users/authenticate', creds)
     .then((response) => {
-      localStorage.setItem('token', normalizeToken(response.data.token))
+      localStorage.setItem('token', normalizeToken(response.data.response.token))
       dispatch(loginSuccess(response.data.response.user))
       return true
     })
@@ -128,7 +128,13 @@ const setUserData = userData => ({
 export const getUserData = () => ((dispatch) => {
   const token = localStorage.getItem('token')
   const decodedToken = JWT.read(token)
-  dispatch(setUserData(decodedToken.claim))
+
+  return authenticatedGet('/users/profile', token)
+    .then((response) => {
+      dispatch(setUserData({ ...response.data.response.user, ...decodedToken.claim }))
+      return true
+    })
+    .catch(() => false)
 })
 
 const settingsEditRequest = userData => ({
@@ -152,8 +158,11 @@ const settingsEditFailure = error => ({
   },
 })
 
-export const editSettings = data => ((dispatch) => {
+export const editSettings = (userId, data) => ((dispatch) => {
   dispatch(settingsEditRequest(data))
+
+  const token = localStorage.getItem('token')
+  const decodedToken = JWT.read(token)
 
   // this is needed as API expects birthday in US date format,
   // but birthday from form comes in BR date format
@@ -163,10 +172,9 @@ export const editSettings = data => ((dispatch) => {
     data.birthday = `${birthdayPieces[1]}/${birthdayPieces[0]}/${birthdayPieces[2]}`
   }
 
-  return authenticatedPost('/user/update', data)
+  return authenticatedPut(`/users/${userId}`, data, token)
     .then((response) => {
-      localStorage.setItem('token', normalizeToken(response.data.token))
-      dispatch(settingsEditSuccess(response))
+      dispatch(settingsEditSuccess({ ...response.data.response.user, ...decodedToken.claim }))
       return true
     })
     .catch((error) => {

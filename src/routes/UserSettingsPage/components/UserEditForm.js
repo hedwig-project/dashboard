@@ -26,7 +26,7 @@ const ButtonWrapper = styled.div`
 
 const UserEditForm = ({
   editSettings,
-  authFetching,
+  isEditing,
   handleSubmit,
   authError,
   clearError,
@@ -87,7 +87,7 @@ const UserEditForm = ({
         />
         <ButtonWrapper>
           <RaisedButton
-            disabled={authFetching}
+            disabled={isEditing}
             label="Atualizar"
             primary
             style={{ margin: '15px 0' }}
@@ -108,7 +108,7 @@ const UserEditForm = ({
 
 UserEditForm.propTypes = {
   editSettings: PropTypes.func.isRequired,
-  authFetching: PropTypes.bool.isRequired,
+  isEditing: PropTypes.bool.isRequired,
   authError: PropTypes.array,
   handleSubmit: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
