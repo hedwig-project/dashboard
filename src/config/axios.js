@@ -40,3 +40,16 @@ export const authenticatedGet = (url, token) =>
     })
     .catch(error => reject(error))
   })
+
+export const authenticatedPut = (url, data, token) =>
+  new Promise((resolve, reject) => {
+    axios.put(url, data, {
+      headers: { Authorization: `JWT ${token}` },
+    })
+    .then((response) => {
+      if (response.data.success !== undefined && response.data.success === false) {
+        reject(response)
+      } else resolve(response)
+    })
+    .catch(error => reject(error))
+  })
