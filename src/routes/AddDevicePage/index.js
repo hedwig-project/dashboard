@@ -24,6 +24,7 @@ const FormContainer = styled.div`
 class AddDevicePage extends Component {
   static propTypes = {
     lessThanMedium: PropTypes.bool.isRequired,
+    emitConfiguration: PropTypes.func.isRequired,
     modulesCount: PropTypes.number.isRequired,
     morpheusCount: PropTypes.number.isRequired,
   }
@@ -37,7 +38,9 @@ class AddDevicePage extends Component {
               <FormContainer><AddMorpheus /></FormContainer>
             </Tab>
             <Tab label="Adicionar módulo">
-              <FormContainer><AddModule /></FormContainer>
+              <FormContainer>
+                <AddModule emitConfiguration={this.props.emitConfiguration} />
+              </FormContainer>
             </Tab>
           </Tabs>
         </Card>

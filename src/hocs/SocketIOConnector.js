@@ -98,13 +98,23 @@ class SocketIOConnector extends React.Component {
     dispatch(action.socketIOAction(message))
   }
 
+  emitConfiguration = (morpheusId, message) => {
+    const { dispatch } = this.props
+
+    socket.emit('configuration', morpheusId, message)
+    dispatch(action.socketIOConfiguration(message))
+  }
+
   /* eslint-disable comma-dangle */
   render() {
     return (
       <DefaultPage isAuthenticated={this.props.isAuthenticated}>
         {
           React.Children.map(this.props.children,
-            child => React.cloneElement(child, { emitAction: this.emitAction })
+            child => React.cloneElement(
+              child,
+              { emitAction: this.emitAction, emitConfiguration: this.emitConfiguration },
+            )
           )
         }
         <ReconnectingSnackbar />

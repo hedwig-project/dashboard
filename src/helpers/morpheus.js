@@ -22,6 +22,29 @@ export const encodeActionMessage = (moduleId, ty, payload) => {
   return message
 }
 
+export const encodeModuleRegistrationMessage = (module) => {
+  const message = {}
+
+  message.configurationId = '1'
+  message.timestamp = moment().unix()
+  message.morpheusConfiguration = {
+    register: [],
+    requestSendingPersistedMessages: true,
+  }
+
+  const moduleRegistration = {
+    moduleId: module.serial,
+    moduleName: module.name,
+    moduleTopic: convertModuleIdToTopic(module.serial),
+    receiveMessagesAtMostEvery: '1:s',
+    qos: '1',
+  }
+
+  message.morpheusConfiguration.register.push(moduleRegistration)
+
+  return message
+}
+
 export const decodeDataMessage = (message) => {
   return message
     .filter(item => item.controlParameters.reduce((result, param) => {
@@ -82,6 +105,7 @@ export default {
   convertModuleIdToTopic,
   convertTopicToModuleId,
   encodeActionMessage,
+  encodeModuleRegistrationMessage,
   decodeDataMessage,
   decodePayload,
   decodeSensorName,

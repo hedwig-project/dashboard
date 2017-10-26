@@ -10,8 +10,8 @@ const validate = values => validator(values, schema)
 
 const mapDispatchToProps = dispatch => ({
   addModule(data) {
-    dispatch(modulesActions.addModule(data)).then(
-      (success) => {
+    dispatch(modulesActions.addModule(data))
+      .then((success) => {
         if (success) {
           dispatch(reset('AddModuleForm'))
         }

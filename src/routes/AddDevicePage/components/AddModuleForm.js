@@ -9,6 +9,7 @@ import DefaultDialog from '@components/DefaultDialog'
 import DefaultInputField from '@components/DefaultInputField'
 import fonts from '@consts/fonts'
 import colors from '@consts/colors'
+import { encodeModuleRegistrationMessage } from '@helpers/morpheus'
 import { objectToArray2 as objectToArray } from '@helpers/objectToArray'
 
 const Wrapper = styled.div`
@@ -31,18 +32,31 @@ const ButtonWrapper = styled.div`
 
 const AddModuleForm = ({
   addModule,
+  emitConfiguration,
   morpheusOptions,
   moduleAdding,
   moduleError,
   handleSubmit,
   clearError,
 }) => {
+  const onSubmit = (data) => {
+    addModule(data)
+    emitConfiguration(
+      objectToArray(morpheusOptions)
+        .filter(morpheus => morpheus._id === data.morpheusId)
+        .map(morpheus => morpheus.serial)[0],
+      encodeModuleRegistrationMessage(data),
+    )
+  }
+
   const decodeError = () => ('Erro ao adicionar módulo')
 
   return (
     <Wrapper>
       <Header>Adicionar módulo</Header>
-      <form onSubmit={handleSubmit(addModule)}>
+      <form
+        onSubmit={handleSubmit(data => onSubmit(data))}
+      >
         <DefaultInputField
           name="name"
           floatingLabelText="Nome"
@@ -113,6 +127,7 @@ const AddModuleForm = ({
 
 AddModuleForm.propTypes = {
   addModule: PropTypes.func.isRequired,
+  emitConfiguration: PropTypes.func.isRequired,
   moduleAdding: PropTypes.bool.isRequired,
   morpheusOptions: PropTypes.object.isRequired,
   moduleError: PropTypes.array,
