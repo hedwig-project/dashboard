@@ -4,8 +4,8 @@ import AppBar from 'material-ui/AppBar'
 import Divider from 'material-ui/Divider'
 import Drawer from 'material-ui/Drawer'
 import FontIcon from 'material-ui/FontIcon'
-import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
+import ConnectionStatus from '@components/ConnectionStatus'
 import { getModuleLocationClass } from '@helpers/modules'
 import withNavigation from '@hocs/withNavigation'
 
@@ -61,12 +61,7 @@ class Menu extends React.Component {
           title="Hedwig"
           onLeftIconButtonTouchTap={this.handleChange}
           iconElementRight={
-            <IconButton>
-              <FontIcon
-                className={connected ? 'fa fa-check' : 'fa fa-exclamation'}
-                style={{ color: '#FFFFFF' }}
-              />
-            </IconButton>
+            <ConnectionStatus connected={connected} />
           }
           style={{ backgroundColor: '#424242' }}
         />
@@ -92,14 +87,20 @@ class Menu extends React.Component {
             leftIcon={<FontIcon className="fa fa-plus-circle" />}
             onTouchTap={() => redirect('/add-device')}
           >
-            Adicionar dispositivo...
+            Adicionar dispositivo
+          </MenuItem>
+          <MenuItem
+            leftIcon={<FontIcon className="fa fa-sliders" />}
+            onTouchTap={() => redirect('/device-settings')}
+          >
+            Configurar dispositivo
           </MenuItem>
           <Divider />
           <MenuItem
             leftIcon={<FontIcon className="fa fa-cog" />}
-            onTouchTap={() => redirect('#')}
+            onTouchTap={() => redirect('/user-settings')}
           >
-            Configurações
+            Configurações gerais
           </MenuItem>
           <MenuItem
             leftIcon={<FontIcon className="fa fa-sign-out" />}

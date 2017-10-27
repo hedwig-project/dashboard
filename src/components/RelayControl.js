@@ -5,6 +5,7 @@ import React, {
 import styled from 'styled-components'
 import FontIcon from 'material-ui/FontIcon'
 import RaisedButton from 'material-ui/RaisedButton'
+import { encodeActionMessage } from '@helpers/morpheus'
 
 const Container = styled.article`
   width: 100%;
@@ -15,7 +16,7 @@ const Container = styled.article`
 const Box = styled.article`
   width: 100%;
   min-height: 180px;
-  flex: 1;
+  flex: 1 1 200px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -55,6 +56,9 @@ class RelayControl extends Component {
 
   render() {
     const {
+      moduleId,
+      morpheusId,
+      toggle,
       boxColors,
       relay1,
       relay2,
@@ -62,32 +66,42 @@ class RelayControl extends Component {
     /* eslint-disable no-nested-ternary */
     return (
       <Container>
-        <Box color={boxColors[0]}>
+        <Box color={boxColors[0] || '#9E9E9E'}>
           <FontIcon
-            className={relay1 ? 'fa fa-check-circle-o' : (relay1 === false ? 'fa fa-times-circle-o' : 'fa fa-question-circle-o')}
+            className={relay1 === 1 ? 'fa fa-check-circle-o' : (relay1 === 0 ? 'fa fa-times-circle-o' : 'fa fa-question-circle-o')}
             style={this.iconStyle}
             color={'white'}
           />
           <MainInfo>
-            {relay1 ? 'Ativo' : (relay1 === false ? 'Inativo' : '?')}
+            {relay1 === 1 ? 'Ativo' : (relay1 === 0 ? 'Inativo' : '?')}
           </MainInfo>
           <BoxTitle>Relê 1</BoxTitle>
-          <ButtonContainer style={relay1 === undefined ? { display: 'none' } : {}}>
-            <RaisedButton label={relay1 ? 'Desativar' : 'Ativar'} />
+          <ButtonContainer>
+            <RaisedButton
+              disabled={relay1 === null}
+              onClick={() =>
+                toggle(morpheusId, encodeActionMessage(moduleId, 'rele1_action', { rele1: relay1 ? 0 : 1 }))}
+              label={relay1 ? 'Desativar' : 'Ativar'}
+            />
           </ButtonContainer>
         </Box>
-        <Box color={boxColors[1]}>
+        <Box color={boxColors[1] || '#BDBDBD'}>
           <FontIcon
-            className={relay2 ? 'fa fa-check-circle-o' : (relay2 === false ? 'fa fa-times-circle-o' : 'fa fa-question-circle-o')}
+            className={relay2 === 1 ? 'fa fa-check-circle-o' : (relay2 === 0 ? 'fa fa-times-circle-o' : 'fa fa-question-circle-o')}
             style={this.iconStyle}
             color={'white'}
           />
           <MainInfo>
-            {relay2 ? 'Ativo' : (relay2 === false ? 'Inativo' : '?')}
+            {relay2 === 1 ? 'Ativo' : (relay2 === 0 ? 'Inativo' : '?')}
           </MainInfo>
           <BoxTitle>Relê 2</BoxTitle>
-          <ButtonContainer style={relay2 === undefined ? { display: 'none' } : {}}>
-            <RaisedButton label={relay2 ? 'Desativar' : 'Ativar'} />
+          <ButtonContainer>
+            <RaisedButton
+              disabled={relay2 === null}
+              onClick={() =>
+                toggle(morpheusId, encodeActionMessage(moduleId, 'rele2_action', { rele2: relay2 ? 0 : 1 }))}
+              label={relay2 ? 'Desativar' : 'Ativar'}
+            />
           </ButtonContainer>
         </Box>
       </Container>
@@ -96,9 +110,18 @@ class RelayControl extends Component {
 }
 
 RelayControl.propTypes = {
-  boxColors: PropTypes.array.isRequired,
-  relay1: PropTypes.bool.isRequired,
-  relay2: PropTypes.bool.isRequired,
+  moduleId: PropTypes.string.isRequired,
+  morpheusId: PropTypes.string.isRequired,
+  toggle: PropTypes.func.isRequired,
+  boxColors: PropTypes.array,
+  relay1: PropTypes.number,
+  relay2: PropTypes.number,
+}
+
+RelayControl.defaultProps = {
+  boxColors: [],
+  relay1: null,
+  relay2: null,
 }
 
 export default RelayControl

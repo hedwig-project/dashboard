@@ -8,6 +8,9 @@ import {
   LOGOUT,
   CLEAR_AUTH_ERRORS,
   SET_USER_DATA,
+  SETTINGS_EDIT_REQUEST,
+  SETTINGS_EDIT_SUCCESS,
+  SETTINGS_EDIT_FAILURE,
 } from '@modules/auth/actionTypes'
 import { Map } from 'immutable'
 import JWT from 'jwt-client'
@@ -27,6 +30,7 @@ const checkToken = () => {
 }
 
 export const initialState = Map({
+  isEditing: false,
   isFetching: false,
   isAuthenticated: checkToken(),
 })
@@ -73,6 +77,17 @@ export default (state = initialState, { type, payload }) => {
     case SET_USER_DATA:
       return state
         .set('user', payload.userData)
+    case SETTINGS_EDIT_REQUEST:
+      return state
+        .set('isEditing', true)
+    case SETTINGS_EDIT_SUCCESS:
+      return state
+        .set('isEditing', false)
+        .set('user', payload.userData)
+    case SETTINGS_EDIT_FAILURE:
+      return state
+        .set('isEditing', false)
+        .set('error', payload.error)
     default:
       return state
   }

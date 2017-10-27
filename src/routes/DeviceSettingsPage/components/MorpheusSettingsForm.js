@@ -1,8 +1,11 @@
+import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
 import React, { PropTypes } from 'react'
+import { SelectField } from 'redux-form-material-ui'
 import styled from 'styled-components'
 import DefaultDialog from '@components/DefaultDialog'
 import DefaultInputField from '@components/DefaultInputField'
+import { objectToArray2 as objectToArray } from '@helpers/objectToArray'
 import fonts from '@consts/fonts'
 import colors from '@consts/colors'
 
@@ -24,10 +27,11 @@ const ButtonWrapper = styled.div`
   justify-content: center;
 `
 
-const AddMorpheusForm = ({
-  addMorpheus,
-  morpheusAdding,
+const MorpheusSettingsForm = ({
+  deleteMorpheus,
+  morpheus,
   morpheusError,
+  morpheusRemoving,
   handleSubmit,
   clearError,
 }) => {
@@ -35,16 +39,30 @@ const AddMorpheusForm = ({
 
   return (
     <Wrapper>
-      <Header>Adicionar Morpheus</Header>
-      <form onSubmit={handleSubmit(addMorpheus)}>
+      <Header>Gerenciar Morpheus</Header>
+      <form onSubmit={handleSubmit(deleteMorpheus)}>
         <DefaultInputField
-          name="serial"
-          floatingLabelText="Número de série"
-        />
+          name="morpheusId"
+          component={SelectField}
+          floatingLabelText="Número de série do Morpheus"
+        >
+          {
+            morpheus &&
+            objectToArray(morpheus).map(item =>
+              (
+                <MenuItem
+                  value={item._id}
+                  key={item._id}
+                  primaryText={item.serial}
+                />
+              ),
+            )
+          }
+        </DefaultInputField>
         <ButtonWrapper>
           <RaisedButton
-            disabled={morpheusAdding}
-            label="Adicionar"
+            disabled={morpheusRemoving}
+            label="Remover"
             primary
             style={{ margin: '15px 0' }}
             type="submit"
@@ -53,7 +71,7 @@ const AddMorpheusForm = ({
       </form>
       <DefaultDialog
         actions={[{ label: 'Ok', onTouchTap: clearError }]}
-        title="Erro adicionando Morpheus"
+        title="Erro removendo Morpheus"
         open={morpheusError}
         onRequestClose={clearError}
       >
@@ -62,16 +80,18 @@ const AddMorpheusForm = ({
     </Wrapper>)
 }
 
-AddMorpheusForm.propTypes = {
-  addMorpheus: PropTypes.func.isRequired,
-  morpheusAdding: PropTypes.bool.isRequired,
+MorpheusSettingsForm.propTypes = {
+  deleteMorpheus: PropTypes.func.isRequired,
+  morpheus: PropTypes.object,
   morpheusError: PropTypes.array,
+  morpheusRemoving: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
 }
 
-AddMorpheusForm.defaultProps = {
+MorpheusSettingsForm.defaultProps = {
+  morpheus: null,
   morpheusError: [],
 }
 
-export default (AddMorpheusForm)
+export default (MorpheusSettingsForm)

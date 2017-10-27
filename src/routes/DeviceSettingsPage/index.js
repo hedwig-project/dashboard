@@ -3,9 +3,8 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import DeviceAddedSnackbar from '@components/DeviceAddedSnackbar'
-import AddMorpheus from '@routes/AddDevicePage/containers/AddMorpheus'
-import AddModule from '@routes/AddDevicePage/containers/AddModule'
+import MorpheusSettings from '@routes/DeviceSettingsPage/containers/MorpheusSettings'
+import ModuleSettings from '@routes/DeviceSettingsPage/containers/ModuleSettings'
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,9 +23,6 @@ const FormContainer = styled.div`
 class AddDevicePage extends Component {
   static propTypes = {
     lessThanMedium: PropTypes.bool.isRequired,
-    emitConfiguration: PropTypes.func.isRequired,
-    modulesCount: PropTypes.number.isRequired,
-    morpheusCount: PropTypes.number.isRequired,
   }
 
   render() {
@@ -34,18 +30,14 @@ class AddDevicePage extends Component {
       <Wrapper lessThanMedium={this.props.lessThanMedium}>
         <Card>
           <Tabs>
-            <Tab label="Adicionar Morpheus">
-              <FormContainer><AddMorpheus /></FormContainer>
+            <Tab label="Gerenciar Morpheus">
+              <FormContainer><MorpheusSettings /></FormContainer>
             </Tab>
-            <Tab label="Adicionar módulo">
-              <FormContainer>
-                <AddModule emitConfiguration={this.props.emitConfiguration} />
-              </FormContainer>
+            <Tab label="Gerenciar módulos">
+              <FormContainer><ModuleSettings /></FormContainer>
             </Tab>
           </Tabs>
         </Card>
-        <DeviceAddedSnackbar deviceCount={this.props.modulesCount} message="Módulo adicionado!" />
-        <DeviceAddedSnackbar deviceCount={this.props.morpheusCount} message="Morpheus adicionado!" />
       </Wrapper>
     )
   }
@@ -53,8 +45,6 @@ class AddDevicePage extends Component {
 
 const mapStateToProps = state => ({
   lessThanMedium: state.browser.lessThan.medium,
-  modulesCount: state.modules.get('modules').toArray().length,
-  morpheusCount: state.morpheus.get('morpheus').toArray().length,
 })
 
 export default connect(mapStateToProps)(AddDevicePage)

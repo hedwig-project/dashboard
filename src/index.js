@@ -1,21 +1,21 @@
 /* global document */
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
-import { browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
-import configureStore from './store.js';
+import injectTapEventPlugin from 'react-tap-event-plugin'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { AppContainer } from 'react-hot-loader'
+import { browserHistory } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
+import configureStore from './store.js'
 import Root from './components/Root'
-import './index.css';
+import './index.css'
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
+injectTapEventPlugin()
 
 const store = configureStore({})
-const syncedHistory = syncHistoryWithStore(browserHistory, store);
-const rootElement = document.getElementById('root');
+const syncedHistory = syncHistoryWithStore(browserHistory, store)
+const rootElement = document.getElementById('root')
 
 /**
  * Raiz do React que é renderizado no DOM
@@ -32,16 +32,14 @@ function render(RootClass) {
       />
     </AppContainer>,
     rootElement,
-  );
+  )
 }
-
 
 // Para funcionar o HOT RELOAD
 if (module.hot) {
   module.hot.accept('./components/Root', () => {
-    render(require('./components/Root').default);
-  });
+    render(require('./components/Root').default)
+  })
 }
-
 
 render(Root)

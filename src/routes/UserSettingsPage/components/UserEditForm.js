@@ -24,9 +24,9 @@ const ButtonWrapper = styled.div`
   justify-content: center;
 `
 
-const SignupForm = ({
-  signUp,
-  authFetching,
+const UserEditForm = ({
+  editSettings,
+  isEditing,
   handleSubmit,
   authError,
   clearError,
@@ -50,8 +50,8 @@ const SignupForm = ({
 
   return (
     <Wrapper>
-      <Header>Cadastro</Header>
-      <form onSubmit={handleSubmit(signUp)}>
+      <Header>Alterar Informações</Header>
+      <form onSubmit={handleSubmit(editSettings)}>
         <DefaultInputField
           name="email"
           type="email"
@@ -76,14 +76,19 @@ const SignupForm = ({
           floatingLabelText="Senha"
         />
         <DefaultInputField
-          name="passwordConfirmation"
+          name="newPassword"
           type="password"
-          floatingLabelText="Confirme a senha"
+          floatingLabelText="Nova senha"
+        />
+        <DefaultInputField
+          name="newPasswordConfirmation"
+          type="password"
+          floatingLabelText="Confirme a nova senha"
         />
         <ButtonWrapper>
           <RaisedButton
-            disabled={authFetching}
-            label="Cadastrar"
+            disabled={isEditing}
+            label="Atualizar"
             primary
             style={{ margin: '15px 0' }}
             type="submit"
@@ -92,7 +97,7 @@ const SignupForm = ({
       </form>
       <DefaultDialog
         actions={[{ label: 'Ok', onTouchTap: clearError }]}
-        title="Cadastro inválido"
+        title="Informações inválidas"
         open={authError.length > 0}
         onRequestClose={clearError}
       >
@@ -101,16 +106,16 @@ const SignupForm = ({
     </Wrapper>)
 }
 
-SignupForm.propTypes = {
-  signUp: PropTypes.func.isRequired,
-  authFetching: PropTypes.bool.isRequired,
+UserEditForm.propTypes = {
+  editSettings: PropTypes.func.isRequired,
+  isEditing: PropTypes.bool.isRequired,
   authError: PropTypes.array,
   handleSubmit: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
 }
 
-SignupForm.defaultProps = {
+UserEditForm.defaultProps = {
   authError: [],
 }
 
-export default (SignupForm)
+export default (UserEditForm)

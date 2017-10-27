@@ -39,6 +39,10 @@ export const addModule = module => ((dispatch) => {
     return
   }
   const token = localStorage.getItem('token')
+  const user = JWT.read(token).claim
+
+  // eslint-disable-next-line no-param-reassign
+  module.userId = user._id
 
   return authenticatedPost('/modules', module, token)
     .then((response) => {
@@ -91,7 +95,7 @@ export const getModulesData = () => ((dispatch) => {
   const token = localStorage.getItem('token')
   const user = JWT.read(token).claim
 
-  return authenticatedGet(`user/${user._id}/modules`, token)
+  return authenticatedGet(`users/${user._id}/modules`, token)
     .then((response) => {
       const returnedModules = response.data.response.modules
       dispatch(modulesLoadSuccess(returnedModules))

@@ -1,17 +1,26 @@
+import RaisedButton from 'material-ui/RaisedButton'
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
-import DefaultButton from '@components/DefaultButton'
 import DefaultDialog from '@components/DefaultDialog'
 import DefaultInputField from '@components/DefaultInputField'
 import fonts from '@consts/fonts'
 import colors from '@consts/colors'
 
+const Wrapper = styled.div`
+  margin-top: 20px;
+`
+
 const Header = styled.h2`
   font-size: ${fonts.large};
   color: ${colors.mainBlue};
   text-align: center;
-  margin: 30px 0 0 0;
   font-weight: normal;
+  margin-bottom: 10px;
+`
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 const ForgotPasswordForm = ({
@@ -32,21 +41,23 @@ const ForgotPasswordForm = ({
   }
 
   return (
-    <div>
+    <Wrapper>
       <Header>Esqueci Minha Senha</Header>
       <form onSubmit={handleSubmit(forgotPassword)}>
-        <div>
-          <DefaultInputField
-            name="email"
-            type="email"
-            floatingLabelText="Email"
-          />
-        </div>
-        <DefaultButton
-          disabled={authLoading}
-          label="Recuperar Senha"
-          type="submit"
+        <DefaultInputField
+          name="email"
+          type="email"
+          floatingLabelText="Email"
         />
+        <ButtonWrapper>
+          <RaisedButton
+            disabled={authLoading}
+            label="Recuperar Senha"
+            primary
+            style={{ margin: '15px 0' }}
+            type="submit"
+          />
+        </ButtonWrapper>
       </form>
       <DefaultDialog
         actions={[{ label: 'Ok', onTouchTap: () => closeDialog(resetPasswordMessage.success) }]}
@@ -56,7 +67,7 @@ const ForgotPasswordForm = ({
       >
         { resetPasswordMessage ? resetPasswordMessage.message : '' }
       </DefaultDialog>
-    </div>)
+    </Wrapper>)
 }
 
 ForgotPasswordForm.propTypes = {
@@ -65,6 +76,10 @@ ForgotPasswordForm.propTypes = {
   resetPasswordMessage: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
   closeDialog: PropTypes.func.isRequired,
+}
+
+ForgotPasswordForm.defaultProps = {
+  resetPasswordMessage: '',
 }
 
 export default (ForgotPasswordForm)

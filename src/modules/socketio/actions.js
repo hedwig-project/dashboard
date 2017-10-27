@@ -5,6 +5,7 @@ import {
   SOCKETIO_RECONNECT_FAILED,
   SOCKETIO_RECONNECTING,
   SOCKETIO_ACTION,
+  SOCKETIO_CONFIGURATION,
   SOCKETIO_CONFIRMATION,
   SOCKETIO_DATA,
 } from '@modules/socketio/actionTypes.js'
@@ -31,6 +32,11 @@ export const socketIOReconnecting = () => ({
 
 export const socketIOAction = message => ({
   type: SOCKETIO_ACTION,
+  payload: message,
+})
+
+export const socketIOConfiguration = message => ({
+  type: SOCKETIO_CONFIGURATION,
   payload: message,
 })
 
