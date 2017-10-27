@@ -15,13 +15,19 @@ import {
 } from '@modules/morpheus/actionTypes.js'
 import { Map } from 'immutable'
 
-export const initialState = Map({ error: null, isAdding: false, morpheus: Map({}) })
+export const initialState = Map({
+  error: null,
+  isAdding: false,
+  isRemoving: false,
+  morpheus: Map({}),
+})
 
 /*
  * State example
  * {
  *   error: null,
  *   isAdding: false,
+ *   isRemoving: false,
  *   morpheus: {
  *     'morpheusid1234': {
  *       resend: true,

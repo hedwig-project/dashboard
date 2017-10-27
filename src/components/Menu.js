@@ -87,7 +87,13 @@ class Menu extends React.Component {
             leftIcon={<FontIcon className="fa fa-plus-circle" />}
             onTouchTap={() => redirect('/add-device')}
           >
-            Adicionar dispositivo...
+            Adicionar dispositivo
+          </MenuItem>
+          <MenuItem
+            leftIcon={<FontIcon className="fa fa-sliders" />}
+            onTouchTap={() => redirect('/device-settings')}
+          >
+            Configurar dispositivo
           </MenuItem>
           <Divider />
           <MenuItem
