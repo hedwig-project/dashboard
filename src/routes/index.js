@@ -30,7 +30,11 @@ export default class Routes extends React.Component {
             <Route path="access" component={AccessModulePage} />
             <Route path="module/:id" component={ModulePageGenerator} />
             <Route path="add-device" component={AddDevicePage} />
-            <Route path="device-settings" component={DeviceSettingsPage} />
+            <Route path="device-settings" component={DeviceSettingsPage}>
+              <Route path=":type">
+                <Route path=":id" />
+              </Route>
+            </Route>
             <Route path="user-settings" component={UserSettingsPage} />
           </Route>
           <Route path="*" component={NotFoundPage} />

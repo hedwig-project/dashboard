@@ -1,22 +1,22 @@
-import MenuItem from 'material-ui/MenuItem'
+import Checkbox from 'material-ui/Checkbox'
+import Divider from 'material-ui/Divider'
 import RaisedButton from 'material-ui/RaisedButton'
 import React, { PropTypes } from 'react'
-import { SelectField } from 'redux-form-material-ui'
+import { Field } from 'redux-form'
 import styled from 'styled-components'
 import DefaultDialog from '@components/DefaultDialog'
-import DefaultInputField from '@components/DefaultInputField'
-import { objectToArray2 as objectToArray } from '@helpers/objectToArray'
 import fonts from '@consts/fonts'
-import colors from '@consts/colors'
 
 const Wrapper = styled.div`
   margin-top: 20px;
-  padding: 0 10px;
 `
 
-const Header = styled.h2`
-  font-size: ${fonts.large};
-  color: ${colors.mainBlue};
+const SettingsSection = styled.section`
+  padding: 20px 0;
+`
+
+const Header = styled.h3`
+  font-size: ${fonts.medium};
   text-align: center;
   font-weight: normal;
   margin-bottom: 10px;
@@ -28,63 +28,86 @@ const ButtonWrapper = styled.div`
 `
 
 const MorpheusSettingsForm = ({
-  deleteMorpheus,
   morpheus,
+  deleteMorpheus,
+  updateMorpheus,
   morpheusError,
   morpheusRemoving,
+  morpheusUpdating,
   handleSubmit,
   clearError,
 }) => {
   const decodeError = () => ('Erro ao adicionar Morpheus')
 
+  // eslint-disable-next-line react/prop-types
+  const renderCheckbox = ({ input, label }) => (
+    <Checkbox
+      label={label}
+      checked={input.value === '' ? false : input.value}
+      onCheck={input.onChange}
+    />
+  )
+
   return (
     <Wrapper>
-      <Header>Gerenciar Morpheus</Header>
-      <form onSubmit={handleSubmit(deleteMorpheus)}>
-        <DefaultInputField
-          name="morpheusId"
-          component={SelectField}
-          floatingLabelText="Número de série do Morpheus"
-        >
-          {
-            morpheus &&
-            objectToArray(morpheus).map(item =>
-              (
-                <MenuItem
-                  value={item._id}
-                  key={item._id}
-                  primaryText={item.serial}
-                />
-              ),
-            )
+      <SettingsSection>
+        <Header>Configurações</Header>
+        <form
+          onSubmit={
+            handleSubmit(values => updateMorpheus({ ...morpheus, resend: values.resend === true }))
           }
-        </DefaultInputField>
+        >
+          <Field
+            id="resend"
+            name="resend"
+            component={renderCheckbox}
+            label="Reenviar mensagens pendentes"
+          />
+          <ButtonWrapper>
+            <RaisedButton
+              disabled={morpheusUpdating}
+              label="Atualizar"
+              primary
+              style={{ margin: '15px 0' }}
+              type="submit"
+            />
+          </ButtonWrapper>
+        </form>
+      </SettingsSection>
+      <Divider />
+      <SettingsSection>
+        <Header>Remover Morpheus</Header>
+        Tem certeza que deseja remover o Morpheus?
+        Todos os módulos associados serão removidos também.
         <ButtonWrapper>
           <RaisedButton
             disabled={morpheusRemoving}
+            onClick={() => deleteMorpheus(morpheus)}
             label="Remover"
-            primary
+            secondary
             style={{ margin: '15px 0' }}
-            type="submit"
           />
         </ButtonWrapper>
-      </form>
+      </SettingsSection>
       <DefaultDialog
         actions={[{ label: 'Ok', onTouchTap: clearError }]}
-        title="Erro removendo Morpheus"
+        title="Erro"
         open={morpheusError}
         onRequestClose={clearError}
       >
         { morpheusError ? decodeError() : '' }
       </DefaultDialog>
-    </Wrapper>)
+    </Wrapper>
+  )
 }
 
 MorpheusSettingsForm.propTypes = {
   deleteMorpheus: PropTypes.func.isRequired,
+  updateMorpheus: PropTypes.func.isRequired,
   morpheus: PropTypes.object,
   morpheusError: PropTypes.array,
   morpheusRemoving: PropTypes.bool.isRequired,
+  morpheusUpdating: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
 }

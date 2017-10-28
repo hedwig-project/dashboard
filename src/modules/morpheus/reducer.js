@@ -9,9 +9,13 @@ import {
   MORPHEUS_ADD_SUCCESS,
   MORPHEUS_ADD_FAILURE,
   CLEAR_MORPHEUS_ERRORS,
-  MORPHEUS_DELETE,
+  MORPHEUS_DELETE_REQUEST,
+  MORPHEUS_DELETE_SUCCESS,
+  MORPHEUS_DELETE_FAILURE,
   MORPHEUS_LOAD_SUCCESS,
-  MORPHEUS_UPDATE,
+  MORPHEUS_UPDATE_REQUEST,
+  MORPHEUS_UPDATE_SUCCESS,
+  MORPHEUS_UPDATE_FAILURE,
 } from '@modules/morpheus/actionTypes.js'
 import { Map } from 'immutable'
 
@@ -19,6 +23,7 @@ export const initialState = Map({
   error: null,
   isAdding: false,
   isRemoving: false,
+  isUpdating: false,
   morpheus: Map({}),
 })
 
@@ -28,6 +33,7 @@ export const initialState = Map({
  *   error: null,
  *   isAdding: false,
  *   isRemoving: false,
+ *   isUpdating: false,
  *   morpheus: {
  *     'morpheusid1234': {
  *       resend: true,
@@ -59,8 +65,16 @@ export default (state = initialState, action) => {
       return state
         .set('isAdding', false)
         .set('error', action.payload.error)
-    case MORPHEUS_DELETE:
-      return state.delete(action.payload.morpheus.serial)
+    case MORPHEUS_DELETE_REQUEST:
+      return state.set('isRemoving', true)
+    case MORPHEUS_DELETE_SUCCESS:
+      return state
+        .set('isRemoving', false)
+        .deleteIn(['morpheus', action.payload.morpheus.serial])
+    case MORPHEUS_DELETE_FAILURE:
+      return state
+        .set('isRemoving', false)
+        .set('error', action.payload.error)
     case MORPHEUS_LOAD_SUCCESS:
       const morpheusList = action.payload.morpheus
         .reduce((obj, morpheus) => {
@@ -69,8 +83,18 @@ export default (state = initialState, action) => {
           return obj
         }, {})
       return state.mergeDeep(Map({ morpheus: Map(morpheusList) }))
-    case MORPHEUS_UPDATE:
-      return state.set(action.payload.morpheus.serial, action.payload.morpheus)
+    case MORPHEUS_UPDATE_REQUEST:
+      return state.set('isUpdating', true)
+    case MORPHEUS_UPDATE_SUCCESS:
+      const updatedMorpheus = {}
+      updatedMorpheus[action.payload.morpheus.serial] = action.payload.morpheus
+      return state
+        .set('isUpdating', false)
+        .mergeDeep(Map({ morpheus: Map(updatedMorpheus) }))
+    case MORPHEUS_UPDATE_FAILURE:
+      return state
+        .set('isUpdating', false)
+        .set('error', action.payload.error)
     case MODULE_ADD_SUCCESS:
       const beforeModuleAdd = state.get('morpheus').get(action.payload.module.morpheus.serial)
       return state.setIn(

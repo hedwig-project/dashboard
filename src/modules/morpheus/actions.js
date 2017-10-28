@@ -3,15 +3,22 @@ import {
   MORPHEUS_ADD_FAILURE,
   MORPHEUS_ADD_REQUEST,
   CLEAR_MORPHEUS_ERRORS,
-  MORPHEUS_DELETE,
   MORPHEUS_DELETE_REQUEST,
+  MORPHEUS_DELETE_SUCCESS,
+  MORPHEUS_DELETE_FAILURE,
   MORPHEUS_LOAD_SUCCESS,
   MORPHEUS_LOAD_FAILURE,
   MORPHEUS_LOAD_REQUEST,
-  MORPHEUS_UPDATE,
   MORPHEUS_UPDATE_REQUEST,
+  MORPHEUS_UPDATE_SUCCESS,
+  MORPHEUS_UPDATE_FAILURE,
 } from '@modules/morpheus/actionTypes.js'
-import { authenticatedPost, authenticatedGet } from '@config/axios'
+import {
+  authenticatedPost,
+  authenticatedGet,
+  authenticatedPut,
+  authenticatedDelete,
+} from '@config/axios'
 import JWT from 'jwt-client'
 
 export const morpheusAddRequest = () => ({
@@ -64,15 +71,35 @@ export const morpheusDeleteRequest = morpheus => ({
   payload: { morpheus },
 })
 
-export const morpheusDeleteSuccess = success => ({
-  type: MORPHEUS_DELETE,
-  payload: { success },
+export const morpheusDeleteSuccess = morpheus => ({
+  type: MORPHEUS_DELETE_SUCCESS,
+  payload: { morpheus },
 })
 
 export const morpheusDeleteFailed = error => ({
-  type: MORPHEUS_DELETE,
+  type: MORPHEUS_DELETE_FAILURE,
   payload: { error },
 })
+
+export const deleteMorpheus = morpheus => (dispatch) => {
+  dispatch(morpheusDeleteRequest(morpheus))
+  const token = localStorage.getItem('token')
+
+  return authenticatedDelete(`/morpheus/${morpheus._id}`, token)
+    .then((response) => {
+      dispatch(morpheusDeleteSuccess(response.data.response.morpheus))
+      return true
+    })
+    .catch((error) => {
+      const data = error.data
+      let message = ''
+      if (data) {
+        message = data.message
+      }
+      dispatch(morpheusDeleteFailed(message || 'Erro ao remover Morpheus'))
+      return false
+    })
+}
 
 const morpheusLoadRequest = () => ({
   type: MORPHEUS_LOAD_REQUEST,
@@ -116,11 +143,36 @@ export const morpheusUpdateRequest = morpheus => ({
 })
 
 export const morpheusUpdateSuccess = morpheus => ({
-  type: MORPHEUS_UPDATE,
+  type: MORPHEUS_UPDATE_SUCCESS,
   payload: { morpheus },
 })
 
 export const morpheusUpdateFailed = error => ({
-  type: MORPHEUS_UPDATE,
+  type: MORPHEUS_UPDATE_FAILURE,
   payload: { error },
 })
+
+export const updateMorpheus = morpheus => (dispatch) => {
+  dispatch(morpheusUpdateRequest(morpheus))
+  const token = localStorage.getItem('token')
+  const user = JWT.read(token).claim
+
+  // eslint-disable-next-line no-param-reassign
+  morpheus.user = user._id
+
+  return authenticatedPut(`/morpheus/${morpheus._id}`, morpheus, token)
+    .then((response) => {
+      const returnedMorpheus = response.data.response.morpheus
+      dispatch(morpheusUpdateSuccess(returnedMorpheus))
+      return true
+    })
+    .catch((error) => {
+      const data = error.data
+      let message = ''
+      if (data) {
+        message = data.message
+      }
+      dispatch(morpheusUpdateFailed(message || 'Erro ao atualizar Morpheus'))
+      return false
+    })
+}
