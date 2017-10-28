@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton'
 import Login from '@routes/LandingPage/containers/Login'
 import SignUp from '@routes/LandingPage/containers/SignUp'
 import ForgotPassword from '@routes/LandingPage/containers/ForgotPassword'
-import hedwigLogo from '@images/hedwig.png'
+import hedwigLogo from '@images/hedwig2-1.png'
 
 const Wrapper = styled.div`
   display: flex;
