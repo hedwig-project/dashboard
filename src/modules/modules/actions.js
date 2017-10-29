@@ -43,6 +43,11 @@ export const addModule = module => ((dispatch) => {
 
   // eslint-disable-next-line no-param-reassign
   module.userId = user._id
+  // eslint-disable-next-line no-param-reassign
+  module.components = {
+    relay1: { name: module.relay1 },
+    relay2: { name: module.relay2 },
+  }
 
   return authenticatedPost('/modules', module, token)
     .then((response) => {

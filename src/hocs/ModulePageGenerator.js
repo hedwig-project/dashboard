@@ -45,7 +45,13 @@ class ModulePageGenerator extends React.Component {
         presence={data.get('presence') ? parseInt(data.get('presence'), 10) : null}
         temperature={data.get('temperature')}
         relay1={data.get('relay1') ? parseInt(data.get('relay1'), 10) : null}
+        relay1Name={
+          module.components && module.components.relay1 ?
+          module.components.relay1.name : undefined}
         relay2={data.get('relay2') ? parseInt(data.get('relay2'), 10) : null}
+        relay2Name={
+          module.components && module.components.relay2 ?
+          module.components.relay2.name : undefined}
         lastUpdatedAt={data.get('lastUpdatedAt')}
       />
     )

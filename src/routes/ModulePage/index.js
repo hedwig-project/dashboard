@@ -24,7 +24,9 @@ class ModulePage extends Component {
     presence: PropTypes.number,
     temperature: PropTypes.number,
     relay1: PropTypes.number,
+    relay1Name: PropTypes.string,
     relay2: PropTypes.number,
+    relay2Name: PropTypes.string,
     lastUpdatedAt: PropTypes.number,
   }
 
@@ -36,7 +38,9 @@ class ModulePage extends Component {
     presence: null,
     temperature: null,
     relay1: null,
+    relay1Name: 'Relé 1',
     relay2: null,
+    relay2Name: 'Relé 2',
     lastUpdatedAt: null,
   }
 
@@ -51,7 +55,9 @@ class ModulePage extends Component {
       presence,
       temperature,
       relay1,
+      relay1Name,
       relay2,
+      relay2Name,
       lastUpdatedAt,
     } = this.props
 
@@ -73,7 +79,9 @@ class ModulePage extends Component {
             toggle={emitAction}
             boxColors={boxColors.slice(-2)}
             relay1={relay1}
+            relay1Name={relay1Name}
             relay2={relay2}
+            relay2Name={relay2Name}
           />
           <br />
           <LastUpdatedAt timestamp={lastUpdatedAt} />
