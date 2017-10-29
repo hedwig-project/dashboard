@@ -1,9 +1,12 @@
+import Divider from 'material-ui/Divider'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField';
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
+import DefaultDialog from '@components/DefaultDialog'
 import { objectToArray2 as objectToArray } from '@helpers/objectToArray'
 import MorpheusSettingsForm from '@routes/DeviceSettingsPage/containers/MorpheusSettingsForm'
+import MorpheusRemove from '@routes/DeviceSettingsPage/containers/MorpheusRemove'
 import fonts from '@consts/fonts'
 import colors from '@consts/colors'
 
@@ -62,7 +65,10 @@ class MorpheusSettings extends React.Component {
   render() {
     const {
       morpheusList,
+      morpheusError,
+      clearError,
     } = this.props
+    const decodeError = () => ('Erro ao adicionar Morpheus')
 
     return (
       <Wrapper>
@@ -94,6 +100,24 @@ class MorpheusSettings extends React.Component {
             serial={this.getMorpheusSerialById(this.state.morpheusId)}
           />
         }
+        {
+          this.state.morpheusId && <Divider />
+        }
+        {
+          this.state.morpheusId &&
+          <MorpheusRemove
+            id={this.state.morpheusId}
+            serial={this.getMorpheusSerialById(this.state.morpheusId)}
+          />
+        }
+        <DefaultDialog
+          actions={[{ label: 'Ok', onTouchTap: clearError }]}
+          title="Erro"
+          open={morpheusError}
+          onRequestClose={clearError}
+        >
+          { morpheusError ? decodeError() : '' }
+        </DefaultDialog>
       </Wrapper>
     )
   }
@@ -102,11 +126,14 @@ class MorpheusSettings extends React.Component {
 MorpheusSettings.propTypes = {
   changeMorpheus: PropTypes.func.isRequired,
   morpheusList: PropTypes.object,
+  morpheusError: PropTypes.array,
   serial: PropTypes.string,
+  clearError: PropTypes.func.isRequired,
 }
 
 MorpheusSettings.defaultProps = {
   morpheusList: null,
+  morpheusError: [],
   serial: null,
 }
 

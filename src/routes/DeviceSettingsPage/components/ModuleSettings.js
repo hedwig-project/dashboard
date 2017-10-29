@@ -1,9 +1,12 @@
+import Divider from 'material-ui/Divider'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField';
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
+import DefaultDialog from '@components/DefaultDialog'
 import { objectToArray2 as objectToArray } from '@helpers/objectToArray'
 import ModuleSettingsForm from '@routes/DeviceSettingsPage/containers/ModuleSettingsForm'
+import ModuleRemove from '@routes/DeviceSettingsPage/containers/ModuleRemove'
 import fonts from '@consts/fonts'
 import colors from '@consts/colors'
 
@@ -62,7 +65,10 @@ class ModuleSettings extends React.Component {
   render() {
     const {
       moduleList,
+      moduleError,
+      clearError,
     } = this.props
+    const decodeError = () => ('Erro ao atualizar módulo')
 
     return (
       <Wrapper>
@@ -94,6 +100,24 @@ class ModuleSettings extends React.Component {
             serial={this.getModuleSerialById(this.state.moduleId)}
           />
         }
+        {
+          this.state.moduleId && <Divider />
+        }
+        {
+          this.state.moduleId &&
+          <ModuleRemove
+            id={this.state.moduleId}
+            serial={this.getModuleSerialById(this.state.moduleId)}
+          />
+        }
+        <DefaultDialog
+          actions={[{ label: 'Ok', onTouchTap: clearError }]}
+          title="Erro"
+          open={moduleError}
+          onRequestClose={clearError}
+        >
+          { moduleError ? decodeError() : '' }
+        </DefaultDialog>
       </Wrapper>
     )
   }
@@ -102,12 +126,15 @@ class ModuleSettings extends React.Component {
 ModuleSettings.propTypes = {
   changeModule: PropTypes.func.isRequired,
   moduleList: PropTypes.object,
+  moduleError: PropTypes.array,
   serial: PropTypes.string,
+  clearError: PropTypes.func.isRequired,
 }
 
 ModuleSettings.defaultProps = {
   moduleList: null,
   serial: null,
+  moduleError: [],
 }
 
 export default ModuleSettings

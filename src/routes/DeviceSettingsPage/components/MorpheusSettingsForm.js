@@ -1,10 +1,8 @@
 import Checkbox from 'material-ui/Checkbox'
-import Divider from 'material-ui/Divider'
 import RaisedButton from 'material-ui/RaisedButton'
 import React, { PropTypes } from 'react'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
-import DefaultDialog from '@components/DefaultDialog'
 import fonts from '@consts/fonts'
 
 const Wrapper = styled.div`
@@ -29,16 +27,10 @@ const ButtonWrapper = styled.div`
 
 const MorpheusSettingsForm = ({
   morpheus,
-  deleteMorpheus,
   updateMorpheus,
-  morpheusError,
-  morpheusRemoving,
   morpheusUpdating,
   handleSubmit,
-  clearError,
 }) => {
-  const decodeError = () => ('Erro ao adicionar Morpheus')
-
   // eslint-disable-next-line react/prop-types
   const renderCheckbox = ({ input, label }) => (
     <Checkbox
@@ -51,7 +43,7 @@ const MorpheusSettingsForm = ({
   return (
     <Wrapper>
       <SettingsSection>
-        <Header>Configurações</Header>
+        <Header>Configurações gerais</Header>
         <form
           onSubmit={
             handleSubmit(values => updateMorpheus({ ...morpheus, resend: values.resend === true }))
@@ -74,47 +66,19 @@ const MorpheusSettingsForm = ({
           </ButtonWrapper>
         </form>
       </SettingsSection>
-      <Divider />
-      <SettingsSection>
-        <Header>Remover Morpheus</Header>
-        Tem certeza que deseja remover o Morpheus?
-        Todos os módulos associados serão removidos também.
-        <ButtonWrapper>
-          <RaisedButton
-            disabled={morpheusRemoving}
-            onClick={() => deleteMorpheus(morpheus)}
-            label="Remover"
-            secondary
-            style={{ margin: '15px 0' }}
-          />
-        </ButtonWrapper>
-      </SettingsSection>
-      <DefaultDialog
-        actions={[{ label: 'Ok', onTouchTap: clearError }]}
-        title="Erro"
-        open={morpheusError}
-        onRequestClose={clearError}
-      >
-        { morpheusError ? decodeError() : '' }
-      </DefaultDialog>
     </Wrapper>
   )
 }
 
 MorpheusSettingsForm.propTypes = {
-  deleteMorpheus: PropTypes.func.isRequired,
   updateMorpheus: PropTypes.func.isRequired,
   morpheus: PropTypes.object,
-  morpheusError: PropTypes.array,
-  morpheusRemoving: PropTypes.bool.isRequired,
   morpheusUpdating: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  clearError: PropTypes.func.isRequired,
 }
 
 MorpheusSettingsForm.defaultProps = {
   morpheus: null,
-  morpheusError: [],
 }
 
 export default (MorpheusSettingsForm)

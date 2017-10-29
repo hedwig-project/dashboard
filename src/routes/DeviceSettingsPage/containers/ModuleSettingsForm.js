@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { reduxForm } from 'redux-form'
-import { push } from 'react-router-redux'
 import validator from '@helpers/validator'
 import schema from '@schemas/addModule'
 import ModuleSettingsForm from '@routes/DeviceSettingsPage/components/ModuleSettingsForm'
@@ -10,19 +9,8 @@ import * as moduleActions from '@modules/modules/actions'
 const validate = values => validator(values, schema)
 
 const mapDispatchToProps = dispatch => ({
-  deleteModule(module) {
-    dispatch(moduleActions.deleteModule(module))
-      .then((success) => {
-        if (success) {
-          dispatch(push('/device-settings/module'))
-        }
-      })
-  },
   updateModule(module) {
     dispatch(moduleActions.updateModule(module))
-  },
-  clearError() {
-    dispatch(moduleActions.clearModuleErrors())
   },
 })
 
@@ -39,8 +27,6 @@ const mapStateToProps = (state, ownProps) => ({
   },
   module: ownProps.serial ? state.modules.get('modules').get(ownProps.serial) : null,
   morpheus: state.morpheus.get('morpheus').toJS(),
-  moduleError: state.modules.get('error'),
-  moduleRemoving: state.modules.get('isRemoving'),
   moduleUpdating: state.modules.get('isUpdating'),
 })
 
