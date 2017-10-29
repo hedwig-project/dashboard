@@ -3,15 +3,22 @@ import {
   MODULE_ADD_FAILURE,
   MODULE_ADD_REQUEST,
   CLEAR_MODULE_ERRORS,
-  MODULE_DELETE,
   MODULE_DELETE_REQUEST,
+  MODULE_DELETE_SUCCESS,
+  MODULE_DELETE_FAILURE,
   MODULE_LOAD_FAILURE,
   MODULE_LOAD_SUCCESS,
   MODULE_LOAD_REQUEST,
-  MODULE_UPDATE,
   MODULE_UPDATE_REQUEST,
+  MODULE_UPDATE_SUCCESS,
+  MODULE_UPDATE_FAILURE,
 } from '@modules/modules/actionTypes.js'
-import { authenticatedPost, authenticatedGet } from '@config/axios'
+import {
+  authenticatedDelete,
+  authenticatedGet,
+  authenticatedPost,
+  authenticatedPut,
+} from '@config/axios'
 import JWT from 'jwt-client'
 
 export const moduleAddRequest = () => ({
@@ -71,15 +78,35 @@ export const moduleDeleteRequest = module => ({
   payload: { module },
 })
 
-export const moduleDeleteSuccess = success => ({
-  type: MODULE_DELETE,
-  payload: { success },
+export const moduleDeleteSuccess = module => ({
+  type: MODULE_DELETE_SUCCESS,
+  payload: { module },
 })
 
 export const moduleDeleteFailed = error => ({
-  type: MODULE_DELETE,
+  type: MODULE_DELETE_FAILURE,
   payload: { error },
 })
+
+export const deleteModule = module => (dispatch) => {
+  dispatch(moduleDeleteRequest(module))
+  const token = localStorage.getItem('token')
+
+  return authenticatedDelete(`/modules/${module._id}`, token)
+    .then((response) => {
+      dispatch(moduleDeleteSuccess(response.data.response.module))
+      return true
+    })
+    .catch((error) => {
+      const data = error.data
+      let message = ''
+      if (data) {
+        message = data.message
+      }
+      dispatch(moduleDeleteFailed(message || 'Erro ao remover módulo'))
+      return false
+    })
+}
 
 const modulesLoadRequest = () => ({
   type: MODULE_LOAD_REQUEST,
@@ -123,11 +150,41 @@ export const moduleUpdateRequest = module => ({
 })
 
 export const moduleUpdateSuccess = module => ({
-  type: MODULE_UPDATE,
+  type: MODULE_UPDATE_SUCCESS,
   payload: { module },
 })
 
 export const moduleUpdateFailed = error => ({
-  type: MODULE_UPDATE,
+  type: MODULE_UPDATE_FAILURE,
   payload: { error },
 })
+
+export const updateModule = module => (dispatch) => {
+  dispatch(moduleUpdateRequest(module))
+  const token = localStorage.getItem('token')
+  const user = JWT.read(token).claim
+
+  // eslint-disable-next-line no-param-reassign
+  module.userId = user._id
+  // eslint-disable-next-line no-param-reassign
+  module.components = {
+    relay1: { name: module.relay1 },
+    relay2: { name: module.relay2 },
+  }
+
+  return authenticatedPut(`/modules/${module._id}`, module, token)
+    .then((response) => {
+      const returnedModule = response.data.response.module
+      dispatch(moduleUpdateSuccess(returnedModule))
+      return true
+    })
+    .catch((error) => {
+      const data = error.data
+      let message = ''
+      if (data) {
+        message = data.message
+      }
+      dispatch(moduleUpdateFailed(message || 'Erro ao atualizar módulo'))
+      return false
+    })
+}

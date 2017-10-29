@@ -6,10 +6,14 @@ import {
   MODULE_ADD_SUCCESS,
   MODULE_ADD_FAILURE,
   CLEAR_MODULE_ERRORS,
-  MODULE_DELETE,
+  MODULE_DELETE_REQUEST,
+  MODULE_DELETE_SUCCESS,
+  MODULE_DELETE_FAILURE,
   MODULE_LOAD_REQUEST,
   MODULE_LOAD_SUCCESS,
-  MODULE_UPDATE,
+  MODULE_UPDATE_REQUEST,
+  MODULE_UPDATE_SUCCESS,
+  MODULE_UPDATE_FAILURE,
 } from '@modules/modules/actionTypes.js'
 import { Map } from 'immutable'
 
@@ -17,6 +21,8 @@ export const initialState = Map({
   error: null,
   isAdding: false,
   isLoading: false,
+  isRemoving: false,
+  isUpdating: false,
   modules: Map({}),
 })
 
@@ -26,6 +32,8 @@ export const initialState = Map({
  *   error: null,
  *   isAdding: false,
  *   isLoading: false,
+ *   isRemoving: false,
+ *   isUpdating: false,
  *   modules: {
  *     '0123456': {
  *       components: {
@@ -62,8 +70,16 @@ export default (state = initialState, action) => {
       return state
         .set('isAdding', false)
         .set('error', action.payload.error)
-    case MODULE_DELETE:
-      return state.delete(action.payload.module.serial)
+    case MODULE_DELETE_REQUEST:
+      return state.set('isRemoving', true)
+    case MODULE_DELETE_SUCCESS:
+      return state
+        .set('isRemoving', false)
+        .deleteIn(['modules', action.payload.module.serial])
+    case MODULE_DELETE_FAILURE:
+      return state
+        .set('isRemoving', false)
+        .set('error', action.payload.error)
     case MODULE_LOAD_REQUEST:
       return state.set('isLoading', true)
     case MODULE_LOAD_SUCCESS:
@@ -76,8 +92,18 @@ export default (state = initialState, action) => {
       return state
         .set('isLoading', false)
         .mergeDeep(Map({ modules: Map(moduleList) }))
-    case MODULE_UPDATE:
-      return state.set(action.payload.module.serial, action.payload.module)
+    case MODULE_UPDATE_REQUEST:
+      return state.set('isUpdating', true)
+    case MODULE_UPDATE_SUCCESS:
+      const updatedModule = {}
+      updatedModule[action.payload.module.serial] = action.payload.module
+      return state
+        .set('isUpdating', false)
+        .mergeDeep(Map({ modules: Map(updatedModule) }))
+    case MODULE_UPDATE_FAILURE:
+      return state
+        .set('isUpdating', false)
+        .set('error', action.payload.error)
     case LOGOUT:
       return Map({
         error: null,
