@@ -5,6 +5,7 @@ import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import DefaultDialog from '@components/DefaultDialog'
 import { objectToArray2 as objectToArray } from '@helpers/objectToArray'
+import ModuleConnectionSettingsForm from '@routes/DeviceSettingsPage/containers/ModuleConnectionSettingsForm'
 import ModuleSettingsForm from '@routes/DeviceSettingsPage/containers/ModuleSettingsForm'
 import ModuleRemove from '@routes/DeviceSettingsPage/containers/ModuleRemove'
 import fonts from '@consts/fonts'
@@ -96,6 +97,16 @@ class ModuleSettings extends React.Component {
         {
           this.state.moduleId &&
           <ModuleSettingsForm
+            id={this.state.moduleId}
+            serial={this.getModuleSerialById(this.state.moduleId)}
+          />
+        }
+        {
+          this.state.moduleId && <Divider />
+        }
+        {
+          this.state.moduleId &&
+          <ModuleConnectionSettingsForm
             id={this.state.moduleId}
             serial={this.getModuleSerialById(this.state.moduleId)}
           />

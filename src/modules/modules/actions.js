@@ -165,11 +165,25 @@ export const updateModule = module => (dispatch) => {
   const user = JWT.read(token).claim
 
   // eslint-disable-next-line no-param-reassign
+  module.morpheusId = module.morpheusId || module.morpheus._id
+  // eslint-disable-next-line no-param-reassign
   module.userId = user._id
   // eslint-disable-next-line no-param-reassign
   module.components = {
-    relay1: { name: module.relay1 },
-    relay2: { name: module.relay2 },
+    relay1: { name: module.relay1 || module.components.relay1.name },
+    relay2: { name: module.relay2 || module.components.relay2.name },
+  }
+  // eslint-disable-next-line no-param-reassign
+  module.accessPoint = {
+    ip: module.module_ip || module.accessPoint.ip,
+    mode: module.module_ap_mode || module.accessPoint.mode,
+    name: module.module_ap_name || module.accessPoint.name,
+    password: module.module_ap_password || module.accessPoint.password,
+  }
+  // eslint-disable-next-line no-param-reassign
+  module.connection = {
+    ssid: module.home_ssid || module.connection.ssid,
+    password: module.home_password || module.connection.password,
   }
 
   return authenticatedPut(`/modules/${module._id}`, module, token)
