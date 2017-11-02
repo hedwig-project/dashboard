@@ -22,14 +22,42 @@ export const encodeActionMessage = (moduleId, ty, payload) => {
   return message
 }
 
+export const encodeModuleConfigurationMessage = (module, ty, payload) => {
+  const message = {}
+
+  message.timestamp = moment().unix()
+  message.modulesConfiguration = []
+
+  const moduleConfiguration = {
+    moduleId: module.serial,
+    moduleName: module.name,
+    moduleTopic: convertModuleIdToTopic(module.serial),
+    unregister: false,
+  }
+
+  if (ty) {
+    moduleConfiguration.messages = [
+      {
+        controlParameters: [
+          { parameter: 'ts', value: moment().unix() },
+          { parameter: 'ty', value: ty },
+        ],
+        payload,
+      },
+    ]
+  }
+
+  message.modulesConfiguration.push(moduleConfiguration)
+
+  return message
+}
+
 export const encodeModuleRegistrationMessage = (module) => {
   const message = {}
 
-  message.configurationId = '1'
   message.timestamp = moment().unix()
   message.morpheusConfiguration = {
     register: [],
-    requestSendingPersistedMessages: true,
   }
 
   const moduleRegistration = {
@@ -44,6 +72,37 @@ export const encodeModuleRegistrationMessage = (module) => {
 
   return message
 }
+
+export const encodeModuleRemovalMessage = (module) => {
+  const message = {}
+
+  message.timestamp = moment().unix()
+  message.modulesConfiguration = []
+
+  const moduleConfiguration = {
+    moduleId: module.serial,
+    moduleName: module.name,
+    moduleTopic: convertModuleIdToTopic(module.serial),
+    unregister: true,
+  }
+
+  message.modulesConfiguration.push(moduleConfiguration)
+
+  return message
+}
+
+export const encodeMorpheusConfigurationMessage = (morpheus) => {
+  const message = {}
+
+  message.timestamp = moment().unix()
+
+  message.morpheusConfiguration = {
+    requestSendingPersistedMessages: morpheus.resend,
+  }
+
+  return message
+}
+
 
 export const decodeDataMessage = (message) => {
   return message
@@ -105,7 +164,10 @@ export default {
   convertModuleIdToTopic,
   convertTopicToModuleId,
   encodeActionMessage,
+  encodeModuleConfigurationMessage,
   encodeModuleRegistrationMessage,
+  encodeModuleRemovalMessage,
+  encodeMorpheusConfigurationMessage,
   decodeDataMessage,
   decodePayload,
   decodeSensorName,

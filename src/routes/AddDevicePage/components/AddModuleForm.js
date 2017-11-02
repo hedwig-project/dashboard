@@ -41,12 +41,15 @@ const AddModuleForm = ({
 }) => {
   const onSubmit = (data) => {
     addModule(data)
-    emitConfiguration(
-      objectToArray(morpheusOptions)
-        .filter(morpheus => morpheus._id === data.morpheusId)
-        .map(morpheus => morpheus.serial)[0],
-      encodeModuleRegistrationMessage(data),
-    )
+      .then((success) => {
+        if (success) {
+          emitConfiguration(
+            objectToArray(morpheusOptions)
+              .filter(morpheus => morpheus._id === data.morpheusId)[0].serial,
+            encodeModuleRegistrationMessage(data),
+          )
+        }
+      })
   }
 
   const decodeError = () => ('Erro ao adicionar módulo')

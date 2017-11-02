@@ -4,6 +4,7 @@ import React, { PropTypes } from 'react'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 import fonts from '@consts/fonts'
+import { encodeMorpheusConfigurationMessage } from '@helpers/morpheus'
 
 const Wrapper = styled.div`
   margin-top: 20px;
@@ -26,6 +27,7 @@ const ButtonWrapper = styled.div`
 `
 
 const MorpheusSettingsForm = ({
+  emitConfiguration,
   morpheus,
   updateMorpheus,
   morpheusUpdating,
@@ -40,14 +42,25 @@ const MorpheusSettingsForm = ({
     />
   )
 
+  const onSubmit = (values) => {
+    const data = { ...morpheus, resend: values.resend === true }
+    updateMorpheus(data)
+      .then((success) => {
+        if (success) {
+          emitConfiguration(
+            data.serial,
+            encodeMorpheusConfigurationMessage(data),
+          )
+        }
+      })
+  }
+
   return (
     <Wrapper>
       <SettingsSection>
         <Header>Configurações gerais</Header>
         <form
-          onSubmit={
-            handleSubmit(values => updateMorpheus({ ...morpheus, resend: values.resend === true }))
-          }
+          onSubmit={handleSubmit(onSubmit)}
         >
           <Field
             id="resend"
@@ -71,6 +84,7 @@ const MorpheusSettingsForm = ({
 }
 
 MorpheusSettingsForm.propTypes = {
+  emitConfiguration: PropTypes.func.isRequired,
   updateMorpheus: PropTypes.func.isRequired,
   morpheus: PropTypes.object,
   morpheusUpdating: PropTypes.bool.isRequired,

@@ -64,6 +64,7 @@ class MorpheusSettings extends React.Component {
 
   render() {
     const {
+      emitConfiguration,
       morpheusList,
       morpheusError,
       clearError,
@@ -98,6 +99,7 @@ class MorpheusSettings extends React.Component {
           <MorpheusSettingsForm
             id={this.state.morpheusId}
             serial={this.getMorpheusSerialById(this.state.morpheusId)}
+            emitConfiguration={emitConfiguration}
           />
         }
         {
@@ -125,6 +127,7 @@ class MorpheusSettings extends React.Component {
 
 MorpheusSettings.propTypes = {
   changeMorpheus: PropTypes.func.isRequired,
+  emitConfiguration: PropTypes.func.isRequired,
   morpheusList: PropTypes.object,
   morpheusError: PropTypes.array,
   serial: PropTypes.string,

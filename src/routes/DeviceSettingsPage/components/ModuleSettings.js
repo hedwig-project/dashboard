@@ -65,6 +65,7 @@ class ModuleSettings extends React.Component {
 
   render() {
     const {
+      emitConfiguration,
       moduleList,
       moduleError,
       clearError,
@@ -99,6 +100,7 @@ class ModuleSettings extends React.Component {
           <ModuleSettingsForm
             id={this.state.moduleId}
             serial={this.getModuleSerialById(this.state.moduleId)}
+            emitConfiguration={emitConfiguration}
           />
         }
         {
@@ -109,6 +111,7 @@ class ModuleSettings extends React.Component {
           <ModuleConnectionSettingsForm
             id={this.state.moduleId}
             serial={this.getModuleSerialById(this.state.moduleId)}
+            emitConfiguration={emitConfiguration}
           />
         }
         {
@@ -119,6 +122,7 @@ class ModuleSettings extends React.Component {
           <ModuleRemove
             id={this.state.moduleId}
             serial={this.getModuleSerialById(this.state.moduleId)}
+            emitConfiguration={emitConfiguration}
           />
         }
         <DefaultDialog
@@ -136,6 +140,7 @@ class ModuleSettings extends React.Component {
 
 ModuleSettings.propTypes = {
   changeModule: PropTypes.func.isRequired,
+  emitConfiguration: PropTypes.func.isRequired,
   moduleList: PropTypes.object,
   moduleError: PropTypes.array,
   serial: PropTypes.string,

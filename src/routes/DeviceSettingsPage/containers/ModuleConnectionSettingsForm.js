@@ -10,7 +10,8 @@ const validate = values => validator(values, schema)
 
 const mapDispatchToProps = dispatch => ({
   updateModule(module) {
-    dispatch(moduleActions.updateModule(module))
+    return dispatch(moduleActions.updateModule(module))
+      .catch(() => false)
   },
 })
 

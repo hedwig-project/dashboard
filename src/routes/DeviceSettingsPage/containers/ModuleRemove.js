@@ -5,12 +5,15 @@ import * as moduleActions from '@modules/modules/actions'
 
 const mapDispatchToProps = dispatch => ({
   deleteModule(module) {
-    dispatch(moduleActions.deleteModule(module))
+    return dispatch(moduleActions.deleteModule(module))
       .then((success) => {
         if (success) {
           dispatch(push('/device-settings/module'))
+          return true
         }
+        return false
       })
+      .catch(() => false)
   },
 })
 

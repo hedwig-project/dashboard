@@ -182,8 +182,8 @@ export const updateModule = module => (dispatch) => {
   }
   // eslint-disable-next-line no-param-reassign
   module.connection = {
-    ssid: module.home_ssid || module.connection.ssid,
-    password: module.home_password || module.connection.password,
+    ssid: module.home_ssid || (module.connection ? module.connection.ssid : ''),
+    password: module.home_password || (module.connection ? module.connection.password : ''),
   }
 
   return authenticatedPut(`/modules/${module._id}`, module, token)
