@@ -25,7 +25,7 @@
     "cover": "nyc yarn run test",
     "build-storybook": "build-storybook",
     "storybook": "start-storybook -p 6006",
-    "deploy": "yarn build && mv dist/index.html dist/200.html && surge --project ./dist --domain hedwig.surge.sh"
+    "deploy": "yarn build && cp src/assets/favicon.ico dist/favicon.ico && mv dist/index.html dist/200.html && surge --project ./dist --domain hedwig.surge.sh"
   },
   "dependencies": {
     "axios": "^0.16.2",
