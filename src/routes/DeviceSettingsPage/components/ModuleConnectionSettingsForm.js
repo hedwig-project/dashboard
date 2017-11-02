@@ -4,7 +4,6 @@ import React, { PropTypes } from 'react'
 import { Field } from 'redux-form'
 import { SelectField, TextField } from 'redux-form-material-ui'
 import styled from 'styled-components'
-import { objectToArray2 as objectToArray } from '@helpers/objectToArray'
 import fonts from '@consts/fonts'
 
 const Wrapper = styled.div`
@@ -27,20 +26,19 @@ const ButtonWrapper = styled.div`
   justify-content: center;
 `
 
-const ModuleSettingsForm = ({
+const ModuleConnectionSettingsForm = ({
   module,
   updateModule,
-  morpheus,
   moduleUpdating,
   handleSubmit,
 }) => (
   <Wrapper>
     <SettingsSection>
-      <Header>Configurações gerais</Header>
+      <Header>Configurações de conectividade</Header>
       <form onSubmit={handleSubmit(values => updateModule({ ...module, ...values }))}>
         <Field
-          name="name"
-          floatingLabelText="Nome"
+          name="home_ssid"
+          floatingLabelText="SSID da rede da casa"
           floatingLabelStyle={{ top: '18px' }}
           errorStyle={{ bottom: '8px' }}
           inputStyle={{ marginTop: '2px' }}
@@ -48,61 +46,56 @@ const ModuleSettingsForm = ({
           style={{ width: '100%', height: '52px' }}
         />
         <Field
-          name="relay1"
-          floatingLabelText="Nome do Relé 1"
+          name="home_password"
+          floatingLabelText="Senha da rede da casa"
           floatingLabelStyle={{ top: '18px' }}
           errorStyle={{ bottom: '8px' }}
           inputStyle={{ marginTop: '2px' }}
           component={TextField}
           style={{ width: '100%', height: '52px' }}
+          type="password"
         />
         <Field
-          name="relay2"
-          floatingLabelText="Nome do Relé 2"
+          name="module_ip"
+          floatingLabelText="IP do módulo"
           floatingLabelStyle={{ top: '18px' }}
           errorStyle={{ bottom: '8px' }}
           inputStyle={{ marginTop: '2px' }}
           component={TextField}
           style={{ width: '100%', height: '52px' }}
+          disabled
         />
         <Field
-          name="location"
+          name="module_ap_mode"
           component={SelectField}
-          floatingLabelText="Tipo"
+          floatingLabelText="Modo do ponto de acesso do módulo"
           floatingLabelStyle={{ top: '18px' }}
           errorStyle={{ bottom: '8px' }}
           inputStyle={{ marginTop: '2px' }}
           style={{ width: '100%', height: '52px' }}
         >
-          <MenuItem value={'DEFAULT'} primaryText="N/A" />
-          <MenuItem value={'ACCESS'} primaryText="Acesso" />
-          <MenuItem value={'AQUARIUM'} primaryText="Aquário" />
-          <MenuItem value={'KITCHEN'} primaryText="Cozinha" />
-          <MenuItem value={'LAUNDRY'} primaryText="Lavanderia" />
-          <MenuItem value={'LIVING_ROOM'} primaryText="Sala" />
+          <MenuItem value={'auto'} primaryText="Automático" />
+          <MenuItem value={'always_active'} primaryText="Sempre ativo" />
         </Field>
         <Field
-          name="morpheusId"
-          component={SelectField}
-          floatingLabelText="Número de série do Morpheus"
+          name="module_ap_name"
+          floatingLabelText="Nome do ponto de acesso do módulo"
           floatingLabelStyle={{ top: '18px' }}
           errorStyle={{ bottom: '8px' }}
           inputStyle={{ marginTop: '2px' }}
+          component={TextField}
           style={{ width: '100%', height: '52px' }}
-        >
-          {
-            morpheus &&
-            objectToArray(morpheus).map(item =>
-              (
-                <MenuItem
-                  value={item._id}
-                  key={item._id}
-                  primaryText={item.serial}
-                />
-              ),
-            )
-          }
-        </Field>
+        />
+        <Field
+          name="module_ap_password"
+          floatingLabelText="Senha do ponto de acesso do módulo"
+          floatingLabelStyle={{ top: '18px' }}
+          errorStyle={{ bottom: '8px' }}
+          inputStyle={{ marginTop: '2px' }}
+          component={TextField}
+          style={{ width: '100%', height: '52px' }}
+          type="password"
+        />
         <ButtonWrapper>
           <RaisedButton
             disabled={moduleUpdating}
@@ -117,17 +110,15 @@ const ModuleSettingsForm = ({
   </Wrapper>
 )
 
-ModuleSettingsForm.propTypes = {
+ModuleConnectionSettingsForm.propTypes = {
   updateModule: PropTypes.func.isRequired,
   module: PropTypes.object,
-  morpheus: PropTypes.object,
   moduleUpdating: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 }
 
-ModuleSettingsForm.defaultProps = {
+ModuleConnectionSettingsForm.defaultProps = {
   module: null,
-  morpheus: null,
 }
 
-export default ModuleSettingsForm
+export default ModuleConnectionSettingsForm

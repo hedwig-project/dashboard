@@ -61,7 +61,9 @@ class RelayControl extends Component {
       toggle,
       boxColors,
       relay1,
+      relay1Name,
       relay2,
+      relay2Name,
     } = this.props
     /* eslint-disable no-nested-ternary */
     return (
@@ -75,7 +77,7 @@ class RelayControl extends Component {
           <MainInfo>
             {relay1 === 1 ? 'Ativo' : (relay1 === 0 ? 'Inativo' : '?')}
           </MainInfo>
-          <BoxTitle>Relê 1</BoxTitle>
+          <BoxTitle>{relay1Name}</BoxTitle>
           <ButtonContainer>
             <RaisedButton
               disabled={relay1 === null}
@@ -94,7 +96,7 @@ class RelayControl extends Component {
           <MainInfo>
             {relay2 === 1 ? 'Ativo' : (relay2 === 0 ? 'Inativo' : '?')}
           </MainInfo>
-          <BoxTitle>Relê 2</BoxTitle>
+          <BoxTitle>{relay2Name}</BoxTitle>
           <ButtonContainer>
             <RaisedButton
               disabled={relay2 === null}
@@ -115,7 +117,9 @@ RelayControl.propTypes = {
   toggle: PropTypes.func.isRequired,
   boxColors: PropTypes.array,
   relay1: PropTypes.number,
+  relay1Name: PropTypes.string.isRequired,
   relay2: PropTypes.number,
+  relay2Name: PropTypes.string.isRequired,
 }
 
 RelayControl.defaultProps = {

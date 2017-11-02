@@ -6,7 +6,7 @@ import {
 } from '@modules/data/actionTypes.js'
 import {
   MODULE_ADD_SUCCESS,
-  MODULE_DELETE,
+  MODULE_DELETE_SUCCESS,
   MODULE_LOAD_SUCCESS,
 } from '@modules/modules/actionTypes.js'
 import { Map } from 'immutable'
@@ -48,7 +48,7 @@ export default (state = initialState, action) => {
       const newData = { }
       newData[action.payload.module] = Map(action.payload.data)
       return state.mergeDeep(Map(newData))
-    case MODULE_DELETE:
+    case MODULE_DELETE_SUCCESS:
       return state.delete(action.payload.module.serial)
     case MODULE_LOAD_SUCCESS:
       const moduleList = action.payload.modules
