@@ -65,6 +65,10 @@ class SocketIOConnector extends React.Component {
       dispatch(action.socketIOReconnecting())
     })
 
+    socket.on('report', (morpheusId, message) => {
+      dispatch(action.socketIOReport(message))
+    })
+
     socket.on('disconnect', () => {
       dispatch(action.socketIODisconnected())
     })
