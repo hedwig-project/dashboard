@@ -8,6 +8,7 @@ import { objectToArray2 as objectToArray } from '@helpers/objectToArray'
 import ModuleConnectionSettingsForm from '@routes/DeviceSettingsPage/containers/ModuleConnectionSettingsForm'
 import ModuleSettingsForm from '@routes/DeviceSettingsPage/containers/ModuleSettingsForm'
 import ModuleRemove from '@routes/DeviceSettingsPage/containers/ModuleRemove'
+import ModuleTimeSettings from '@routes/DeviceSettingsPage/containers/ModuleTimeSettings'
 import fonts from '@consts/fonts'
 import colors from '@consts/colors'
 
@@ -109,6 +110,17 @@ class ModuleSettings extends React.Component {
         {
           this.state.moduleId &&
           <ModuleConnectionSettingsForm
+            id={this.state.moduleId}
+            serial={this.getModuleSerialById(this.state.moduleId)}
+            emitConfiguration={emitConfiguration}
+          />
+        }
+        {
+          this.state.moduleId && <Divider />
+        }
+        {
+          this.state.moduleId &&
+          <ModuleTimeSettings
             id={this.state.moduleId}
             serial={this.getModuleSerialById(this.state.moduleId)}
             emitConfiguration={emitConfiguration}
