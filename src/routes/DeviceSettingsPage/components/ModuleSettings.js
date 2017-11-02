@@ -1,13 +1,16 @@
 import Divider from 'material-ui/Divider'
 import MenuItem from 'material-ui/MenuItem'
-import SelectField from 'material-ui/SelectField';
+import SelectField from 'material-ui/SelectField'
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import DefaultDialog from '@components/DefaultDialog'
 import { objectToArray2 as objectToArray } from '@helpers/objectToArray'
+import ModuleAutoResetSettings from '@routes/DeviceSettingsPage/containers/ModuleAutoResetSettings'
 import ModuleConnectionSettingsForm from '@routes/DeviceSettingsPage/containers/ModuleConnectionSettingsForm'
+import ModuleDisplaySettings from '@routes/DeviceSettingsPage/containers/ModuleDisplaySettings'
 import ModuleSettingsForm from '@routes/DeviceSettingsPage/containers/ModuleSettingsForm'
 import ModuleRemove from '@routes/DeviceSettingsPage/containers/ModuleRemove'
+import ModuleRestart from '@routes/DeviceSettingsPage/containers/ModuleRestart'
 import ModuleTimeSettings from '@routes/DeviceSettingsPage/containers/ModuleTimeSettings'
 import fonts from '@consts/fonts'
 import colors from '@consts/colors'
@@ -120,7 +123,40 @@ class ModuleSettings extends React.Component {
         }
         {
           this.state.moduleId &&
+          <ModuleDisplaySettings
+            id={this.state.moduleId}
+            serial={this.getModuleSerialById(this.state.moduleId)}
+            emitConfiguration={emitConfiguration}
+          />
+        }
+        {
+          this.state.moduleId && <Divider />
+        }
+        {
+          this.state.moduleId &&
           <ModuleTimeSettings
+            id={this.state.moduleId}
+            serial={this.getModuleSerialById(this.state.moduleId)}
+            emitConfiguration={emitConfiguration}
+          />
+        }
+        {
+          this.state.moduleId && <Divider />
+        }
+        {
+          this.state.moduleId &&
+          <ModuleAutoResetSettings
+            id={this.state.moduleId}
+            serial={this.getModuleSerialById(this.state.moduleId)}
+            emitConfiguration={emitConfiguration}
+          />
+        }
+        {
+          this.state.moduleId && <Divider />
+        }
+        {
+          this.state.moduleId &&
+          <ModuleRestart
             id={this.state.moduleId}
             serial={this.getModuleSerialById(this.state.moduleId)}
             emitConfiguration={emitConfiguration}

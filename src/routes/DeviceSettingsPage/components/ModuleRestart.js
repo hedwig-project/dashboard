@@ -1,5 +1,4 @@
 import RaisedButton from 'material-ui/RaisedButton'
-import moment from 'moment'
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import fonts from '@consts/fonts'
@@ -21,7 +20,7 @@ const ButtonWrapper = styled.div`
   justify-content: center;
 `
 
-class ModuleTimeSettings extends React.Component {
+class ModuleRestart extends React.Component {
   render() {
     const {
       emitConfiguration,
@@ -30,8 +29,8 @@ class ModuleTimeSettings extends React.Component {
 
     return (
       <SettingsSection>
-        <Header>Sincronizar hora</Header>
-        Sincronizar relógio do módulo.
+        <Header>Reiniciar módulo</Header>
+        Reiniciar software do módulo.
         <ButtonWrapper>
           <RaisedButton
             onClick={
@@ -39,12 +38,12 @@ class ModuleTimeSettings extends React.Component {
                 module.morpheus.serial,
                 encodeModuleConfigurationMessage(
                   module,
-                  'time_config',
-                  { updated_ntp: moment().unix() },
+                  'sw_reset',
+                  { sw_reset: 1 },
                 ),
               )
             }
-            label="Sincronizar"
+            label="Reiniciar"
             primary
             style={{ margin: '15px 0' }}
           />
@@ -54,13 +53,13 @@ class ModuleTimeSettings extends React.Component {
   }
 }
 
-ModuleTimeSettings.propTypes = {
+ModuleRestart.propTypes = {
   emitConfiguration: PropTypes.func.isRequired,
   module: PropTypes.object,
 }
 
-ModuleTimeSettings.defaultProps = {
+ModuleRestart.defaultProps = {
   module: null,
 }
 
-export default ModuleTimeSettings
+export default ModuleRestart

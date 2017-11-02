@@ -170,6 +170,10 @@ export const updateModule = module => (dispatch) => {
   module.userId = user._id
   // eslint-disable-next-line no-param-reassign
   module.components = {
+    display: {
+      type: module.display_type || module.components.display.type,
+      backlight: module.display_backlight || module.components.display.backlight,
+    },
     relay1: { name: module.relay1 || module.components.relay1.name },
     relay2: { name: module.relay2 || module.components.relay2.name },
   }
@@ -185,6 +189,8 @@ export const updateModule = module => (dispatch) => {
     ssid: module.home_ssid || (module.connection ? module.connection.ssid : ''),
     password: module.home_password || (module.connection ? module.connection.password : ''),
   }
+  // eslint-disable-next-line no-param-reassign
+  module.autoResetTest = module.autoResetTest || module.auto_reset_test
 
   return authenticatedPut(`/modules/${module._id}`, module, token)
     .then((response) => {

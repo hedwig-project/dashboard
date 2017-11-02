@@ -12,7 +12,9 @@ import {
   MORPHEUS_DELETE_REQUEST,
   MORPHEUS_DELETE_SUCCESS,
   MORPHEUS_DELETE_FAILURE,
+  MORPHEUS_LOAD_REQUEST,
   MORPHEUS_LOAD_SUCCESS,
+  MORPHEUS_LOAD_FAILURE,
   MORPHEUS_UPDATE_REQUEST,
   MORPHEUS_UPDATE_SUCCESS,
   MORPHEUS_UPDATE_FAILURE,
@@ -22,6 +24,7 @@ import { Map } from 'immutable'
 export const initialState = Map({
   error: null,
   isAdding: false,
+  isLoading: false,
   isRemoving: false,
   isUpdating: false,
   morpheus: Map({}),
@@ -32,6 +35,7 @@ export const initialState = Map({
  * {
  *   error: null,
  *   isAdding: false,
+ *   isLoading: false,
  *   isRemoving: false,
  *   isUpdating: false,
  *   morpheus: {
@@ -75,6 +79,8 @@ export default (state = initialState, action) => {
       return state
         .set('isRemoving', false)
         .set('error', action.payload.error)
+    case MORPHEUS_LOAD_REQUEST:
+      return state.set('isLoading', true)
     case MORPHEUS_LOAD_SUCCESS:
       const morpheusList = action.payload.morpheus
         .reduce((obj, morpheus) => {
@@ -82,7 +88,13 @@ export default (state = initialState, action) => {
           obj[morpheus.serial] = morpheus
           return obj
         }, {})
-      return state.mergeDeep(Map({ morpheus: Map(morpheusList) }))
+      return state
+        .set('isLoading', false)
+        .mergeDeep(Map({ morpheus: Map(morpheusList) }))
+    case MORPHEUS_LOAD_FAILURE:
+      return state
+        .set('isLoading', false)
+        .set('error', action.payload.error)
     case MORPHEUS_UPDATE_REQUEST:
       return state.set('isUpdating', true)
     case MORPHEUS_UPDATE_SUCCESS:
