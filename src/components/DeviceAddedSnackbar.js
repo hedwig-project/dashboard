@@ -18,7 +18,7 @@ class DeviceAddedSnackbar extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { deviceCount } = this.props
 
-    if (nextProps.deviceCount > deviceCount && deviceCount > 0) {
+    if (nextProps.deviceCount > deviceCount) {
       this.setState({ open: true })
     }
   }
