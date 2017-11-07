@@ -5,9 +5,11 @@ import {
   SOCKETIO_RECONNECT_FAILED,
   SOCKETIO_RECONNECTING,
   SOCKETIO_ACTION,
+  SOCKETIO_BYE,
   SOCKETIO_CONFIGURATION,
   SOCKETIO_CONFIRMATION,
   SOCKETIO_DATA,
+  SOCKETIO_HELLO,
   SOCKETIO_REPORT,
 } from '@modules/socketio/actionTypes.js'
 
@@ -36,6 +38,11 @@ export const socketIOAction = message => ({
   payload: message,
 })
 
+export const socketIOBye = message => ({
+  type: SOCKETIO_BYE,
+  payload: message,
+})
+
 export const socketIOConfiguration = message => ({
   type: SOCKETIO_CONFIGURATION,
   payload: message,
@@ -48,6 +55,11 @@ export const socketIOConfirmation = message => ({
 
 export const socketIOData = message => ({
   type: SOCKETIO_DATA,
+  payload: message,
+})
+
+export const socketIOHello = message => ({
+  type: SOCKETIO_HELLO,
   payload: message,
 })
 

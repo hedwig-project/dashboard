@@ -16,6 +16,8 @@ class Menu extends React.Component {
     logout: PropTypes.func.isRequired,
     goTo: PropTypes.func.isRequired,
     modules: PropTypes.object.isRequired,
+    morpheus: PropTypes.object.isRequired,
+    morpheusConnected: PropTypes.object.isRequired,
   }
 
   state = {
@@ -32,6 +34,8 @@ class Menu extends React.Component {
       logout,
       goTo,
       modules,
+      morpheus,
+      morpheusConnected,
     } = this.props
 
     const redirect = (page) => {
@@ -55,13 +59,24 @@ class Menu extends React.Component {
       })
     }
 
+    const isMorpheusConnected = (registered, online) => {
+      const onlineSerials = Object.keys(online)
+
+      return Object.keys(registered)
+        .reduce((result, serial) => onlineSerials.includes(serial) && result, true)
+    }
+
     return (
       <div>
         <AppBar
           title="Hedwig"
           onLeftIconButtonTouchTap={this.handleChange}
           iconElementRight={
-            <ConnectionStatus connected={connected} />
+            <ConnectionStatus
+              connected={connected}
+              morpheusConnected={isMorpheusConnected(morpheus, morpheusConnected)}
+              onClick={() => goTo('/status')}
+            />
           }
           style={{ backgroundColor: '#424242' }}
         />

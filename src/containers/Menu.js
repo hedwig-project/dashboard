@@ -7,6 +7,8 @@ import * as authActions from '@modules/auth/actions'
 const mapStateToProps = state => ({
   connected: state.socketio.get('connected'),
   modules: state.modules.get('modules').toJS(),
+  morpheus: state.morpheus.get('morpheus').toJS(),
+  morpheusConnected: state.morpheus.get('connected').toJS(),
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -12,6 +12,8 @@ import {
   MORPHEUS_UPDATE_REQUEST,
   MORPHEUS_UPDATE_SUCCESS,
   MORPHEUS_UPDATE_FAILURE,
+  MORPHEUS_CONNECTED,
+  MORPHEUS_DISCONNECTED,
 } from '@modules/morpheus/actionTypes.js'
 import {
   authenticatedPost,
@@ -176,3 +178,13 @@ export const updateMorpheus = morpheus => (dispatch) => {
       return false
     })
 }
+
+export const morpheusConnected = morpheus => ({
+  type: MORPHEUS_CONNECTED,
+  payload: { morpheus },
+})
+
+export const morpheusDisconnected = morpheus => ({
+  type: MORPHEUS_DISCONNECTED,
+  payload: { morpheus },
+})
