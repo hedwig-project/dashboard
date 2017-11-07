@@ -13,9 +13,20 @@ export const convertTopicToModuleId = (topic) => {
 export const decodeDataMessage = (message) => {
   return message
     .filter(item => item.controlParameters.reduce((result, param) => {
-      return param.value === 'temp_umi_pres' || result
+      return (param.value === 'temp_umi_pres' || param.value === 'acesso_estado') || result
     }, false))
     .map(item => {
+      if (item.payload.abertura !== undefined) {
+        return ({
+          module: convertTopicToModuleId(item.topic),
+          data: {
+            gate: item.payload.abertura,
+            alarm: item.payload.alarme,
+            alarmLastChange: item.payload.tempo_alarme,
+            lastUpdatedAt: getTimestamp(item.controlParameters),
+          },
+        })
+      }
       return ({
         module: convertTopicToModuleId(item.topic),
         data: {
