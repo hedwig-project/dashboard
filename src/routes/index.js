@@ -3,6 +3,7 @@ import { Router, IndexRoute, Route } from 'react-router'
 import App from '@containers/App'
 import LandingPage from '@routes/LandingPage'
 import HelloPage from '@routes/HelloPage'
+import StatusPage from '@routes/StatusPage'
 import AccessModulePage from '@routes/AccessModulePage'
 import NotFoundPage from '@routes/NotFoundPage'
 import AddDevicePage from '@routes/AddDevicePage'
@@ -27,6 +28,7 @@ export default class Routes extends React.Component {
           <IndexRoute component={requireAuthentication(false, LandingPage)} />
           <Route component={SocketIOConnector}>
             <Route path="hello" component={HelloPage} />
+            <Route path="status" component={StatusPage} />
             <Route path="access" component={AccessModulePage} />
             <Route path="module/:id" component={ModulePageGenerator} />
             <Route path="add-device" component={AddDevicePage} />

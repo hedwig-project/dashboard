@@ -18,10 +18,13 @@ import {
   MORPHEUS_UPDATE_REQUEST,
   MORPHEUS_UPDATE_SUCCESS,
   MORPHEUS_UPDATE_FAILURE,
+  MORPHEUS_CONNECTED,
+  MORPHEUS_DISCONNECTED,
 } from '@modules/morpheus/actionTypes.js'
 import { Map } from 'immutable'
 
 export const initialState = Map({
+  connected: Map({}),
   error: null,
   isAdding: false,
   isLoading: false,
@@ -33,6 +36,9 @@ export const initialState = Map({
 /*
  * State example
  * {
+ *   connected: {
+ *    'morpheusid1234': true,
+ *   },
  *   error: null,
  *   isAdding: false,
  *   isLoading: false,
@@ -107,6 +113,10 @@ export default (state = initialState, action) => {
       return state
         .set('isUpdating', false)
         .set('error', action.payload.error)
+    case MORPHEUS_CONNECTED:
+      return state.setIn(['connected', action.payload.morpheus], true)
+    case MORPHEUS_DISCONNECTED:
+      return state.deleteIn(['connected', action.payload.morpheus])
     case MODULE_ADD_SUCCESS:
       const beforeModuleAdd = state.get('morpheus').get(action.payload.module.morpheus.serial)
       return state.setIn(
@@ -117,7 +127,14 @@ export default (state = initialState, action) => {
         },
       )
     case LOGOUT:
-      return Map({ error: null, isAdding: false, morpheus: Map({}) })
+      return Map({
+        error: null,
+        isAdding: false,
+        isLoading: false,
+        isRemoving: false,
+        isUpdating: false,
+        morpheus: Map({}),
+      })
     default:
       return state
   }

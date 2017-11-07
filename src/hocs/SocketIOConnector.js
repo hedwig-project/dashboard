@@ -10,7 +10,7 @@ import ReconnectSnackbar from '@containers/ReconnectSnackbar'
 import * as action from '@modules/socketio/actions'
 import { getUserData } from '@modules/auth/actions'
 import { getModulesData } from '@modules/modules/actions'
-import { getMorpheusData } from '@modules/morpheus/actions'
+import { getMorpheusData, morpheusConnected, morpheusDisconnected } from '@modules/morpheus/actions'
 import { processConfirmationMessage } from '@modules/confirmation/actions'
 import { morpheusHello, processDataMessage } from '@modules/data/actions'
 
@@ -33,7 +33,7 @@ class SocketIOConnector extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props
+    const { dispatch, morpheus } = this.props
 
     dispatch(getUserData())
     dispatch(getModulesData())
@@ -43,6 +43,16 @@ class SocketIOConnector extends React.Component {
 
     socket.on('connect', () => {
       dispatch(action.socketIOConnected())
+    })
+
+    socket.on('hello', (morpheusId) => {
+      dispatch(action.socketIOHello(morpheusId))
+      dispatch(morpheusConnected(morpheusId))
+    })
+
+    socket.on('bye', (morpheusId) => {
+      dispatch(action.socketIOBye(morpheusId))
+      dispatch(morpheusDisconnected(morpheusId))
     })
 
     socket.on('confirmation', (morpheusId, message) => {
@@ -61,6 +71,12 @@ class SocketIOConnector extends React.Component {
 
     socket.on('reconnect', () => {
       dispatch(action.socketIOReconnected())
+      morpheus
+        .map(morpheusData => morpheusData.serial)
+        .map((serial) => {
+          socket.emit('hello', serial, `{"morpheusId":"${serial}","type":"dashboard"}`)
+          return dispatch(morpheusHello(serial))
+        })
     })
 
     socket.on('reconnect_failed', () => {
