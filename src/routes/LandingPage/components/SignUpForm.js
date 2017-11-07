@@ -93,10 +93,10 @@ const SignupForm = ({
       <DefaultDialog
         actions={[{ label: 'Ok', onTouchTap: clearError }]}
         title="Cadastro inválido"
-        open={authError.length > 0}
+        open={authError && authError.length > 0}
         onRequestClose={clearError}
       >
-        { authError.length > 0 ? decodeError(authError) : '' }
+        { authError && authError.length > 0 ? decodeError(authError) : '' }
       </DefaultDialog>
     </Wrapper>)
 }
