@@ -11,6 +11,7 @@ import * as action from '@modules/socketio/actions'
 import { getUserData } from '@modules/auth/actions'
 import { getModulesData } from '@modules/modules/actions'
 import { getMorpheusData } from '@modules/morpheus/actions'
+import { processConfirmationMessage } from '@modules/confirmation/actions'
 import { morpheusHello, processDataMessage } from '@modules/data/actions'
 
 let socket
@@ -46,11 +47,16 @@ class SocketIOConnector extends React.Component {
 
     socket.on('confirmation', (morpheusId, message) => {
       dispatch(action.socketIOConfirmation(message))
+      dispatch(processConfirmationMessage(message))
     })
 
     socket.on('data', (morpheusId, message) => {
       dispatch(action.socketIOData(message))
       dispatch(processDataMessage([message]))
+    })
+
+    socket.on('report', (morpheusId, message) => {
+      dispatch(action.socketIOReport(message))
     })
 
     socket.on('reconnect', () => {
@@ -63,10 +69,6 @@ class SocketIOConnector extends React.Component {
 
     socket.on('reconnecting', () => {
       dispatch(action.socketIOReconnecting())
-    })
-
-    socket.on('report', (morpheusId, message) => {
-      dispatch(action.socketIOReport(message))
     })
 
     socket.on('disconnect', () => {

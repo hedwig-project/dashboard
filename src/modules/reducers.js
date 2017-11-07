@@ -4,6 +4,7 @@ import { reducer as formReducer } from 'redux-form'
 import { responsiveStateReducer } from 'redux-responsive'
 import auth from '@modules/auth/reducer'
 import access from '@modules/access/reducer'
+import confirmation from '@modules/confirmation/reducer'
 import data from '@modules/data/reducer'
 import modules from '@modules/modules/reducer'
 import morpheus from '@modules/morpheus/reducer'
@@ -15,6 +16,7 @@ export default combineReducers({
   form: formReducer,
   auth,
   access,
+  confirmation,
   data,
   modules,
   morpheus,

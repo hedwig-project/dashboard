@@ -4,7 +4,9 @@ import SelectField from 'material-ui/SelectField'
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import fonts from '@consts/fonts'
+import ConfirmationSnackbar from '@components/ConfirmationSnackbar'
 import { encodeModuleConfigurationMessage } from '@helpers/morpheus'
+import { rfConfirmation } from '@modules/confirmation/actions'
 
 const SettingsSection = styled.section`
   padding: 20px 0;
@@ -40,6 +42,8 @@ class ModuleRFSettings extends React.Component {
 
   render() {
     const {
+      confirmation,
+      dispatch,
       emitConfiguration,
       module,
     } = this.props
@@ -103,17 +107,25 @@ class ModuleRFSettings extends React.Component {
             style={{ margin: '15px 10px' }}
           />
         </ButtonWrapper>
+        <ConfirmationSnackbar
+          shouldOpen={confirmation}
+          message={'Configuração de RF efetuada com sucesso!'}
+          onClose={() => dispatch(rfConfirmation(module.serial, false))}
+        />
       </SettingsSection>
     )
   }
 }
 
 ModuleRFSettings.propTypes = {
+  confirmation: PropTypes.bool,
+  dispatch: PropTypes.func.isRequired,
   emitConfiguration: PropTypes.func.isRequired,
   module: PropTypes.object,
 }
 
 ModuleRFSettings.defaultProps = {
+  confirmation: false,
   module: null,
 }
 
