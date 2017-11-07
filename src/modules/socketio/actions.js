@@ -8,6 +8,7 @@ import {
   SOCKETIO_CONFIGURATION,
   SOCKETIO_CONFIRMATION,
   SOCKETIO_DATA,
+  SOCKETIO_REPORT,
 } from '@modules/socketio/actionTypes.js'
 
 export const socketIOConnected = () => ({
@@ -47,5 +48,10 @@ export const socketIOConfirmation = message => ({
 
 export const socketIOData = message => ({
   type: SOCKETIO_DATA,
+  payload: message,
+})
+
+export const socketIOReport = message => ({
+  type: SOCKETIO_REPORT,
   payload: message,
 })

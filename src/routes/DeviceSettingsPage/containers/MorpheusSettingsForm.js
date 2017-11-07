@@ -10,7 +10,8 @@ const validate = values => validator(values, schema)
 
 const mapDispatchToProps = dispatch => ({
   updateMorpheus(morpheus) {
-    dispatch(morpheusActions.updateMorpheus(morpheus))
+    return dispatch(morpheusActions.updateMorpheus(morpheus))
+      .catch(() => false)
   },
 })
 

@@ -58,10 +58,10 @@ const LoginForm = ({
       <DefaultDialog
         actions={[{ label: 'Ok', onTouchTap: clearError }]}
         title="Login inválido"
-        open={authError.length > 0}
+        open={authError && authError.length > 0}
         onRequestClose={clearError}
       >
-        { authError.length > 0 ? decodeError() : '' }
+        { authError && authError.length > 0 ? decodeError() : '' }
       </DefaultDialog>
     </Wrapper>)
 }

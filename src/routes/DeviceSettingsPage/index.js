@@ -24,6 +24,7 @@ const FormContainer = styled.div`
 class DeviceSettingsPage extends Component {
   static propTypes = {
     changeTab: PropTypes.func.isRequired,
+    emitConfiguration: PropTypes.func.isRequired,
     lessThanMedium: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
   }
@@ -54,10 +55,20 @@ class DeviceSettingsPage extends Component {
             onChange={this.handleChange}
           >
             <Tab label="Gerenciar Morpheus" value="morpheus">
-              <FormContainer><MorpheusSettings serial={this.props.params.id} /></FormContainer>
+              <FormContainer>
+                <MorpheusSettings
+                  serial={this.props.params.id}
+                  emitConfiguration={this.props.emitConfiguration}
+                />
+              </FormContainer>
             </Tab>
             <Tab label="Gerenciar módulos" value="module">
-              <FormContainer><ModuleSettings serial={this.props.params.id} /></FormContainer>
+              <FormContainer>
+                <ModuleSettings
+                  serial={this.props.params.id}
+                  emitConfiguration={this.props.emitConfiguration}
+                />
+              </FormContainer>
             </Tab>
           </Tabs>
         </Card>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = 'https://hedwig-cloud.ml'
+axios.defaults.baseURL = '//hedwig-cloud.ml'
 // axios.defaults.baseURL = 'http://localhost:9090'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 

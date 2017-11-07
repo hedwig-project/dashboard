@@ -2,10 +2,11 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import Snackbar from 'material-ui/Snackbar'
 
-class DeviceAddedSnackbar extends React.Component {
+class ConfirmationSnackbar extends React.Component {
   static propTypes = {
-    deviceCount: PropTypes.number.isRequired,
+    onClose: PropTypes.func.isRequired,
     message: PropTypes.string.isRequired,
+    shouldOpen: PropTypes.bool.isRequired,
   }
 
   constructor(props) {
@@ -16,15 +17,17 @@ class DeviceAddedSnackbar extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { deviceCount } = this.props
+    const { shouldOpen } = this.props
 
-    if (nextProps.deviceCount > deviceCount) {
+    if (nextProps.shouldOpen && !shouldOpen) {
       this.setState({ open: true })
     }
   }
 
   handleRequestClose = () => {
+    const { onClose } = this.props
     this.setState({ open: false })
+    onClose()
   }
 
   render() {
@@ -41,4 +44,4 @@ class DeviceAddedSnackbar extends React.Component {
   }
 }
 
-export default DeviceAddedSnackbar
+export default ConfirmationSnackbar

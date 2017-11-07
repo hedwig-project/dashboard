@@ -10,41 +10,6 @@ export const convertTopicToModuleId = (topic) => {
   return re.exec(topic)[1]
 }
 
-export const encodeActionMessage = (moduleId, ty, payload) => {
-  const message = {}
-
-  message.topic = convertModuleIdToTopic(moduleId)
-  message.controlParameters = []
-  message.controlParameters.push({parameter: 'ts', value: moment().unix()})
-  message.controlParameters.push({parameter: 'ty', value: ty})
-  message.payload = payload
-
-  return message
-}
-
-export const encodeModuleRegistrationMessage = (module) => {
-  const message = {}
-
-  message.configurationId = '1'
-  message.timestamp = moment().unix()
-  message.morpheusConfiguration = {
-    register: [],
-    requestSendingPersistedMessages: true,
-  }
-
-  const moduleRegistration = {
-    moduleId: module.serial,
-    moduleName: module.name,
-    moduleTopic: convertModuleIdToTopic(module.serial),
-    receiveMessagesAtMostEvery: '1:s',
-    qos: '1',
-  }
-
-  message.morpheusConfiguration.register.push(moduleRegistration)
-
-  return message
-}
-
 export const decodeDataMessage = (message) => {
   return message
     .filter(item => item.controlParameters.reduce((result, param) => {
@@ -58,8 +23,7 @@ export const decodeDataMessage = (message) => {
           lastUpdatedAt: getTimestamp(item.controlParameters),
         },
       })
-    }
-    )
+    })
 }
 
 export const decodePayload = (payload) => {
@@ -95,6 +59,99 @@ export const decodeSensorName = (name) => {
   }
 }
 
+export const encodeActionMessage = (moduleId, ty, payload) => {
+  const message = {}
+
+  message.topic = convertModuleIdToTopic(moduleId)
+  message.controlParameters = []
+  message.controlParameters.push({parameter: 'ts', value: moment().unix()})
+  message.controlParameters.push({parameter: 'ty', value: ty})
+  message.payload = payload
+
+  return message
+}
+
+export const encodeModuleConfigurationMessage = (module, ty, payload) => {
+  const message = {}
+
+  message.timestamp = moment().unix()
+  message.modulesConfiguration = []
+
+  const moduleConfiguration = {
+    moduleId: module.serial,
+    moduleName: module.name,
+    moduleTopic: convertModuleIdToTopic(module.serial),
+    unregister: false,
+  }
+
+  if (ty) {
+    moduleConfiguration.messages = [
+      {
+        controlParameters: [
+          { parameter: 'ts', value: moment().unix() },
+          { parameter: 'ty', value: ty },
+        ],
+        payload,
+      },
+    ]
+  }
+
+  message.modulesConfiguration.push(moduleConfiguration)
+
+  return message
+}
+
+export const encodeModuleRegistrationMessage = (module) => {
+  const message = {}
+
+  message.timestamp = moment().unix()
+  message.morpheusConfiguration = {
+    register: [],
+  }
+
+  const moduleRegistration = {
+    moduleId: module.serial,
+    moduleName: module.name,
+    moduleTopic: convertModuleIdToTopic(module.serial),
+    receiveMessagesAtMostEvery: '1:s',
+    qos: '1',
+  }
+
+  message.morpheusConfiguration.register.push(moduleRegistration)
+
+  return message
+}
+
+export const encodeModuleRemovalMessage = (module) => {
+  const message = {}
+
+  message.timestamp = moment().unix()
+  message.modulesConfiguration = []
+
+  const moduleConfiguration = {
+    moduleId: module.serial,
+    moduleName: module.name,
+    moduleTopic: convertModuleIdToTopic(module.serial),
+    unregister: true,
+  }
+
+  message.modulesConfiguration.push(moduleConfiguration)
+
+  return message
+}
+
+export const encodeMorpheusConfigurationMessage = (morpheus) => {
+  const message = {}
+
+  message.timestamp = moment().unix()
+
+  message.morpheusConfiguration = {
+    requestSendingPersistedMessages: morpheus.resend,
+  }
+
+  return message
+}
+
 export const getTimestamp = (parameters) => {
   const ts = parameters.filter(param => param.parameter === 'ts')
 
@@ -104,10 +161,13 @@ export const getTimestamp = (parameters) => {
 export default {
   convertModuleIdToTopic,
   convertTopicToModuleId,
-  encodeActionMessage,
-  encodeModuleRegistrationMessage,
   decodeDataMessage,
   decodePayload,
   decodeSensorName,
+  encodeActionMessage,
+  encodeModuleConfigurationMessage,
+  encodeModuleRegistrationMessage,
+  encodeModuleRemovalMessage,
+  encodeMorpheusConfigurationMessage,
   getTimestamp,
 }
