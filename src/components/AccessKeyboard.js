@@ -4,6 +4,7 @@ import React, {
 } from 'react'
 import styled from 'styled-components'
 import FontIcon from 'material-ui/FontIcon'
+import { encodeActionMessage } from '@helpers/morpheus'
 
 const Container = styled.article`
   width: 100%;
@@ -41,33 +42,55 @@ const Key = styled.div`
 `
 
 class AccessKeyboard extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      password: '',
+    }
+  }
+
+  type = (key) => {
+    this.setState(oldState => ({
+      password: oldState.password + key,
+    }))
+  }
+
+  erase = () => {
+    this.setState(oldState => ({
+      password: oldState.password.slice(0, -1),
+    }))
+  }
+
+  enter = () => {
+    this.props.send(
+      this.props.morpheusId,
+      encodeActionMessage(this.props.moduleId, 'abertura_portao', { password: this.state.password }),
+    )
+    this.setState({ password: '' })
+  }
+
   render() {
-    const {
-      password,
-      type,
-      erase,
-    } = this.props
     return (
       <Container>
-        <Visor>{ password && password.length > 0 ? password.replace(/./gi, '*') : '' }</Visor>
+        <Visor>{ this.state.password && this.state.password.length > 0 ? this.state.password.replace(/./gi, '*') : '' }</Visor>
         <KeyContainer>
-          <Key onClick={() => type(1)}>1</Key>
-          <Key onClick={() => type(2)}>2</Key>
-          <Key onClick={() => type(3)}>3</Key>
-          <Key onClick={() => type(4)}>4</Key>
-          <Key onClick={() => type(5)}>5</Key>
-          <Key onClick={() => type(6)}>6</Key>
-          <Key onClick={() => type(7)}>7</Key>
-          <Key onClick={() => type(8)}>8</Key>
-          <Key onClick={() => type(9)}>9</Key>
-          <Key onClick={() => erase()}>
+          <Key onClick={() => this.type('1')}>1</Key>
+          <Key onClick={() => this.type('2')}>2</Key>
+          <Key onClick={() => this.type('3')}>3</Key>
+          <Key onClick={() => this.type('4')}>4</Key>
+          <Key onClick={() => this.type('5')}>5</Key>
+          <Key onClick={() => this.type('6')}>6</Key>
+          <Key onClick={() => this.type('7')}>7</Key>
+          <Key onClick={() => this.type('8')}>8</Key>
+          <Key onClick={() => this.type('9')}>9</Key>
+          <Key onClick={this.erase}>
             <FontIcon
               className="fa fa-undo"
               color={'#37474F'}
             />
           </Key>
-          <Key onClick={() => type(0)}>0</Key>
-          <Key>
+          <Key onClick={() => this.type('0')}>0</Key>
+          <Key onClick={this.enter}>
             <FontIcon
               className="fa fa-unlock"
               color={'#37474F'}
@@ -80,9 +103,9 @@ class AccessKeyboard extends Component {
 }
 
 AccessKeyboard.propTypes = {
-  password: PropTypes.string.isRequired,
-  type: PropTypes.func.isRequired,
-  erase: PropTypes.func.isRequired,
+  moduleId: PropTypes.string.isRequired,
+  morpheusId: PropTypes.string.isRequired,
+  send: PropTypes.func.isRequired,
 }
 
 export default AccessKeyboard

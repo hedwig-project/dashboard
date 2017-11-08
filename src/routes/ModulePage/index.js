@@ -12,7 +12,6 @@ const Wrapper = styled.section`
 
 const Content = styled.div`
   width: 100%;
-  padding: 20px;
 `
 
 const AccessContainer = styled.div`
@@ -25,7 +24,7 @@ const KeyboardContainer = styled.div`
   width: ${props => (props.lessThanLarge ? '100%' : '40%')};
   min-height: 180px;
   display: flex;
-  background-color: #006064;
+  background-color: #00ACC1;
   padding: 20px;
 `
 
@@ -101,7 +100,11 @@ class ModulePage extends Component {
             module.location === 'ACCESS' &&
             <AccessContainer>
               <KeyboardContainer lessThanLarge={lessThanLarge}>
-                <AccessKeyboard />
+                <AccessKeyboard
+                  moduleId={module.serial}
+                  morpheusId={module.morpheus.serial}
+                  send={emitAction}
+                />
               </KeyboardContainer>
               <AccessStatusContainer lessThanLarge={lessThanLarge}>
                 <AccessStatusBox
@@ -113,9 +116,6 @@ class ModulePage extends Component {
               </AccessStatusContainer>
             </AccessContainer>
           }
-          {
-            module.location === 'ACCESS' && <br />
-          }
           <StatusBox
             boxColors={boxColors}
             humidity={humidity}
@@ -124,7 +124,6 @@ class ModulePage extends Component {
             presence={presence}
             temperature={temperature}
           />
-          <br />
           <RelayControl
             moduleId={module.serial}
             morpheusId={module.morpheus.serial}
@@ -135,7 +134,6 @@ class ModulePage extends Component {
             relay2={relay2}
             relay2Name={relay2Name}
           />
-          <br />
           <LastUpdatedAt timestamp={lastUpdatedAt} />
         </Content>
       </Wrapper>
