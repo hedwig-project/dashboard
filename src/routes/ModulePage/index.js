@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import styled from 'styled-components'
+import AccessAlarmConfiguration from '@components/AccessAlarmConfiguration'
+import AccessLightConfiguration from '@components/AccessLightConfiguration'
 import AccessKeyboard from '@components/AccessKeyboard'
 import AccessStatusBox from '@components/AccessStatusBox'
 import LastUpdatedAt from '@components/LastUpdatedAt'
@@ -26,13 +28,23 @@ const KeyboardContainer = styled.div`
   width: ${props => (props.lessThanLarge ? '100%' : '40%')};
   min-height: 180px;
   display: flex;
-  background-color: #00ACC1;
+  background-color: ${props => props.backgroundColor || '#FFFFFF'};
   padding: 20px;
 `
 
 const AccessStatusContainer = styled.div`
   width: ${props => (props.lessThanLarge ? '100%' : '60%')};
   min-height: 180px;
+  display: flex;
+`
+const AccessConfigurationContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+`
+
+const AccessConfigurationBox = styled.div`
+  width: ${props => (props.lessThanLarge ? '100%' : '50%')};
   display: flex;
 `
 
@@ -101,7 +113,7 @@ class ModulePage extends Component {
           {
             module.location === 'ACCESS' &&
             <AccessContainer>
-              <KeyboardContainer lessThanLarge={lessThanLarge}>
+              <KeyboardContainer backgroundColor={boxColors[0]} lessThanLarge={lessThanLarge}>
                 <AccessKeyboard
                   moduleId={module.serial}
                   morpheusId={module.morpheus.serial}
@@ -116,6 +128,20 @@ class ModulePage extends Component {
                   alarmLastChange={alarmLastChange}
                 />
               </AccessStatusContainer>
+              <AccessConfigurationContainer>
+                <AccessConfigurationBox lessThanLarge={lessThanLarge}>
+                  <AccessAlarmConfiguration
+                    alarmConfigurationSubmit={() => ''}
+                    handleSubmit={() => ''}
+                  />
+                </AccessConfigurationBox>
+                <AccessConfigurationBox lessThanLarge={lessThanLarge}>
+                  <AccessLightConfiguration
+                    alarmConfigurationSubmit={() => ''}
+                    handleSubmit={() => ''}
+                  />
+                </AccessConfigurationBox>
+              </AccessConfigurationContainer>
             </AccessContainer>
           }
           <StatusBox

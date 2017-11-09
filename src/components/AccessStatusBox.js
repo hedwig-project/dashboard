@@ -61,7 +61,7 @@ class AccessStatusBox extends Component {
     /* eslint-disable no-nested-ternary */
     return (
       <Container>
-        <Box color={boxColors[4] || '#212121'}>
+        <Box color={boxColors[1] || '#212121'}>
           <Info>
             <FontIcon
               className={gate === 1 ? 'fa fa-unlock-alt' : (gate === 0 ? 'fa fa-lock' : 'fa fa-question-circle-o')}
@@ -75,7 +75,7 @@ class AccessStatusBox extends Component {
             </MainInfo>
           </Info>
         </Box>
-        <Box color={boxColors[5] || '#424242'}>
+        <Box color={boxColors[2] || '#424242'}>
           <Info>
             <FontIcon
               className="fa fa-bell-o"
