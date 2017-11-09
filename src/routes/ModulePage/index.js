@@ -8,6 +8,8 @@ import RelayControl from '@components/RelayControl'
 
 const Wrapper = styled.section`
   width: 100%;
+  min-height: 100%;
+  background-color: ${props => props.backgroundColor || '#FFFFFF'}
 `
 
 const Content = styled.div`
@@ -94,7 +96,7 @@ class ModulePage extends Component {
     } = this.props
 
     return (
-      <Wrapper>
+      <Wrapper backgroundColor={boxColors[6]}>
         <Content>
           {
             module.location === 'ACCESS' &&
@@ -128,7 +130,7 @@ class ModulePage extends Component {
             moduleId={module.serial}
             morpheusId={module.morpheus.serial}
             toggle={emitAction}
-            boxColors={boxColors.slice(-2)}
+            boxColors={boxColors.slice(-3, -1)}
             relay1={relay1}
             relay1Name={relay1Name}
             relay2={relay2}
