@@ -128,6 +128,7 @@ export default (state = initialState, action) => {
       )
     case LOGOUT:
       return Map({
+        connected: Map({}),
         error: null,
         isAdding: false,
         isLoading: false,
