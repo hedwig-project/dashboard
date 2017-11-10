@@ -53,6 +53,7 @@ class AccessLightConfiguration extends Component {
     this.state = {
       start: null,
       end: null,
+      auto: null,
       lightTimeAuto: null,
       lightTimeManual: null,
     }
@@ -64,6 +65,9 @@ class AccessLightConfiguration extends Component {
   handleEndTimePickerChange = (event, date) =>
     this.setState(oldState => ({ ...oldState, end: date }))
 
+  handleAutoOptionChange = (event, index, value) =>
+    this.setState(oldState => ({ ...oldState, auto: value }))
+
   handleAutoTimeChange = (event, index, value) =>
     this.setState(oldState => ({ ...oldState, lightTimeAuto: value }))
 
@@ -72,14 +76,14 @@ class AccessLightConfiguration extends Component {
 
   renderTimeOptions = () => {
     const options = []
-    for (let i = 1; i <= 15; i += 1) {
+    for (let i = 0; i <= 15; i += 1) {
       options[i] = i
     }
     return options.map(minutes =>
       <MenuItem
         key={minutes}
         value={minutes}
-        primaryText={`${minutes} minutos`}
+        primaryText={minutes === 0 ? 'Nunca acender' : `${minutes} minutos`}
       />)
   }
 
@@ -94,6 +98,7 @@ class AccessLightConfiguration extends Component {
           final_time: this.state.end.getHours(),
           time_keepon: this.state.lightTimeAuto,
           time_deslmanual: this.state.lightTimeManual,
+          auto: this.state.auto,
         }),
     )
   }
@@ -138,6 +143,25 @@ class AccessLightConfiguration extends Component {
             value={this.state.end}
             onChange={this.handleEndTimePickerChange}
           />
+        </LightConfigurationField>
+        <LightConfigurationField>
+          <SelectField
+            disabled={this.props.presence === null}
+            floatingLabelFixed
+            floatingLabelStyle={{ color: '#FFFFFF' }}
+            floatingLabelText="Acender automaticamente"
+            floatingLabelFocusStyle={{ color: '#00838F' }}
+            hintText="ex.: com algum dos sensores"
+            style={{ width: '83.5%', marginRight: '30px' }}
+            underlineStyle={{ borderColor: '#FFFFFF' }}
+            underlineFocusStyle={{ borderColor: '#00838F' }}
+            value={this.state.auto}
+            onChange={this.handleAutoOptionChange}
+          >
+            <MenuItem value="nao" primaryText="Nunca" />
+            <MenuItem value="sensor1" primaryText="Sensor 1" />
+            <MenuItem value="sensor2" primaryText="Sensor 2" />
+          </SelectField>
         </LightConfigurationField>
         <LightConfigurationField>
           <SelectField
