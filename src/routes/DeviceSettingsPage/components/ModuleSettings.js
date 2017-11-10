@@ -8,6 +8,7 @@ import { objectToArray2 as objectToArray } from '@helpers/objectToArray'
 import ModuleAutoResetSettings from '@routes/DeviceSettingsPage/containers/ModuleAutoResetSettings'
 import ModuleConnectionSettingsForm from '@routes/DeviceSettingsPage/containers/ModuleConnectionSettingsForm'
 import ModuleDisplaySettings from '@routes/DeviceSettingsPage/containers/ModuleDisplaySettings'
+import ModuleGatePasswordConfiguration from '@routes/DeviceSettingsPage/containers/ModuleGatePasswordConfiguration'
 import ModuleRFSettings from '@routes/DeviceSettingsPage/containers/ModuleRFSettings'
 import ModuleSettingsForm from '@routes/DeviceSettingsPage/containers/ModuleSettingsForm'
 import ModuleRemove from '@routes/DeviceSettingsPage/containers/ModuleRemove'
@@ -121,6 +122,13 @@ class ModuleSettings extends React.Component {
         }
         {
           this.state.moduleId && <Divider />
+        }
+        {
+          this.state.moduleId && <ModuleGatePasswordConfiguration
+            id={this.state.moduleId}
+            serial={this.getModuleSerialById(this.state.moduleId)}
+            emitConfiguration={emitConfiguration}
+          />
         }
         {
           this.state.moduleId &&
