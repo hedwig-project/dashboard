@@ -119,6 +119,7 @@ class ModulePage extends Component {
                 <AccessKeyboard
                   moduleId={module.serial}
                   morpheusId={module.morpheus.serial}
+                  gate={gate}
                   send={emitAction}
                 />
               </KeyboardContainer>
