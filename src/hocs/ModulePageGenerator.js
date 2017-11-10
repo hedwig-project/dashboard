@@ -8,6 +8,7 @@ class ModulePageGenerator extends React.Component {
   static propTypes = {
     lessThanLarge: PropTypes.bool.isRequired,
     emitAction: PropTypes.func.isRequired,
+    emitConfiguration: PropTypes.func.isRequired,
     isLoadingModules: PropTypes.bool,
     module: PropTypes.object,
     data: PropTypes.object,
@@ -23,6 +24,7 @@ class ModulePageGenerator extends React.Component {
     const {
       lessThanLarge,
       emitAction,
+      emitConfiguration,
       isLoadingModules,
       data,
       module,
@@ -40,6 +42,7 @@ class ModulePageGenerator extends React.Component {
       <ModulePage
         module={module}
         emitAction={emitAction}
+        emitConfiguration={emitConfiguration}
         boxColors={getModuleLocationColorScheme(module.location)}
         humidity={data.get('humidity')}
         luminosity={data.get('luminosity')}

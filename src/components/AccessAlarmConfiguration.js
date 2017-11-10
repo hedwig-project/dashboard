@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import styled from 'styled-components'
 import FontIcon from 'material-ui/FontIcon'
+import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
-import TextField from 'material-ui/TextField'
+import SelectField from 'material-ui/SelectField'
 import Toggle from 'material-ui/Toggle'
+import { encodeActionMessage } from '@helpers/morpheus'
 
 const Wrapper = styled.section`
   width: 100%;
@@ -46,10 +48,46 @@ class AccessAlarmConfiguration extends Component {
     verticalAlign: 'top',
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      alarm: 0,
+      alarmTime: null,
+    }
+  }
+
+  handleToggle = (event, value) =>
+    this.setState(oldState => ({ alarm: value ? 1 : 0, alarmTime: oldState.alarmTime }))
+
+  handleTimeChange = (event, index, value) =>
+    this.setState(oldState => ({ alarm: oldState.alarm, alarmTime: value }))
+
+  renderTimeOptions = () => {
+    const options = []
+    for (let i = 1; i <= 24; i += 1) {
+      options[i] = i * 30
+    }
+    return options.map(minutes =>
+      <MenuItem
+        key={minutes}
+        value={minutes}
+        primaryText={`${minutes / 60} hora${minutes > 60 ? 's' : ''} (${minutes} minutos)`}
+      />)
+  }
+
+  sendConfiguration = () => {
+    this.props.send(
+      this.props.morpheusId,
+      encodeActionMessage(
+        this.props.moduleId,
+        'alarm_config',
+        { alarme: this.state.alarm, alarme_tempo: this.state.alarmTime }),
+    )
+  }
+
   render() {
-    const { alarm, alarmConfigurationSubmit, handleSubmit } = this.props
     return (
-      <Wrapper onSubmit={handleSubmit(alarmConfigurationSubmit)}>
+      <Wrapper>
         <Title>
           <FontIcon
             className="fa fa-clock-o"
@@ -60,28 +98,42 @@ class AccessAlarmConfiguration extends Component {
         </Title>
         <AlarmConfigurationField>
           <Toggle
+            disabled={this.props.alarm === null}
             name={'activate'}
             label={'Ativar alarme'}
-            defaultToggled={alarm}
-            labelStyle={{ width: 'auto', marginRight: '10px', color: '#006064' }}
+            labelStyle={{ width: 'auto', marginRight: '10px', color: '#FFFFFF' }}
+            onToggle={this.handleToggle}
             thumbSwitchedStyle={{ backgroundColor: '#00838F' }}
+            toggled={this.state.alarm === 1}
             trackSwitchedStyle={{ backgroundColor: '#0097A7' }}
           />
         </AlarmConfigurationField>
         <AlarmConfigurationField>
-          <TextField
-            name={'minutes'}
+          <SelectField
+            disabled={this.props.alarm === null}
             floatingLabelFixed
-            floatingLabelStyle={{ color: '#00838F' }}
-            floatingLabelText={'Tempo de permanência (minutos)'}
-            floatingLabelFocusStyle={{ color: '#FFFFFF' }}
-            underlineStyle={{ borderColor: '#00838F' }}
-            underlineFocusStyle={{ borderColor: '#FFFFFF' }}
-            style={{ width: '60%', marginTop: '-14px' }}
-          />
+            floatingLabelStyle={{ color: '#FFFFFF' }}
+            floatingLabelText="Tempo de permanência"
+            floatingLabelFocusStyle={{ color: '#00838F' }}
+            hintText="ex.: 6 horas"
+            style={{ width: '40%' }}
+            underlineStyle={{ borderColor: '#FFFFFF' }}
+            underlineFocusStyle={{ borderColor: '#00838F' }}
+            value={this.state.alarmTime}
+            onChange={this.handleTimeChange}
+          >
+            {
+              this.renderTimeOptions()
+            }
+          </SelectField>
         </AlarmConfigurationField>
         <SubmitButton>
-          <RaisedButton label="Enviar" style={{ color: '#00838F' }} type="submit" />
+          <RaisedButton
+            disabled={this.props.alarm === null}
+            label="Enviar"
+            style={{ color: '#00838F' }}
+            onClick={this.sendConfiguration}
+          />
         </SubmitButton>
       </Wrapper>
     )
@@ -89,13 +141,16 @@ class AccessAlarmConfiguration extends Component {
 }
 
 AccessAlarmConfiguration.propTypes = {
-  alarm: PropTypes.bool,
-  alarmConfigurationSubmit: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  moduleId: PropTypes.string.isRequired,
+  morpheusId: PropTypes.string.isRequired,
+  alarm: PropTypes.number,
+  send: PropTypes.func.isRequired,
 }
 
 AccessAlarmConfiguration.defaultProps = {
-  alarm: false,
+  alarm: null,
 }
+
+AccessAlarmConfiguration.defaultProps = {}
 
 export default AccessAlarmConfiguration

@@ -1,8 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import styled from 'styled-components'
 import FontIcon from 'material-ui/FontIcon'
+import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
-import TextField from 'material-ui/TextField'
+import SelectField from 'material-ui/SelectField'
+import TimePicker from 'material-ui/TimePicker'
+import { encodeActionMessage } from '@helpers/morpheus'
 
 const Wrapper = styled.section`
   width: 100%;
@@ -19,7 +22,7 @@ const Title = styled.div`
   color: #FFFFFF;
   font-family: 'Roboto', sans-serif;
   font-size: 24px;
-  padding: 20px 0;
+  padding: 10px 0;
 `
 
 const LightConfigurationField = styled.div`
@@ -31,9 +34,10 @@ const LightConfigurationField = styled.div`
 
 const SubmitButton = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-end;
-  padding: 15px 0;
+  flex-grow: 1;
+  padding: 10px 0;
 `
 
 class AccessLightConfiguration extends Component {
@@ -44,10 +48,59 @@ class AccessLightConfiguration extends Component {
     verticalAlign: 'top',
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      start: null,
+      end: null,
+      lightTimeAuto: null,
+      lightTimeManual: null,
+    }
+  }
+
+  handleStartTimePickerChange = (event, date) =>
+    this.setState(oldState => ({ ...oldState, start: date }))
+
+  handleEndTimePickerChange = (event, date) =>
+    this.setState(oldState => ({ ...oldState, end: date }))
+
+  handleAutoTimeChange = (event, index, value) =>
+    this.setState(oldState => ({ ...oldState, lightTimeAuto: value }))
+
+  handleManualTimeChange = (event, index, value) =>
+    this.setState(oldState => ({ ...oldState, lightTimeManual: value }))
+
+  renderTimeOptions = () => {
+    const options = []
+    for (let i = 1; i <= 15; i += 1) {
+      options[i] = i
+    }
+    return options.map(minutes =>
+      <MenuItem
+        key={minutes}
+        value={minutes}
+        primaryText={`${minutes} minutos`}
+      />)
+  }
+
+  sendConfiguration = () => {
+    this.props.send(
+      this.props.morpheusId,
+      encodeActionMessage(
+        this.props.moduleId,
+        'acesso_config',
+        {
+          initial_time: this.state.start.getHours(),
+          final_time: this.state.end.getHours(),
+          time_keepon: this.state.lightTimeAuto,
+          time_deslmanual: this.state.lightTimeManual,
+        }),
+    )
+  }
+
   render() {
-    const { lightConfigurationSubmit, handleSubmit } = this.props
     return (
-      <Wrapper onSubmit={handleSubmit(lightConfigurationSubmit)}>
+      <Wrapper>
         <Title>
           <FontIcon
             className="fa fa-lightbulb-o"
@@ -57,41 +110,78 @@ class AccessLightConfiguration extends Component {
           Configurar luzes
         </Title>
         <LightConfigurationField>
-          <TextField
-            name={'initialTime'}
+          <TimePicker
+            disabled={this.props.presence === null}
             floatingLabelFixed
-            floatingLabelStyle={{ color: '#00838F' }}
-            floatingLabelText={'Hora de início de acendimento'}
-            floatingLabelFocusStyle={{ color: '#FFFFFF' }}
-            underlineStyle={{ borderColor: '#00838F' }}
-            underlineFocusStyle={{ borderColor: '#FFFFFF' }}
+            floatingLabelStyle={{ color: '#FFFFFF' }}
+            floatingLabelText={'Hora de acendimento'}
+            floatingLabelFocusStyle={{ color: '#00838F' }}
+            underlineStyle={{ borderColor: '#FFFFFF' }}
+            underlineFocusStyle={{ borderColor: '#00838F' }}
             style={{ width: '40%', marginRight: '30px', marginTop: '-14px' }}
+            format="24hr"
+            minutesStep={60}
+            value={this.state.start}
+            onChange={this.handleStartTimePickerChange}
           />
-          <TextField
-            name={'finalTime'}
+          <TimePicker
+            disabled={this.props.presence === null}
             floatingLabelFixed
-            floatingLabelStyle={{ color: '#00838F' }}
-            floatingLabelText={'Hora de fim de acendimento'}
-            floatingLabelFocusStyle={{ color: '#FFFFFF' }}
-            underlineStyle={{ borderColor: '#00838F' }}
-            underlineFocusStyle={{ borderColor: '#FFFFFF' }}
-            style={{ width: '40%', marginTop: '-14px' }}
+            floatingLabelStyle={{ color: '#FFFFFF' }}
+            floatingLabelText={'Hora de desligamento'}
+            floatingLabelFocusStyle={{ color: '#00838F' }}
+            underlineStyle={{ borderColor: '#FFFFFF' }}
+            underlineFocusStyle={{ borderColor: '#00838F' }}
+            style={{ width: '40%', marginRight: '30px', marginTop: '-14px' }}
+            format="24hr"
+            minutesStep={60}
+            value={this.state.end}
+            onChange={this.handleEndTimePickerChange}
           />
         </LightConfigurationField>
         <LightConfigurationField>
-          <TextField
-            name={'keepOn'}
+          <SelectField
+            disabled={this.props.presence === null}
             floatingLabelFixed
-            floatingLabelStyle={{ color: '#00838F' }}
-            floatingLabelText={'Tempo de permanência acesas (minutos)'}
-            floatingLabelFocusStyle={{ color: '#FFFFFF' }}
-            underlineStyle={{ borderColor: '#00838F' }}
-            underlineFocusStyle={{ borderColor: '#FFFFFF' }}
-            style={{ width: '60%', marginTop: '-14px' }}
-          />
+            floatingLabelStyle={{ color: '#FFFFFF' }}
+            floatingLabelText="Tempo de permanência (auto)"
+            floatingLabelFocusStyle={{ color: '#00838F' }}
+            hintText="ex.: 5 minutos"
+            style={{ width: '40%', marginRight: '30px' }}
+            underlineStyle={{ borderColor: '#FFFFFF' }}
+            underlineFocusStyle={{ borderColor: '#00838F' }}
+            value={this.state.lightTimeAuto}
+            onChange={this.handleAutoTimeChange}
+          >
+            {
+              this.renderTimeOptions()
+            }
+          </SelectField>
+          <SelectField
+            disabled={this.props.presence === null}
+            floatingLabelFixed
+            floatingLabelStyle={{ color: '#FFFFFF' }}
+            floatingLabelText="Tempo de permanência (manual)"
+            floatingLabelFocusStyle={{ color: '#00838F' }}
+            hintText="ex.: 15 minutos"
+            style={{ width: '40%' }}
+            underlineStyle={{ borderColor: '#FFFFFF' }}
+            underlineFocusStyle={{ borderColor: '#00838F' }}
+            value={this.state.lightTimeManual}
+            onChange={this.handleManualTimeChange}
+          >
+            {
+              this.renderTimeOptions()
+            }
+          </SelectField>
         </LightConfigurationField>
         <SubmitButton>
-          <RaisedButton label="Enviar" style={{ color: '#00838F' }} type="submit" />
+          <RaisedButton
+            disabled={this.props.presence === null}
+            label="Enviar"
+            style={{ color: '#00838F' }}
+            onClick={this.sendConfiguration}
+          />
         </SubmitButton>
       </Wrapper>
     )
@@ -99,8 +189,14 @@ class AccessLightConfiguration extends Component {
 }
 
 AccessLightConfiguration.propTypes = {
-  lightConfigurationSubmit: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  moduleId: PropTypes.string.isRequired,
+  morpheusId: PropTypes.string.isRequired,
+  presence: PropTypes.number,
+  send: PropTypes.func.isRequired,
+}
+
+AccessLightConfiguration.defaultProps = {
+  presence: null,
 }
 
 export default AccessLightConfiguration

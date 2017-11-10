@@ -52,6 +52,7 @@ class ModulePage extends Component {
   static propTypes = {
     module: PropTypes.object.isRequired,
     emitAction: PropTypes.func.isRequired,
+    emitConfiguration: PropTypes.func.isRequired,
     boxColors: PropTypes.array,
     humidity: PropTypes.number,
     luminosity: PropTypes.number,
@@ -90,6 +91,7 @@ class ModulePage extends Component {
     const {
       module,
       emitAction,
+      emitConfiguration,
       boxColors,
       humidity,
       luminosity,
@@ -131,14 +133,18 @@ class ModulePage extends Component {
               <AccessConfigurationContainer>
                 <AccessConfigurationBox lessThanLarge={lessThanLarge}>
                   <AccessAlarmConfiguration
-                    alarmConfigurationSubmit={() => ''}
-                    handleSubmit={() => ''}
+                    moduleId={module.serial}
+                    morpheusId={module.morpheus.serial}
+                    alarm={alarm}
+                    send={emitConfiguration}
                   />
                 </AccessConfigurationBox>
                 <AccessConfigurationBox lessThanLarge={lessThanLarge}>
                   <AccessLightConfiguration
-                    alarmConfigurationSubmit={() => ''}
-                    handleSubmit={() => ''}
+                    moduleId={module.serial}
+                    morpheusId={module.morpheus.serial}
+                    presence={presence}
+                    send={emitConfiguration}
                   />
                 </AccessConfigurationBox>
               </AccessConfigurationContainer>
