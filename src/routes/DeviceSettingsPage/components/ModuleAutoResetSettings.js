@@ -61,11 +61,11 @@ class ModuleRestart extends React.Component {
         })
     }
 
+    /* eslint-disable max-len */
     return (
       <SettingsSection>
         <Header>Teste de auto reset</Header>
-        Emite um sinal que permite monitorar o funcionamento correto do módulo
-        e ativa um circuito antitravamento.
+        Emite um sinal que permite simular um travamento do módulo e verificar se o circuito antitravamento age corretamente.
         <OptionsWrapper>
           <Checkbox
             label="Ativar teste de auto reset"

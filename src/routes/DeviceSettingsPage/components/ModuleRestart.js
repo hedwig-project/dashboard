@@ -34,7 +34,7 @@ class ModuleRestart extends React.Component {
     return (
       <SettingsSection>
         <Header>Reiniciar módulo</Header>
-        Reiniciar software do módulo.
+        Reiniciar módulo por software.
         <ButtonWrapper>
           <RaisedButton
             onClick={

@@ -50,7 +50,7 @@ class ModuleSettingsForm extends React.Component {
         .then((success) => {
           if (success) {
             emitConfiguration(
-              data.morpheusId,
+              data.morpheus.serial,
               encodeModuleConfigurationMessage(data, 'name_config', payload),
             )
           }

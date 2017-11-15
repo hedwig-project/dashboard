@@ -1,4 +1,3 @@
-import Checkbox from 'material-ui/Checkbox'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
 import SelectField from 'material-ui/SelectField'
@@ -36,12 +35,12 @@ class ModuleDisplaySettings extends React.Component {
     }
   }
 
-  handleChange = (event, index, type) => {
+  handleTypeChange = (event, index, type) => {
     this.setState(oldState => ({ backlight: oldState.backlight, type }))
   }
 
-  updateCheck = () => {
-    this.setState(oldState => ({ backlight: !oldState.backlight, type: oldState.type }))
+  handleBacklightChange = (event, index, backlight) => {
+    this.setState(oldState => ({ type: oldState.type, backlight }))
   }
 
   render() {
@@ -79,7 +78,7 @@ class ModuleDisplaySettings extends React.Component {
           <SelectField
             floatingLabelText="Tipo de display"
             value={this.state.type}
-            onChange={this.handleChange}
+            onChange={this.handleTypeChange}
             style={{ width: '100%' }}
           >
             <MenuItem
@@ -100,11 +99,28 @@ class ModuleDisplaySettings extends React.Component {
           </SelectField>
         </OptionsWrapper>
         <OptionsWrapper>
-          <Checkbox
-            label="Ativar luz de fundo"
-            checked={this.state.backlight}
-            onCheck={this.updateCheck}
-          />
+          <SelectField
+            floatingLabelText="Luz de fundo"
+            value={this.state.backlight}
+            onChange={this.handleBacklightChange}
+            style={{ width: '100%' }}
+          >
+            <MenuItem
+              value={'0'}
+              key={'0'}
+              primaryText="Desligada"
+            />
+            <MenuItem
+              value={'1'}
+              key={'1'}
+              primaryText="Ligada"
+            />
+            <MenuItem
+              value={'2'}
+              key={'2'}
+              primaryText="Automática"
+            />
+          </SelectField>
         </OptionsWrapper>
         <ButtonWrapper>
           <RaisedButton
