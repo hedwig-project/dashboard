@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { objectToArray2 as objectToArray } from '@helpers/objectToArray'
 import { encodeModuleConfigurationMessage } from '@helpers/morpheus'
 import fonts from '@consts/fonts'
+import ConfirmationSnackbar from '@components/ConfirmationSnackbar'
 
 const Wrapper = styled.div`
   margin-top: 20px;
@@ -29,8 +30,16 @@ const ButtonWrapper = styled.div`
 `
 
 class ModuleSettingsForm extends React.Component {
+  componentWillUnmount() {
+    this.props.confirmationAwait(this.props.module.serial, false)
+  }
+
   render() {
     const {
+      confirmationArrived,
+      confirmationAwaited,
+      confirmationAwait,
+      confirmationClear,
       emitConfiguration,
       module,
       updateModule,
@@ -53,6 +62,7 @@ class ModuleSettingsForm extends React.Component {
               data.morpheus.serial,
               encodeModuleConfigurationMessage(data, 'name_config', payload),
             )
+            confirmationAwait(module.serial, true)
           }
         })
     }
@@ -136,6 +146,11 @@ class ModuleSettingsForm extends React.Component {
                 type="submit"
               />
             </ButtonWrapper>
+            <ConfirmationSnackbar
+              shouldOpen={confirmationArrived && confirmationAwaited}
+              message={'Configurações gerais de módulo foram atualizadas!'}
+              onClose={() => confirmationClear(module.serial)}
+            />
           </form>
         </SettingsSection>
       </Wrapper>
@@ -144,6 +159,10 @@ class ModuleSettingsForm extends React.Component {
 }
 
 ModuleSettingsForm.propTypes = {
+  confirmationArrived: PropTypes.bool,
+  confirmationAwaited: PropTypes.bool,
+  confirmationAwait: PropTypes.func.isRequired,
+  confirmationClear: PropTypes.func.isRequired,
   emitConfiguration: PropTypes.func.isRequired,
   updateModule: PropTypes.func.isRequired,
   module: PropTypes.object,
@@ -153,6 +172,8 @@ ModuleSettingsForm.propTypes = {
 }
 
 ModuleSettingsForm.defaultProps = {
+  confirmationArrived: false,
+  confirmationAwaited: false,
   module: null,
   morpheus: null,
 }

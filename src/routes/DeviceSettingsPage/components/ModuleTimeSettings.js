@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import fonts from '@consts/fonts'
 import ConfirmationSnackbar from '@components/ConfirmationSnackbar'
 import { encodeModuleConfigurationMessage } from '@helpers/morpheus'
-import { timeConfirmation } from '@modules/confirmation/actions'
+import { timeConfirmationAwaiting, timeConfirmationClear } from '@modules/confirmation/actions'
 
 const SettingsSection = styled.section`
   padding: 20px 0;
@@ -24,9 +24,14 @@ const ButtonWrapper = styled.div`
 `
 
 class ModuleTimeSettings extends React.Component {
+  componentWillUnmount() {
+    this.props.dispatch(timeConfirmationAwaiting(this.props.module.serial, false))
+  }
+
   render() {
     const {
-      confirmation,
+      confirmationArrived,
+      confirmationAwaited,
       dispatch,
       emitConfiguration,
       module,
@@ -39,14 +44,17 @@ class ModuleTimeSettings extends React.Component {
         <ButtonWrapper>
           <RaisedButton
             onClick={
-              () => emitConfiguration(
-                module.morpheus.serial,
-                encodeModuleConfigurationMessage(
-                  module,
-                  'time_config',
-                  { updated_ntp: moment().unix() },
-                ),
-              )
+              () => {
+                emitConfiguration(
+                  module.morpheus.serial,
+                  encodeModuleConfigurationMessage(
+                    module,
+                    'time_config',
+                    { updated_ntp: moment().unix() },
+                  ),
+                )
+                dispatch(timeConfirmationAwaiting(module.serial, true))
+              }
             }
             label="Sincronizar"
             primary
@@ -54,9 +62,9 @@ class ModuleTimeSettings extends React.Component {
           />
         </ButtonWrapper>
         <ConfirmationSnackbar
-          shouldOpen={confirmation}
+          shouldOpen={confirmationArrived && confirmationAwaited}
           message={'Hora sincronizada com sucesso!'}
-          onClose={() => dispatch(timeConfirmation(module.serial, false))}
+          onClose={() => dispatch(timeConfirmationClear(module.serial))}
         />
       </SettingsSection>
     )
@@ -64,14 +72,16 @@ class ModuleTimeSettings extends React.Component {
 }
 
 ModuleTimeSettings.propTypes = {
-  confirmation: PropTypes.bool,
+  confirmationArrived: PropTypes.bool,
+  confirmationAwaited: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
   emitConfiguration: PropTypes.func.isRequired,
   module: PropTypes.object,
 }
 
 ModuleTimeSettings.defaultProps = {
-  confirmation: false,
+  confirmationArrived: false,
+  confirmationAwaited: false,
   module: null,
 }
 

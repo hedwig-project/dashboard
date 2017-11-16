@@ -5,6 +5,7 @@ import { Field } from 'redux-form'
 import { SelectField, TextField } from 'redux-form-material-ui'
 import styled from 'styled-components'
 import fonts from '@consts/fonts'
+import ConfirmationSnackbar from '@components/ConfirmationSnackbar'
 import { encodeModuleConfigurationMessage } from '@helpers/morpheus'
 
 const Wrapper = styled.div`
@@ -28,8 +29,16 @@ const ButtonWrapper = styled.div`
 `
 
 class ModuleConnectionSettingsForm extends React.Component {
+  componentWillUnmount() {
+    this.props.confirmationAwait(this.props.module.serial, false)
+  }
+
   render() {
     const {
+      confirmationArrived,
+      confirmationAwaited,
+      confirmationAwait,
+      confirmationClear,
       emitConfiguration,
       module,
       updateModule,
@@ -54,6 +63,7 @@ class ModuleConnectionSettingsForm extends React.Component {
               data.morpheus.serial,
               encodeModuleConfigurationMessage(data, 'comunication_config', payload),
             )
+            confirmationAwait(module.serial, true)
           }
         })
     }
@@ -132,6 +142,11 @@ class ModuleConnectionSettingsForm extends React.Component {
                 type="submit"
               />
             </ButtonWrapper>
+            <ConfirmationSnackbar
+              shouldOpen={confirmationArrived && confirmationAwaited}
+              message={'Configurações de conectividade foram atualizadas!'}
+              onClose={() => confirmationClear(module.serial)}
+            />
           </form>
         </SettingsSection>
       </Wrapper>
@@ -139,6 +154,10 @@ class ModuleConnectionSettingsForm extends React.Component {
   }
 }
 ModuleConnectionSettingsForm.propTypes = {
+  confirmationArrived: PropTypes.bool,
+  confirmationAwaited: PropTypes.bool,
+  confirmationAwait: PropTypes.func.isRequired,
+  confirmationClear: PropTypes.func.isRequired,
   emitConfiguration: PropTypes.func.isRequired,
   updateModule: PropTypes.func.isRequired,
   module: PropTypes.object,
@@ -147,6 +166,8 @@ ModuleConnectionSettingsForm.propTypes = {
 }
 
 ModuleConnectionSettingsForm.defaultProps = {
+  confirmationArrived: false,
+  confirmationAwaited: false,
   module: null,
 }
 

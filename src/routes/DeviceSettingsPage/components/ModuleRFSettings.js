@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import fonts from '@consts/fonts'
 import ConfirmationSnackbar from '@components/ConfirmationSnackbar'
 import { encodeModuleConfigurationMessage } from '@helpers/morpheus'
-import { rfConfirmation } from '@modules/confirmation/actions'
+import { rfConfirmationAwaiting, rfConfirmationClear } from '@modules/confirmation/actions'
 
 const SettingsSection = styled.section`
   padding: 20px 0;
@@ -36,13 +36,18 @@ class ModuleRFSettings extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(rfConfirmationAwaiting(this.props.module.serial, false))
+  }
+
   handleChange = (event, index, rf) => {
     this.setState({ rf })
   }
 
   render() {
     const {
-      confirmation,
+      confirmationArrived,
+      confirmationAwaited,
       dispatch,
       emitConfiguration,
       module,
@@ -59,6 +64,7 @@ class ModuleRFSettings extends React.Component {
           payload,
         ),
       )
+      dispatch(rfConfirmationAwaiting(module.serial, true))
     }
 
     return (
@@ -108,9 +114,9 @@ class ModuleRFSettings extends React.Component {
           />
         </ButtonWrapper>
         <ConfirmationSnackbar
-          shouldOpen={confirmation}
+          shouldOpen={confirmationArrived && confirmationAwaited}
           message={'Configuração de RF efetuada com sucesso!'}
-          onClose={() => dispatch(rfConfirmation(module.serial, false))}
+          onClose={() => dispatch(rfConfirmationClear(module.serial))}
         />
       </SettingsSection>
     )
@@ -118,14 +124,16 @@ class ModuleRFSettings extends React.Component {
 }
 
 ModuleRFSettings.propTypes = {
-  confirmation: PropTypes.bool,
+  confirmationArrived: PropTypes.bool,
+  confirmationAwaited: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
   emitConfiguration: PropTypes.func.isRequired,
   module: PropTypes.object,
 }
 
 ModuleRFSettings.defaultProps = {
-  confirmation: false,
+  confirmationArrived: false,
+  confirmationAwaited: false,
   module: null,
 }
 

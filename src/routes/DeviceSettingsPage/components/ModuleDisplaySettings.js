@@ -4,6 +4,7 @@ import SelectField from 'material-ui/SelectField'
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import fonts from '@consts/fonts'
+import ConfirmationSnackbar from '@components/ConfirmationSnackbar'
 import { encodeModuleConfigurationMessage } from '@helpers/morpheus'
 
 const SettingsSection = styled.section`
@@ -35,6 +36,10 @@ class ModuleDisplaySettings extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.confirmationAwait(this.props.module.serial, false)
+  }
+
   handleTypeChange = (event, index, type) => {
     this.setState(oldState => ({ backlight: oldState.backlight, type }))
   }
@@ -45,6 +50,10 @@ class ModuleDisplaySettings extends React.Component {
 
   render() {
     const {
+      confirmationArrived,
+      confirmationAwaited,
+      confirmationAwait,
+      confirmationClear,
       emitConfiguration,
       module,
       updateModule,
@@ -67,6 +76,7 @@ class ModuleDisplaySettings extends React.Component {
                 { displaytype: this.state.type, backlight: this.state.backlight },
               ),
             )
+            confirmationAwait(module.serial, true)
           }
         })
     }
@@ -130,18 +140,29 @@ class ModuleDisplaySettings extends React.Component {
             style={{ margin: '15px 0' }}
           />
         </ButtonWrapper>
+        <ConfirmationSnackbar
+          shouldOpen={confirmationArrived && confirmationAwaited}
+          message={'Configurações de display atualizadas!'}
+          onClose={() => confirmationClear(module.serial)}
+        />
       </SettingsSection>
     )
   }
 }
 
 ModuleDisplaySettings.propTypes = {
+  confirmationArrived: PropTypes.bool,
+  confirmationAwaited: PropTypes.bool,
+  confirmationAwait: PropTypes.func.isRequired,
+  confirmationClear: PropTypes.func.isRequired,
   emitConfiguration: PropTypes.func.isRequired,
   module: PropTypes.object,
   updateModule: PropTypes.func.isRequired,
 }
 
 ModuleDisplaySettings.defaultProps = {
+  confirmationArrived: false,
+  confirmationAwaited: false,
   module: null,
 }
 

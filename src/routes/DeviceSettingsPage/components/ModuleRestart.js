@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import fonts from '@consts/fonts'
 import ConfirmationSnackbar from '@components/ConfirmationSnackbar'
 import { encodeModuleConfigurationMessage } from '@helpers/morpheus'
-import { swResetConfirmation } from '@modules/confirmation/actions'
+import { swResetConfirmationAwaiting, swResetConfirmationClear } from '@modules/confirmation/actions'
 
 const SettingsSection = styled.section`
   padding: 20px 0;
@@ -23,9 +23,14 @@ const ButtonWrapper = styled.div`
 `
 
 class ModuleRestart extends React.Component {
+  componentWillUnmount() {
+    this.props.dispatch(swResetConfirmationAwaiting(this.props.module.serial, false))
+  }
+
   render() {
     const {
-      confirmation,
+      confirmationArrived,
+      confirmationAwaited,
       dispatch,
       emitConfiguration,
       module,
@@ -38,14 +43,17 @@ class ModuleRestart extends React.Component {
         <ButtonWrapper>
           <RaisedButton
             onClick={
-              () => emitConfiguration(
-                module.morpheus.serial,
-                encodeModuleConfigurationMessage(
-                  module,
-                  'sw_reset',
-                  { sw_reset: 1 },
-                ),
-              )
+              () => {
+                emitConfiguration(
+                  module.morpheus.serial,
+                  encodeModuleConfigurationMessage(
+                    module,
+                    'sw_reset',
+                    { sw_reset: 1 },
+                  ),
+                )
+                dispatch(swResetConfirmationAwaiting(module.serial, true))
+              }
             }
             label="Reiniciar"
             primary
@@ -53,9 +61,9 @@ class ModuleRestart extends React.Component {
           />
         </ButtonWrapper>
         <ConfirmationSnackbar
-          shouldOpen={confirmation}
+          shouldOpen={confirmationArrived && confirmationAwaited}
           message={'Módulo está sendo reiniciado!'}
-          onClose={() => dispatch(swResetConfirmation(module.serial, false))}
+          onClose={() => dispatch(swResetConfirmationClear(module.serial))}
         />
       </SettingsSection>
     )
@@ -63,14 +71,16 @@ class ModuleRestart extends React.Component {
 }
 
 ModuleRestart.propTypes = {
-  confirmation: PropTypes.bool,
+  confirmationArrived: PropTypes.bool,
+  confirmationAwaited: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
   emitConfiguration: PropTypes.func.isRequired,
   module: PropTypes.object,
 }
 
 ModuleRestart.defaultProps = {
-  confirmation: false,
+  confirmationArrived: false,
+  confirmationAwaited: false,
   module: null,
 }
 
