@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import styled from 'styled-components'
-import AccessAlarmConfiguration from '@components/AccessAlarmConfiguration'
-import AccessLightConfiguration from '@components/AccessLightConfiguration'
+import AlarmConfiguration from '@components/AlarmConfiguration'
+import RelayConfiguration from '@components/RelayConfiguration'
 import AccessKeyboard from '@components/AccessKeyboard'
 import AccessStatusBox from '@components/AccessStatusBox'
 import LastUpdatedAt from '@components/LastUpdatedAt'
@@ -18,7 +18,7 @@ const Content = styled.div`
   width: 100%;
 `
 
-const AccessContainer = styled.div`
+const GeneralContainer = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -37,13 +37,13 @@ const AccessStatusContainer = styled.div`
   min-height: 180px;
   display: flex;
 `
-const AccessConfigurationContainer = styled.div`
+const GeneralConfigurationContainer = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
 `
 
-const AccessConfigurationBox = styled.div`
+const GeneralConfigurationBox = styled.div`
   width: ${props => (props.lessThanLarge ? '100%' : '50%')};
   display: flex;
 `
@@ -114,8 +114,8 @@ class ModulePage extends Component {
         <Content>
           {
             module.location === 'ACCESS' &&
-            <AccessContainer>
-              <KeyboardContainer backgroundColor={boxColors[0]} lessThanLarge={lessThanLarge}>
+            <GeneralContainer>
+              <KeyboardContainer backgroundColor={boxColors[2]} lessThanLarge={lessThanLarge}>
                 <AccessKeyboard
                   moduleId={module.serial}
                   morpheusId={module.morpheus.serial}
@@ -131,25 +131,7 @@ class ModulePage extends Component {
                   alarmLastChange={alarmLastChange}
                 />
               </AccessStatusContainer>
-              <AccessConfigurationContainer>
-                <AccessConfigurationBox lessThanLarge={lessThanLarge}>
-                  <AccessAlarmConfiguration
-                    moduleId={module.serial}
-                    morpheusId={module.morpheus.serial}
-                    alarm={alarm}
-                    send={emitConfiguration}
-                  />
-                </AccessConfigurationBox>
-                <AccessConfigurationBox lessThanLarge={lessThanLarge}>
-                  <AccessLightConfiguration
-                    moduleId={module.serial}
-                    morpheusId={module.morpheus.serial}
-                    presence={presence}
-                    send={emitConfiguration}
-                  />
-                </AccessConfigurationBox>
-              </AccessConfigurationContainer>
-            </AccessContainer>
+            </GeneralContainer>
           }
           <StatusBox
             boxColors={boxColors}
@@ -169,6 +151,29 @@ class ModulePage extends Component {
             relay2={relay2}
             relay2Name={relay2Name}
           />
+          <GeneralContainer>
+            <GeneralConfigurationContainer>
+              <GeneralConfigurationBox lessThanLarge={lessThanLarge}>
+                <AlarmConfiguration
+                  boxColors={boxColors}
+                  moduleId={module.serial}
+                  morpheusId={module.morpheus.serial}
+                  alarm={alarm}
+                  send={emitConfiguration}
+                />
+              </GeneralConfigurationBox>
+              <GeneralConfigurationBox lessThanLarge={lessThanLarge}>
+                <RelayConfiguration
+                  boxColors={boxColors}
+                  moduleId={module.serial}
+                  morpheusId={module.morpheus.serial}
+                  opening={opening}
+                  presence={presence}
+                  send={emitConfiguration}
+                />
+              </GeneralConfigurationBox>
+            </GeneralConfigurationContainer>
+          </GeneralContainer>
           <LastUpdatedAt timestamp={lastUpdatedAt} />
         </Content>
       </Wrapper>

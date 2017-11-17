@@ -12,7 +12,7 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  background-color: #26C6DA;
+  background-color: ${props => props.backgroundColor};
   padding: 20px;
 `
 
@@ -25,7 +25,7 @@ const Title = styled.div`
   padding: 10px 0;
 `
 
-const LightConfigurationField = styled.div`
+const RelayConfigurationField = styled.div`
   display: flex;
   align-items: center;
   font-family: 'Roboto', sans-serif;
@@ -40,7 +40,7 @@ const SubmitButton = styled.div`
   padding: 10px 0;
 `
 
-class AccessLightConfiguration extends Component {
+class RelayConfiguration extends Component {
   iconStyle = {
     fontSize: '38px',
     lineHeight: '24px',
@@ -51,6 +51,7 @@ class AccessLightConfiguration extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      topic: 'auto1_config',
       start: null,
       end: null,
       auto: null,
@@ -58,6 +59,9 @@ class AccessLightConfiguration extends Component {
       lightTimeManual: null,
     }
   }
+
+  handleTopicOptionChange = (event, topic) =>
+    this.setState(oldState => ({ ...oldState, topic }))
 
   handleStartTimePickerChange = (event, date) =>
     this.setState(oldState => ({ ...oldState, start: date }))
@@ -88,38 +92,61 @@ class AccessLightConfiguration extends Component {
   }
 
   sendConfiguration = () => {
+    const payload = {}
+    const id = this.state.topic === 'auto1_config' ? 1 : 2
+    const keys = {
+      initial_time: `initial_time${id}`,
+      final_time: `final_time${id}`,
+      time_keepon: `time_keepon${id}`,
+      time_deslmanual: `time_deslmanual${id}`,
+      auto: `sensorauto${id}`,
+    }
+    payload[keys.initial_time] = this.state.start.getHours()
+    payload[keys.final_time] = this.state.end.getHours()
+    payload[keys.time_keepon] = this.state.lightTimeAuto
+    payload[keys.time_deslmanual] = this.state.lightTimeManual
+    payload[keys.auto] = this.state.auto
     this.props.send(
       this.props.morpheusId,
-      encodeActionMessage(
-        this.props.moduleId,
-        'acesso_config',
-        {
-          initial_time: this.state.start.getHours(),
-          final_time: this.state.end.getHours(),
-          time_keepon: this.state.lightTimeAuto,
-          time_deslmanual: this.state.lightTimeManual,
-          auto: this.state.auto,
-        }),
+      encodeActionMessage(this.props.moduleId, this.state.topic, payload),
     )
   }
 
   render() {
     return (
-      <Wrapper>
+      <Wrapper backgroundColor={this.props.boxColors ? this.props.boxColors[4] : '#FFFFFF'}>
         <Title>
           <FontIcon
             className="fa fa-lightbulb-o"
             color={'#FFFFFF'}
             style={this.iconStyle}
           />
-          Configurar luzes
+          Acionamento de relés
         </Title>
-        <LightConfigurationField>
-          <TimePicker
-            disabled={this.props.presence === null}
+        <RelayConfigurationField>
+          <SelectField
+            disabled={this.props.presence === null && this.props.opening === null}
             floatingLabelFixed
             floatingLabelStyle={{ color: '#FFFFFF' }}
-            floatingLabelText={'Hora de acendimento'}
+            floatingLabelText="Acender automaticamente"
+            floatingLabelFocusStyle={{ color: '#00838F' }}
+            hintText="ex.: relé 1 ou relé 2"
+            style={{ width: '83.5%', marginRight: '30px' }}
+            underlineStyle={{ borderColor: '#FFFFFF' }}
+            underlineFocusStyle={{ borderColor: '#00838F' }}
+            value={this.state.topic}
+            onChange={this.handleTopicOptionChange}
+          >
+            <MenuItem value="auto1_config" primaryText="Relé 1" />
+            <MenuItem value="auto2_config" primaryText="Relé 2" />
+          </SelectField>
+        </RelayConfigurationField>
+        <RelayConfigurationField>
+          <TimePicker
+            disabled={this.props.presence === null && this.props.opening === null}
+            floatingLabelFixed
+            floatingLabelStyle={{ color: '#FFFFFF' }}
+            floatingLabelText={'Hora de acionamento'}
             floatingLabelFocusStyle={{ color: '#00838F' }}
             underlineStyle={{ borderColor: '#FFFFFF' }}
             underlineFocusStyle={{ borderColor: '#00838F' }}
@@ -130,7 +157,7 @@ class AccessLightConfiguration extends Component {
             onChange={this.handleStartTimePickerChange}
           />
           <TimePicker
-            disabled={this.props.presence === null}
+            disabled={this.props.presence === null && this.props.opening === null}
             floatingLabelFixed
             floatingLabelStyle={{ color: '#FFFFFF' }}
             floatingLabelText={'Hora de desligamento'}
@@ -143,13 +170,13 @@ class AccessLightConfiguration extends Component {
             value={this.state.end}
             onChange={this.handleEndTimePickerChange}
           />
-        </LightConfigurationField>
-        <LightConfigurationField>
+        </RelayConfigurationField>
+        <RelayConfigurationField>
           <SelectField
-            disabled={this.props.presence === null}
+            disabled={this.props.presence === null && this.props.opening === null}
             floatingLabelFixed
             floatingLabelStyle={{ color: '#FFFFFF' }}
-            floatingLabelText="Acender automaticamente"
+            floatingLabelText="Acionar automaticamente"
             floatingLabelFocusStyle={{ color: '#00838F' }}
             hintText="ex.: com algum dos sensores"
             style={{ width: '83.5%', marginRight: '30px' }}
@@ -159,13 +186,13 @@ class AccessLightConfiguration extends Component {
             onChange={this.handleAutoOptionChange}
           >
             <MenuItem value="nao" primaryText="Nunca" />
-            <MenuItem value="sensor1" primaryText="Sensor 1" />
-            <MenuItem value="sensor2" primaryText="Sensor 2" />
+            <MenuItem value="sensor1" primaryText="Sensor de presença" />
+            <MenuItem value="sensor2" primaryText="Sensor de abertura" />
           </SelectField>
-        </LightConfigurationField>
-        <LightConfigurationField>
+        </RelayConfigurationField>
+        <RelayConfigurationField>
           <SelectField
-            disabled={this.props.presence === null}
+            disabled={this.props.presence === null && this.props.opening === null}
             floatingLabelFixed
             floatingLabelStyle={{ color: '#FFFFFF' }}
             floatingLabelText="Tempo de permanência (auto)"
@@ -182,7 +209,7 @@ class AccessLightConfiguration extends Component {
             }
           </SelectField>
           <SelectField
-            disabled={this.props.presence === null}
+            disabled={this.props.presence === null && this.props.opening === null}
             floatingLabelFixed
             floatingLabelStyle={{ color: '#FFFFFF' }}
             floatingLabelText="Tempo de permanência (manual)"
@@ -198,10 +225,10 @@ class AccessLightConfiguration extends Component {
               this.renderTimeOptions()
             }
           </SelectField>
-        </LightConfigurationField>
+        </RelayConfigurationField>
         <SubmitButton>
           <RaisedButton
-            disabled={this.props.presence === null}
+            disabled={this.props.presence === null && this.props.opening === null}
             label="Enviar"
             style={{ color: '#00838F' }}
             onClick={this.sendConfiguration}
@@ -212,15 +239,19 @@ class AccessLightConfiguration extends Component {
   }
 }
 
-AccessLightConfiguration.propTypes = {
+RelayConfiguration.propTypes = {
+  boxColors: PropTypes.array,
   moduleId: PropTypes.string.isRequired,
   morpheusId: PropTypes.string.isRequired,
+  opening: PropTypes.number,
   presence: PropTypes.number,
   send: PropTypes.func.isRequired,
 }
 
-AccessLightConfiguration.defaultProps = {
+RelayConfiguration.defaultProps = {
+  boxColors: null,
+  opening: null,
   presence: null,
 }
 
-export default AccessLightConfiguration
+export default RelayConfiguration

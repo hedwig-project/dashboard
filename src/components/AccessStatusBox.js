@@ -75,7 +75,7 @@ class AccessStatusBox extends Component {
             </MainInfo>
           </Info>
         </Box>
-        <Box color={boxColors[2] || '#424242'}>
+        <Box color={boxColors[0] || '#424242'}>
           <Info>
             <FontIcon
               className="fa fa-bell-o"

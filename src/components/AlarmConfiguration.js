@@ -12,7 +12,7 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  background-color: #00BCD4;
+  background-color: ${props => props.backgroundColor};
   padding: 20px;
 `
 
@@ -40,7 +40,7 @@ const SubmitButton = styled.div`
   padding: 10px 0;
 `
 
-class AccessAlarmConfiguration extends Component {
+class AlarmConfiguration extends Component {
   iconStyle = {
     fontSize: '38px',
     lineHeight: '24px',
@@ -87,14 +87,14 @@ class AccessAlarmConfiguration extends Component {
 
   render() {
     return (
-      <Wrapper>
+      <Wrapper backgroundColor={this.props.boxColors ? this.props.boxColors[5] : '#FFFFFF'}>
         <Title>
           <FontIcon
             className="fa fa-clock-o"
             color={'#FFFFFF'}
             style={this.iconStyle}
           />
-          Ativar/desativar alarme
+          Alarme
         </Title>
         <AlarmConfigurationField>
           <Toggle
@@ -140,17 +140,19 @@ class AccessAlarmConfiguration extends Component {
   }
 }
 
-AccessAlarmConfiguration.propTypes = {
+AlarmConfiguration.propTypes = {
+  boxColors: PropTypes.array,
   moduleId: PropTypes.string.isRequired,
   morpheusId: PropTypes.string.isRequired,
   alarm: PropTypes.number,
   send: PropTypes.func.isRequired,
 }
 
-AccessAlarmConfiguration.defaultProps = {
+AlarmConfiguration.defaultProps = {
   alarm: null,
+  boxColors: null,
 }
 
-AccessAlarmConfiguration.defaultProps = {}
+AlarmConfiguration.defaultProps = {}
 
-export default AccessAlarmConfiguration
+export default AlarmConfiguration
