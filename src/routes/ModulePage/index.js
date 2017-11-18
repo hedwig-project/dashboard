@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import styled from 'styled-components'
-import AlarmConfiguration from '@components/AlarmConfiguration'
-import RelayConfiguration from '@components/RelayConfiguration'
+import AlarmConfiguration from '@containers/AlarmConfiguration'
+import RelayConfiguration from '@containers/RelayConfiguration'
 import AccessKeyboard from '@components/AccessKeyboard'
 import AccessStatusBox from '@components/AccessStatusBox'
 import LastUpdatedAt from '@components/LastUpdatedAt'
@@ -158,7 +158,7 @@ class ModulePage extends Component {
                   boxColors={boxColors}
                   moduleId={module.serial}
                   morpheusId={module.morpheus.serial}
-                  alarm={alarm}
+                  enable={lastUpdatedAt}
                   send={emitConfiguration}
                 />
               </GeneralConfigurationBox>

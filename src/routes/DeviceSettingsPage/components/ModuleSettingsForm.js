@@ -31,7 +31,9 @@ const ButtonWrapper = styled.div`
 
 class ModuleSettingsForm extends React.Component {
   componentWillUnmount() {
-    this.props.confirmationAwait(this.props.module.serial, false)
+    if (this.props.module) {
+      this.props.confirmationAwait(this.props.module.serial, false)
+    }
   }
 
   render() {
@@ -107,6 +109,7 @@ class ModuleSettingsForm extends React.Component {
               errorStyle={{ bottom: '8px' }}
               inputStyle={{ marginTop: '2px' }}
               style={{ width: '100%', height: '52px' }}
+              disabled
             >
               <MenuItem value={'DEFAULT'} primaryText="N/A" />
               <MenuItem value={'ACCESS'} primaryText="Acesso" />

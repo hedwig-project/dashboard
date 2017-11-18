@@ -16,17 +16,6 @@ export const decodeDataMessage = (message) => {
       return (param.value === 'temp_umi_pres' || param.value === 'acesso_estado') || result
     }, false))
     .map(item => {
-      if (item.payload.abertura !== undefined) {
-        return ({
-          module: convertTopicToModuleId(item.topic),
-          data: {
-            gate: item.payload.abertura,
-            alarm: item.payload.alarme,
-            alarmLastChange: item.payload.tempo_alarme,
-            lastUpdatedAt: getTimestamp(item.controlParameters),
-          },
-        })
-      }
       return ({
         module: convertTopicToModuleId(item.topic),
         data: {
@@ -67,6 +56,12 @@ export const decodeSensorName = (name) => {
       return 'opening'
     case 'luz':
       return 'luminosity'
+    case 'aberto':
+      return 'gate'
+    case 'alarme':
+      return 'alarm'
+    case 'tempo_alarme':
+      return 'alarmLastChange'
   }
 }
 

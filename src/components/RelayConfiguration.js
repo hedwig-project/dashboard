@@ -5,7 +5,7 @@ import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
 import SelectField from 'material-ui/SelectField'
 import TimePicker from 'material-ui/TimePicker'
-import { encodeActionMessage } from '@helpers/morpheus'
+import { encodeModuleConfigurationMessage } from '@helpers/morpheus'
 
 const Wrapper = styled.section`
   width: 100%;
@@ -108,7 +108,7 @@ class RelayConfiguration extends Component {
     payload[keys.auto] = this.state.auto
     this.props.send(
       this.props.morpheusId,
-      encodeActionMessage(this.props.moduleId, this.state.topic, payload),
+      encodeModuleConfigurationMessage(this.props.module, this.state.topic, payload),
     )
   }
 
@@ -241,7 +241,7 @@ class RelayConfiguration extends Component {
 
 RelayConfiguration.propTypes = {
   boxColors: PropTypes.array,
-  moduleId: PropTypes.string.isRequired,
+  module: PropTypes.object,
   morpheusId: PropTypes.string.isRequired,
   opening: PropTypes.number,
   presence: PropTypes.number,
@@ -250,6 +250,7 @@ RelayConfiguration.propTypes = {
 
 RelayConfiguration.defaultProps = {
   boxColors: null,
+  module: null,
   opening: null,
   presence: null,
 }

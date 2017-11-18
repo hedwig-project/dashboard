@@ -38,7 +38,9 @@ class ModuleGatePasswordConfiguration extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.confirmationAwait(this.props.module.serial, false)
+    if (this.props.module) {
+      this.props.confirmationAwait(this.props.module.serial, false)
+    }
   }
 
   onChangePassword = (event, value) =>

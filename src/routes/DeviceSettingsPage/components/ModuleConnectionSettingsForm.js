@@ -30,7 +30,9 @@ const ButtonWrapper = styled.div`
 
 class ModuleConnectionSettingsForm extends React.Component {
   componentWillUnmount() {
-    this.props.confirmationAwait(this.props.module.serial, false)
+    if (this.props.module) {
+      this.props.confirmationAwait(this.props.module.serial, false)
+    }
   }
 
   render() {
@@ -110,6 +112,7 @@ class ModuleConnectionSettingsForm extends React.Component {
               errorStyle={{ bottom: '8px' }}
               inputStyle={{ marginTop: '2px' }}
               style={{ width: '100%', height: '52px' }}
+              disabled
             >
               <MenuItem value={'auto'} primaryText="Automático" />
               <MenuItem value={'always_active'} primaryText="Sempre ativo" />

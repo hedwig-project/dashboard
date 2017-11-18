@@ -24,7 +24,9 @@ const ButtonWrapper = styled.div`
 
 class ModuleRestart extends React.Component {
   componentWillUnmount() {
-    this.props.dispatch(swResetConfirmationAwaiting(this.props.module.serial, false))
+    if (this.props.module) {
+      this.props.dispatch(swResetConfirmationAwaiting(this.props.module.serial, false))
+    }
   }
 
   render() {

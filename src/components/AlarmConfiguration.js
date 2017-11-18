@@ -5,7 +5,7 @@ import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
 import SelectField from 'material-ui/SelectField'
 import Toggle from 'material-ui/Toggle'
-import { encodeActionMessage } from '@helpers/morpheus'
+import { encodeModuleConfigurationMessage } from '@helpers/morpheus'
 
 const Wrapper = styled.section`
   width: 100%;
@@ -63,23 +63,25 @@ class AlarmConfiguration extends Component {
     this.setState(oldState => ({ alarm: oldState.alarm, alarmTime: value }))
 
   renderTimeOptions = () => {
-    const options = []
-    for (let i = 1; i <= 24; i += 1) {
-      options[i] = i * 30
+    const optionsSeconds = [0, 15, 30, 45]
+    const optionsMinutes = []
+    for (let i = 0; i < 10; i += 1) {
+      optionsMinutes[i] = (i + 1) * 60
     }
-    return options.map(minutes =>
+    const options = optionsSeconds.concat(optionsMinutes)
+    return options.map(seconds =>
       <MenuItem
-        key={minutes}
-        value={minutes}
-        primaryText={`${minutes / 60} hora${minutes > 60 ? 's' : ''} (${minutes} minutos)`}
+        key={seconds}
+        value={seconds}
+        primaryText={`${seconds / 60 >= 1 ? seconds / 60 : seconds} ${seconds >= 60 ? 'min' : 'seg'}`}
       />)
   }
 
   sendConfiguration = () => {
     this.props.send(
       this.props.morpheusId,
-      encodeActionMessage(
-        this.props.moduleId,
+      encodeModuleConfigurationMessage(
+        this.props.module,
         'alarm_config',
         { alarme: this.state.alarm, alarme_tempo: this.state.alarmTime }),
     )
@@ -98,7 +100,7 @@ class AlarmConfiguration extends Component {
         </Title>
         <AlarmConfigurationField>
           <Toggle
-            disabled={this.props.alarm === null}
+            disabled={this.props.enable === null}
             name={'activate'}
             label={'Ativar alarme'}
             labelStyle={{ width: 'auto', marginRight: '10px', color: '#FFFFFF' }}
@@ -110,12 +112,12 @@ class AlarmConfiguration extends Component {
         </AlarmConfigurationField>
         <AlarmConfigurationField>
           <SelectField
-            disabled={this.props.alarm === null}
+            disabled={this.props.enable === null}
             floatingLabelFixed
             floatingLabelStyle={{ color: '#FFFFFF' }}
-            floatingLabelText="Tempo de permanência"
+            floatingLabelText="Tempo para disparar"
             floatingLabelFocusStyle={{ color: '#00838F' }}
-            hintText="ex.: 6 horas"
+            hintText="ex.: 1 minuto"
             style={{ width: '40%' }}
             underlineStyle={{ borderColor: '#FFFFFF' }}
             underlineFocusStyle={{ borderColor: '#00838F' }}
@@ -129,7 +131,7 @@ class AlarmConfiguration extends Component {
         </AlarmConfigurationField>
         <SubmitButton>
           <RaisedButton
-            disabled={this.props.alarm === null}
+            disabled={this.props.enable === null}
             label="Enviar"
             style={{ color: '#00838F' }}
             onClick={this.sendConfiguration}
@@ -142,14 +144,15 @@ class AlarmConfiguration extends Component {
 
 AlarmConfiguration.propTypes = {
   boxColors: PropTypes.array,
-  moduleId: PropTypes.string.isRequired,
+  module: PropTypes.object,
   morpheusId: PropTypes.string.isRequired,
-  alarm: PropTypes.number,
+  enable: PropTypes.string,
   send: PropTypes.func.isRequired,
 }
 
 AlarmConfiguration.defaultProps = {
-  alarm: null,
+  module: null,
+  enable: null,
   boxColors: null,
 }
 

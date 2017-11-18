@@ -37,7 +37,9 @@ class ModuleRFSettings extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.dispatch(rfConfirmationAwaiting(this.props.module.serial, false))
+    if (this.props.module) {
+      this.props.dispatch(rfConfirmationAwaiting(this.props.module.serial, false))
+    }
   }
 
   handleChange = (event, index, rf) => {
