@@ -3,6 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
 import fonts from '@consts/fonts'
+import ConfirmationSnackbar from '@components/ConfirmationSnackbar'
 import { encodeModuleConfigurationMessage } from '@helpers/morpheus'
 
 const SettingsSection = styled.section`
@@ -33,12 +34,22 @@ class ModuleRestart extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.props.module) {
+      this.props.confirmationAwait(this.props.module.serial, false)
+    }
+  }
+
   updateCheck = () => {
     this.setState(oldState => ({ isChecked: !oldState.isChecked }))
   }
 
   render() {
     const {
+      confirmationArrived,
+      confirmationAwaited,
+      confirmationAwait,
+      confirmationClear,
       emitConfiguration,
       module,
       updateModule,
@@ -57,15 +68,16 @@ class ModuleRestart extends React.Component {
                 { autoreset_test: this.state.isChecked },
               ),
             )
+            confirmationAwait(module.serial, true)
           }
         })
     }
 
+    /* eslint-disable max-len */
     return (
       <SettingsSection>
         <Header>Teste de auto reset</Header>
-        Emite um sinal que permite monitorar o funcionamento correto do módulo
-        e ativa um circuito antitravamento.
+        Emite um sinal que permite simular um travamento do módulo e verificar se o circuito antitravamento age corretamente.
         <OptionsWrapper>
           <Checkbox
             label="Ativar teste de auto reset"
@@ -81,18 +93,29 @@ class ModuleRestart extends React.Component {
             style={{ margin: '15px 0' }}
           />
         </ButtonWrapper>
+        <ConfirmationSnackbar
+          shouldOpen={confirmationArrived && confirmationAwaited}
+          message={'Teste de auto reset realizado!'}
+          onClose={() => confirmationClear(module.serial)}
+        />
       </SettingsSection>
     )
   }
 }
 
 ModuleRestart.propTypes = {
+  confirmationArrived: PropTypes.bool,
+  confirmationAwaited: PropTypes.bool,
+  confirmationAwait: PropTypes.func.isRequired,
+  confirmationClear: PropTypes.func.isRequired,
   emitConfiguration: PropTypes.func.isRequired,
   module: PropTypes.object,
   updateModule: PropTypes.func.isRequired,
 }
 
 ModuleRestart.defaultProps = {
+  confirmationArrived: false,
+  confirmationAwaited: false,
   module: null,
 }
 

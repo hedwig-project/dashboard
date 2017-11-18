@@ -13,7 +13,7 @@ export const convertTopicToModuleId = (topic) => {
 export const decodeDataMessage = (message) => {
   return message
     .filter(item => item.controlParameters.reduce((result, param) => {
-      return param.value === 'temp_umi_pres' || result
+      return (param.value === 'temp_umi_pres' || param.value === 'acesso_estado') || result
     }, false))
     .map(item => {
       return ({
@@ -56,6 +56,12 @@ export const decodeSensorName = (name) => {
       return 'opening'
     case 'luz':
       return 'luminosity'
+    case 'aberto':
+      return 'gate'
+    case 'alarme':
+      return 'alarm'
+    case 'tempo_alarme':
+      return 'alarmLastChange'
   }
 }
 

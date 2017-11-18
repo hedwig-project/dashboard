@@ -7,6 +7,7 @@ import styled from 'styled-components'
 
 const Container = styled.article`
   width: 100%;
+  color: #FFFFFF;
   font-size: 14px;
   padding: 20px;
   text-align: center;

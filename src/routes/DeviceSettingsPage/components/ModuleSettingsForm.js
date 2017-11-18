@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { objectToArray2 as objectToArray } from '@helpers/objectToArray'
 import { encodeModuleConfigurationMessage } from '@helpers/morpheus'
 import fonts from '@consts/fonts'
+import ConfirmationSnackbar from '@components/ConfirmationSnackbar'
 
 const Wrapper = styled.div`
   margin-top: 20px;
@@ -29,8 +30,18 @@ const ButtonWrapper = styled.div`
 `
 
 class ModuleSettingsForm extends React.Component {
+  componentWillUnmount() {
+    if (this.props.module) {
+      this.props.confirmationAwait(this.props.module.serial, false)
+    }
+  }
+
   render() {
     const {
+      confirmationArrived,
+      confirmationAwaited,
+      confirmationAwait,
+      confirmationClear,
       emitConfiguration,
       module,
       updateModule,
@@ -50,9 +61,10 @@ class ModuleSettingsForm extends React.Component {
         .then((success) => {
           if (success) {
             emitConfiguration(
-              data.morpheusId,
+              data.morpheus.serial,
               encodeModuleConfigurationMessage(data, 'name_config', payload),
             )
+            confirmationAwait(module.serial, true)
           }
         })
     }
@@ -97,6 +109,7 @@ class ModuleSettingsForm extends React.Component {
               errorStyle={{ bottom: '8px' }}
               inputStyle={{ marginTop: '2px' }}
               style={{ width: '100%', height: '52px' }}
+              disabled
             >
               <MenuItem value={'DEFAULT'} primaryText="N/A" />
               <MenuItem value={'ACCESS'} primaryText="Acesso" />
@@ -136,6 +149,11 @@ class ModuleSettingsForm extends React.Component {
                 type="submit"
               />
             </ButtonWrapper>
+            <ConfirmationSnackbar
+              shouldOpen={confirmationArrived && confirmationAwaited}
+              message={'Configurações gerais de módulo foram atualizadas!'}
+              onClose={() => confirmationClear(module.serial)}
+            />
           </form>
         </SettingsSection>
       </Wrapper>
@@ -144,6 +162,10 @@ class ModuleSettingsForm extends React.Component {
 }
 
 ModuleSettingsForm.propTypes = {
+  confirmationArrived: PropTypes.bool,
+  confirmationAwaited: PropTypes.bool,
+  confirmationAwait: PropTypes.func.isRequired,
+  confirmationClear: PropTypes.func.isRequired,
   emitConfiguration: PropTypes.func.isRequired,
   updateModule: PropTypes.func.isRequired,
   module: PropTypes.object,
@@ -153,6 +175,8 @@ ModuleSettingsForm.propTypes = {
 }
 
 ModuleSettingsForm.defaultProps = {
+  confirmationArrived: false,
+  confirmationAwaited: false,
   module: null,
   morpheus: null,
 }
