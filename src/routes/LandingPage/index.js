@@ -36,7 +36,6 @@ const ContentWrapper = styled.div`
   justify-content: center;
   position: relative;
   width: ${props => (props.lessThanMedium ? '100%' : '33.3%')};
-  margin-top: 110px;
 `
 
 const FormContainer = styled.div`
