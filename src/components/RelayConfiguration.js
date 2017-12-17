@@ -60,7 +60,7 @@ class RelayConfiguration extends Component {
     }
   }
 
-  handleTopicOptionChange = (event, topic) =>
+  handleTopicOptionChange = (event, index, topic) =>
     this.setState(oldState => ({ ...oldState, topic }))
 
   handleStartTimePickerChange = (event, date) =>
